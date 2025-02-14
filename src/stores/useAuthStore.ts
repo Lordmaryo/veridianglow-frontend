@@ -75,11 +75,39 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
     await axios.post("/auth/logout");
     set({ user: null });
   },
+
+  forgotPassword: async (email) => {
+    set({ loading: true });
+    try {
+      const res = await axios.post("/auth/forgot-password", { email });
+      toast.success(res.data.message);
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  resetPassword: async (token, password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      set({ loading: false });
+      toast.error("Passwords do not match", { id: "error" });
+      return;
+    }
+
+    set({ loading: true });
+    try {
+      const res = await axios.put(`/auth/reset-password/${token}`, {
+        password,
+      });
+      toast.success(res.data.message);
+      window.location.href = "/signIn";
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));
 
 /**
- * TODO - create a drop down for the account in navbar
- * TODO - implement forgot password, reset password
  * TODO - add an admin dashboard in the navbar
  * TODO - implement a create product in admin
+ * TODO - add a placeholder to the video poster in hero
  */

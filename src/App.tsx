@@ -7,13 +7,17 @@ import { useAuthStore } from "./stores/useAuthStore";
 import { Toaster } from "react-hot-toast";
 import { Roles } from "./types/types";
 import { useEffect } from "react";
+import LoadingSpinner from "./components/LoadingSpinner";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
-  const { user, checkingAuth, checkAuth } = useAuthStore();
+  const { user, checkAuth, checkingAuth } = useAuthStore();
   useEffect(() => {
     checkAuth();
   }, []);
 
+  if (checkingAuth) return <LoadingSpinner />;
   return (
     <>
       <QueryProvider>
@@ -32,6 +36,11 @@ function App() {
                   <Navigate to={"/"} />
                 )
               }
+            />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/reset-password/:token"
+              element={!user ? <ResetPassword /> : <Navigate to="/" />}
             />
           </Routes>
         </div>
