@@ -7,11 +7,13 @@ import { IoMenu } from "react-icons/io5";
 import SideBar from "./SideBar";
 import { useAuthStore } from "../stores/useAuthStore";
 import { capitalize } from "../utils/utils";
+import AccountDropDown from "./AccountDropDown";
 
 const NavBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [toggleNav, setToggleNav] = useState(false);
-  const { user } = useAuthStore();
+  const [toggleAccount, setToggleAccount] = useState(false);
+  const { user, logout } = useAuthStore();
 
   return (
     <>
@@ -36,7 +38,12 @@ const NavBar = () => {
         </Link>
 
         <div className="flex items-center gap-4">
-          <button className="hidden lg:flex items-center gap-1 hover:text-accent transition-colors">
+          <button
+            onClick={() => setToggleAccount(!toggleAccount)}
+            className={`${
+              toggleAccount ? "bg-[#00000080] rounded-md hover:text-black" : ""
+            } px-4 py-2  hidden lg:flex items-center gap-1 hover:text-accent transition-colors`}
+          >
             <MdOutlinePerson size={25} />
             <span>
               {user ? `Hi, ${capitalize(user.firstName)}` : "Account"}
@@ -71,8 +78,18 @@ const NavBar = () => {
           toggleNav ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <SideBar setToggleNav={setToggleNav} />
+        <SideBar logout={logout} user={user} setToggleNav={setToggleNav} />
       </div>
+
+      {toggleAccount && (
+        <div className="shadow-2xl rounded-md z-10 bg-white absolute top-[5.5rem] right-[8rem]">
+          <AccountDropDown
+            user={user}
+            logout={logout}
+            setToggleAccount={setToggleAccount}
+          />
+        </div>
+      )}
     </>
   );
 };

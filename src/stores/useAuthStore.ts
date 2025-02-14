@@ -70,4 +70,16 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
       set({ checkingAuth: false, user: null });
     }
   },
+
+  logout: async () => {
+    await axios.post("/auth/logout");
+    set({ user: null });
+  },
 }));
+
+/**
+ * TODO - create a drop down for the account in navbar
+ * TODO - implement forgot password, reset password
+ * TODO - add an admin dashboard in the navbar
+ * TODO - implement a create product in admin
+ */

@@ -3,13 +3,21 @@ import { Link } from "react-router-dom";
 import { categories } from "../data/category";
 import { useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { UserResponse } from "../types/types";
 
 interface SideBarProps {
   setToggleNav: (toggleNav: boolean) => void;
+  logout: () => Promise<void>;
+  user: UserResponse | null;
 }
 
-const SideBar = ({ setToggleNav }: SideBarProps) => {
+const SideBar = ({ setToggleNav, logout, user }: SideBarProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  const handleLogout = () => {
+    logout();
+    setToggleNav(false);
+  };
 
   return (
     <div className="z-[1000] fixed top-0 left-0 w-full h-screen bg-white pt-2 flex flex-col justify-between">
@@ -89,13 +97,19 @@ const SideBar = ({ setToggleNav }: SideBarProps) => {
       </div>
 
       <div className="p-4 border-t px-4">
-        <Link
-          to={"/signin"}
-          onClick={() => setToggleNav(false)}
-          className="block font-semibold"
-        >
-          Login into your account
-        </Link>
+        {!user ? (
+          <Link
+            to={"/signin"}
+            onClick={() => setToggleNav(false)}
+            className="block font-semibold"
+          >
+            Login into your account
+          </Link>
+        ) : (
+          <button onClick={handleLogout} className="block font-semibold">
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

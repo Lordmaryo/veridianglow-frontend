@@ -17,8 +17,8 @@ export interface useAuthStoreProps {
   checkingAuth: boolean;
   signUp: (props: SignUpProps) => void;
   login: (props: LogInProps) => void;
-    checkAuth: () => void;
-  //   logout: () => void;
+  checkAuth: () => Promise<void>;
+  logout: () => Promise<void>;
   //   refreshToken: () => Promise<void>;
   //   verifyEmail: (code: string) => Promise<void>;
   //   forgotPassword: (email: string) => Promise<void>;
