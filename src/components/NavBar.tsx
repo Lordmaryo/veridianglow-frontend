@@ -5,10 +5,13 @@ import { MdOutlinePerson } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { IoMenu } from "react-icons/io5";
 import SideBar from "./SideBar";
+import { useAuthStore } from "../stores/useAuthStore";
+import { capitalize } from "../utils/utils";
 
 const NavBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [toggleNav, setToggleNav] = useState(false);
+  const { user } = useAuthStore();
 
   return (
     <>
@@ -35,7 +38,9 @@ const NavBar = () => {
         <div className="flex items-center gap-4">
           <button className="hidden lg:flex items-center gap-1 hover:text-accent transition-colors">
             <MdOutlinePerson size={25} />
-            <span>Account</span>
+            <span>
+              {user ? `Hi, ${capitalize(user.firstName)}` : "Account"}
+            </span>
           </button>
           <Link
             to={"/about-us"}

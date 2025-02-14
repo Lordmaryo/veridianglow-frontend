@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const CategoryNav = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  let timeoutId: number | null = null;
+  let timeoutId: NodeJS.Timeout | null = null;
 
   return (
     <div className="text-sm text-center space-x-4 font-semibold backdrop-blur-2xl px-4 py-2 relative">
