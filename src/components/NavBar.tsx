@@ -1,0 +1,75 @@
+import { useState } from "react";
+import { FiShoppingCart } from "react-icons/fi";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { MdOutlinePerson } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { IoMenu } from "react-icons/io5";
+import SideBar from "./SideBar";
+
+const NavBar = () => {
+  const [searchInput, setSearchInput] = useState("");
+  const [toggleNav, setToggleNav] = useState(false);
+
+  return (
+    <>
+      <div className="flex flex-row justify-between items-center px-4 bg-background">
+        <button className="lg:hidden" onClick={() => setToggleNav(!toggleNav)}>
+          <IoMenu size={30} />
+        </button>
+        <div className="relative hidden lg:block">
+          <FaMagnifyingGlass className="absolute left-2 bottom-2" />
+          <input
+            type="text"
+            placeholder="SEARCH PRODUCTS..."
+            className="outline-none pl-8 py-1 w-80 rounded-sm border border-zinc-400"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </div>
+        <Link to={"/"}>
+          <div className="sm:w-20 w-16">
+            <img src="/logo.png" alt="logo" className="w-full h-full" />
+          </div>
+        </Link>
+
+        <div className="flex items-center gap-4">
+          <button className="hidden lg:flex items-center gap-1 hover:text-accent transition-colors">
+            <MdOutlinePerson size={25} />
+            <span>Account</span>
+          </button>
+          <Link
+            to={"/about-us"}
+            className="hidden lg:block hover:text-accent transition-colors"
+          >
+            About us
+          </Link>
+
+          <div className="flex gap-4 items-center">
+            <button className="lg:hidden">
+              <FaMagnifyingGlass size={23} />
+            </button>
+            <button className="relative">
+              <div className="flex flex-row gap-1 items-center">
+                <FiShoppingCart size={20} />
+                <span>Cart</span>
+              </div>
+              <span className="font-bold flex justify-center items-center w-5 h-5 text-xs bg-accent text-textOnAccent absolute -top-2 -left-2 rounded-full">
+                5
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={`fixed top-0 left-0 w-full h-screen transition-transform ${
+          toggleNav ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <SideBar setToggleNav={setToggleNav} />
+      </div>
+    </>
+  );
+};
+
+export default NavBar;
