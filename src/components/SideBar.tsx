@@ -114,7 +114,10 @@ const SideBar = ({ setToggleNav, logout, user, isAdmin }: SideBarProps) => {
         )}
         {user && isAdmin && user?.isVerified && (
           <Link to={`/secrete-dashboard/admin`}>
-            <button className="flex flex-row items-center gap-2 bg-accent text-white rounded-md py-1 px-2 hover:opacity-90 transition-opacity">
+            <button
+              onClick={() => setToggleNav(false)}
+              className="flex flex-row items-center gap-2 bg-accent text-white rounded-md py-1 px-2 hover:opacity-90 transition-opacity"
+            >
               <Lock size={15} />
               <span>Dashboard</span>
             </button>

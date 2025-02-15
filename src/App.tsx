@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import QueryProvider from "./QueryProvider";
 import Home from "./pages/Home";
 import Header from "./components/Header";
@@ -15,6 +15,8 @@ import AdminPage from "./pages/AdminPage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
+  const location = useLocation();
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -24,7 +26,8 @@ function App() {
     <>
       <QueryProvider>
         <div>
-          <Header />
+          {location.pathname !== "/secrete-dashboard/admin" && <Header />}
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
@@ -47,11 +50,11 @@ function App() {
             <Route
               path={`/secrete-dashboard/admin`}
               element={
-                user && user?.role === Roles.ADMIN ? (
-                  <AdminPage />
-                ) : (
-                  <Navigate to={"/"} />
-                )
+                // user && user?.role === Roles.ADMIN && user?.isVerified ? (
+                <AdminPage />
+                // ) : (
+                //   <Navigate to={"/"} />
+                // )
               }
             />
             <Route

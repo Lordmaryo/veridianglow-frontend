@@ -5,3 +5,9 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+.character {
+  border: 1px grey solid;
+  background-color: white;
+  border-radius: 10px;
+}
