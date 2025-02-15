@@ -4,14 +4,16 @@ import { categories } from "../data/category";
 import { useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { UserResponse } from "../types/types";
+import { Lock } from "lucide-react";
 
 interface SideBarProps {
   setToggleNav: (toggleNav: boolean) => void;
   logout: () => Promise<void>;
   user: UserResponse | null;
+  isAdmin: boolean;
 }
 
-const SideBar = ({ setToggleNav, logout, user }: SideBarProps) => {
+const SideBar = ({ setToggleNav, logout, user, isAdmin }: SideBarProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const handleLogout = () => {
@@ -96,7 +98,7 @@ const SideBar = ({ setToggleNav, logout, user }: SideBarProps) => {
         </ul>
       </div>
 
-      <div className="p-4 border-t px-4">
+      <div className="flex gap-4 items-center p-4 border-t px-4">
         {!user ? (
           <Link
             to={"/signin"}
@@ -106,9 +108,17 @@ const SideBar = ({ setToggleNav, logout, user }: SideBarProps) => {
             Login into your account
           </Link>
         ) : (
-          <button onClick={handleLogout} className="block font-semibold">
+          <button onClick={handleLogout} className="block font-semibold p-4">
             Logout
           </button>
+        )}
+        {user && isAdmin && user?.isVerified && (
+          <Link to={`/secrete-dashboard/admin`}>
+            <button className="flex flex-row items-center gap-2 bg-accent text-white rounded-md py-1 px-2 hover:opacity-90 transition-opacity">
+              <Lock size={15} />
+              <span>Dashboard</span>
+            </button>
+          </Link>
         )}
       </div>
     </div>

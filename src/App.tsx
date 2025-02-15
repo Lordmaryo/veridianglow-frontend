@@ -11,6 +11,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import OtpVerification from "./pages/OtpVerification";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -43,17 +44,27 @@ function App() {
               path="/reset-password/:token"
               element={!user ? <ResetPassword /> : <Navigate to="/" />}
             />
+            <Route
+              path={`/secrete-dashboard/admin`}
+              element={
+                user && user?.role === Roles.ADMIN ? (
+                  <AdminPage />
+                ) : (
+                  <Navigate to={"/"} />
+                )
+              }
+            />
+            <Route
+              path="/otp-verification"
+              element={
+                user?.role === Roles.ADMIN && !user?.isVerified ? (
+                  <OtpVerification />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
           </Routes>
-          {/* <Route
-            path="/otp-verification"
-            element={
-              user?.role === Roles.ADMIN && !user?.isVerified ? (
-                <OtpVerification />
-              ) : (
-                <Navigate to="/" />
-              )
-            }
-          /> */}
         </div>
         <Toaster />
       </QueryProvider>

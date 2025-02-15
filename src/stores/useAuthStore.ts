@@ -188,7 +188,6 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * TODO - add an admin dashboard in the navbar
  * TODO - implement a create product in admin
  * TODO - add a placeholder to the video poster in hero
  */

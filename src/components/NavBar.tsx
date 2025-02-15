@@ -8,12 +8,15 @@ import SideBar from "./SideBar";
 import { useAuthStore } from "../stores/useAuthStore";
 import { capitalize } from "../utils/utils";
 import AccountDropDown from "./AccountDropDown";
+import { Lock } from "lucide-react";
+import { Roles } from "../types/types";
 
 const NavBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [toggleNav, setToggleNav] = useState(false);
   const [toggleAccount, setToggleAccount] = useState(false);
   const { user, logout } = useAuthStore();
+  const isAdmin = user?.role === Roles.ADMIN;
 
   return (
     <>
@@ -38,17 +41,29 @@ const NavBar = () => {
         </Link>
 
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => setToggleAccount(!toggleAccount)}
-            className={`${
-              toggleAccount ? "bg-[#00000080] rounded-md hover:text-black" : ""
-            } px-4 py-2  hidden lg:flex items-center gap-1 hover:text-accent transition-colors`}
-          >
-            <MdOutlinePerson size={25} />
-            <span>
-              {user ? `Hi, ${capitalize(user.firstName)}` : "Account"}
-            </span>
-          </button>
+          {user && isAdmin && user?.isVerified ? (
+            <Link to={`/secrete-dashboard/admin`}>
+              <button className="hidden lg:flex flex-row items-center gap-2 bg-accent text-white rounded-md py-1 px-2 hover:opacity-90 transition-opacity">
+                <Lock size={15} />
+                <span>Dashboard</span>
+              </button>
+            </Link>
+          ) : (
+            <button
+              onClick={() => setToggleAccount(!toggleAccount)}
+              className={`${
+                toggleAccount
+                  ? "bg-[#00000080] rounded-md hover:text-black"
+                  : ""
+              } px-4 py-2 hidden lg:flex items-center gap-1 hover:text-accent transition-colors`}
+            >
+              <MdOutlinePerson size={25} />
+              <span>
+                {user ? `Hi, ${capitalize(user.firstName)}` : "Account"}
+              </span>
+            </button>
+          )}
+
           <Link
             to={"/about-us"}
             className="hidden lg:block hover:text-accent transition-colors"
@@ -78,7 +93,12 @@ const NavBar = () => {
           toggleNav ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <SideBar logout={logout} user={user} setToggleNav={setToggleNav} />
+        <SideBar
+          logout={logout}
+          user={user}
+          isAdmin={isAdmin}
+          setToggleNav={setToggleNav}
+        />
       </div>
 
       {toggleAccount && (
