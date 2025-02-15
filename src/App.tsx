@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import OtpVerification from "./pages/OtpVerification";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -30,7 +31,7 @@ function App() {
               element={
                 !user ? (
                   <SignInPage />
-                ) : user.role === Roles.ADMIN && !user.isVerified ? (
+                ) : user?.role === Roles.ADMIN && !user.isVerified ? (
                   <Navigate to={"/otp-verification"} />
                 ) : (
                   <Navigate to={"/"} />
@@ -43,6 +44,16 @@ function App() {
               element={!user ? <ResetPassword /> : <Navigate to="/" />}
             />
           </Routes>
+          {/* <Route
+            path="/otp-verification"
+            element={
+              user?.role === Roles.ADMIN && !user?.isVerified ? (
+                <OtpVerification />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          /> */}
         </div>
         <Toaster />
       </QueryProvider>

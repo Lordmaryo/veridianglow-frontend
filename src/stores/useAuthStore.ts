@@ -8,6 +8,8 @@ import {
   UserResponse,
 } from "../types/types";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
+import axiosInstance from "../lib/axios";
 
 // ERRORS ARE HANDLED GLOBALLY USING AXIOS INTERCEPTORS IN LIB FOLDER
 
@@ -104,7 +106,86 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
       set({ loading: false });
     }
   },
+
+  refreshToken: async () => {
+    if (get().checkingAuth) return;
+
+    set({ checkingAuth: true });
+    try {
+      const res = await axios.post(
+        "/auth/refresh-token",
+        {},
+        { withCredentials: true }
+      );
+
+      set({ user: res.data.user, checkingAuth: false });
+      return res.data.user;
+    } catch (error) {
+      set({ user: null, checkingAuth: false });
+      throw error;
+    }
+  },
+
+  verifyEmail: async (code) => {
+    set({ loading: true });
+    try {
+      const res = await axios.post("/auth/verify-email", { code });
+      set({ user: res.data });
+      toast.success("Email verification success!");
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));
+
+let refreshPromise: Promise<void> | null = null;
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+
+  async (error: AxiosError) => {
+    const originalRequest: any = error.config;
+
+    if (error.response?.status === 403) {
+      return Promise.reject(error);
+    }
+
+    if (
+      error.response?.status === 401 &&
+      (originalRequest?.url === "/auth/signin" ||
+        originalRequest?.url === "/auth/logout")
+    ) {
+      return Promise.reject(error);
+    }
+
+    if (error.response?.status === 401 && !originalRequest?._retry) {
+      originalRequest._retry = true;
+
+      try {
+        if (refreshPromise) {
+          await refreshPromise;
+          return axiosInstance(originalRequest);
+        }
+
+        refreshPromise = useAuthStore.getState().refreshToken();
+        await refreshPromise;
+        refreshPromise = null;
+
+        return axiosInstance(originalRequest);
+      } catch (refreshError: any) {
+        if (
+          refreshError.response?.status === 401 ||
+          refreshError.response?.status === 403
+        ) {
+          useAuthStore.getState().logout();
+        }
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 /**
  * TODO - add an admin dashboard in the navbar
