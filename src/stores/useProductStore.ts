@@ -28,7 +28,6 @@ export const useProductStore = create<useProductStoreProps>(
       set({ loading: true });
       try {
         const res = await axios.get("/product");
-        console.log("Product from zustand", res.data);
         return res.data;
       } finally {
         set({ loading: false });
@@ -81,6 +80,17 @@ export const useProductStore = create<useProductStoreProps>(
           ),
         }));
         toast.success("Product deleted successfully");
+      } finally {
+        set({ loading: false });
+      }
+    },
+
+    fetchFeauturedProduct: async () => {
+      set({ loading: true });
+      try {
+        const res = await axios.get("/product/featured");
+        // set({ products: res.data });
+        return res.data;
       } finally {
         set({ loading: false });
       }

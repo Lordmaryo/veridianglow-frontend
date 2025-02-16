@@ -188,6 +188,9 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * TODO - implement a create product in admin
  * TODO - add a placeholder to the video poster in hero
+ * TODO - make product card responsive and add neccessary styles to make it align properly
+ * TODO - make slide if feautured product responsive
+ * TODO - make a react query for creating product
+ * TODO - complete the home page
  */

@@ -1,4 +1,4 @@
-import { Archive, Ellipsis, Star, Trash } from "lucide-react";
+import { Archive, Ellipsis, Star } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
 import { Product } from "../types/types";
 import LoadingSpinner from "./LoadingSpinner";
