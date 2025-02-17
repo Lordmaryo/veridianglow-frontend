@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { MdOutlinePerson } from "react-icons/md";
@@ -10,13 +10,24 @@ import { capitalize } from "../utils/utils";
 import AccountDropDown from "./AccountDropDown";
 import { Lock } from "lucide-react";
 import { Roles } from "../types/types";
+import Cart from "./Cart";
 
 const NavBar = () => {
   const [searchInput, setSearchInput] = useState("");
   const [toggleNav, setToggleNav] = useState(false);
+  const [toggleCart, setToggleCart] = useState(false);
   const [toggleAccount, setToggleAccount] = useState(false);
   const { user, logout } = useAuthStore();
   const isAdmin = user?.role === Roles.ADMIN;
+
+  useEffect(() => {
+    if (toggleCart) {
+      document.body.classList.add("overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [toggleCart]);
 
   return (
     <>
@@ -75,7 +86,10 @@ const NavBar = () => {
             <button className="lg:hidden">
               <FaMagnifyingGlass size={23} />
             </button>
-            <button className="relative">
+            <button
+              className="relative"
+              onClick={() => setToggleCart(!toggleCart)}
+            >
               <div className="flex flex-row gap-1 items-center">
                 <FiShoppingCart size={20} />
                 <span>Cart</span>
@@ -87,7 +101,6 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-
       <div
         className={`fixed top-0 left-0 w-full h-screen transition-transform ${
           toggleNav ? "translate-x-0" : "translate-x-full"
@@ -100,14 +113,34 @@ const NavBar = () => {
           setToggleNav={setToggleNav}
         />
       </div>
-
       {toggleAccount && (
-        <div className="shadow-2xl rounded-md z-10 bg-white absolute top-[5.5rem] right-[8rem]">
-          <AccountDropDown
-            user={user}
-            logout={logout}
-            setToggleAccount={setToggleAccount}
+        <>
+          <div
+            onClick={() => setToggleAccount(false)}
+            className="bg-[#0000008d] w-full h-screen fixed top-0"
           />
+          <div className="shadow-2xl rounded-md z-10 bg-white absolute top-[5.5rem] right-[8rem]">
+            <AccountDropDown
+              user={user}
+              logout={logout}
+              setToggleAccount={setToggleAccount}
+            />
+          </div>
+        </>
+      )}
+      {toggleCart && (
+        <div
+          className={`z-20 bg-[#0000008d] fixed top-0 right-0 w-full h-screen transition-transform ${
+            toggleCart ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <>
+            <div
+              onClick={() => setToggleCart(false)}
+              className="bg-[#0000008d] w-full h-screen fixed top-0 left-0 overflow-hidden"
+            />
+            <Cart setToggleCart={setToggleCart} />
+          </>
         </div>
       )}
     </>
