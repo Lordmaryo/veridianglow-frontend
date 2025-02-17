@@ -3,6 +3,7 @@ import { useProductStore } from "../stores/useProductStore";
 import toast from "react-hot-toast";
 import { productCategories, subCategory } from "../data/product";
 import { Loader, PlusCircle, Upload } from "lucide-react";
+import AddIngredients from "./AddIngredients";
 
 const CreateProductForm = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const CreateProductForm = () => {
     category: "",
     subCategory: "",
     brand: "",
-    ingredients: [],
+    ingredients: [""],
     isFeatured: false,
     isArchived: true,
   });
@@ -26,6 +27,7 @@ const CreateProductForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form data", formData);
     try {
       await createProduct(formData);
       setFormData({
@@ -40,7 +42,7 @@ const CreateProductForm = () => {
         category: "",
         subCategory: "",
         brand: "",
-        ingredients: [],
+        ingredients: [""],
         isFeatured: false,
         isArchived: true,
       });
@@ -271,6 +273,14 @@ const CreateProductForm = () => {
             />
             <label htmlFor="draft">Draft</label>
           </div>
+        </div>
+        <div className="py-4">
+          <AddIngredients
+            ingredients={formData.ingredients}
+            setIngredients={(updatedIngredients) =>
+              setFormData({ ...formData, ingredients: updatedIngredients })
+            }
+          />
         </div>
         <button
           disabled={loading}

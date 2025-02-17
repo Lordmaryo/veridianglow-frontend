@@ -105,6 +105,7 @@ export const useProductStore = create<useProductStoreProps>(
         set({ loading: false });
       }
     },
+    
     getRelatedProduct: async (category) => {
       const res = await axios.get(`/product/related_products/${category}`);
       return res.data;

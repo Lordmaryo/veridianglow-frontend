@@ -64,7 +64,7 @@ const FeaturedProducts = ({ product }: FeaturedProductsProp) => {
             <div className="flex gap-4 pl-4 ml-auto mr-auto">
               {product?.map((p, index) => (
                 <div key={index}>
-                  <ProductCard key={p._id} product={p} />
+                  <ProductCard key={p._id} product={p} containerWidth="w-48" />
                 </div>
               ))}
             </div>

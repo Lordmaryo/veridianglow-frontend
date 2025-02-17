@@ -58,7 +58,9 @@ export const productDetailSection = (product: Product) => {
       key: "ingredients",
       title: "Ingredients",
       content: product.ingredients?.length
-        ? product.ingredients.map((p, i) => `<li key=${i}>${p}</li>`)
+        ? /*html*/ `<ul className="list-disc space-y-2">${product.ingredients
+            .map((p) => `<li>${p}</li>`)
+            .join("")}</ul>`
         : "No content provided.",
     },
   ];

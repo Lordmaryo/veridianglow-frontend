@@ -46,7 +46,12 @@ const Description = ({ product }: DescriptionProps) => {
               </AccordionItemButton>
             </AccordionItemHeading>
             <AccordionItemPanel>
-              <div className="p-4">{content || "No content provided."}</div>
+              <div
+                className="p-4"
+                dangerouslySetInnerHTML={{
+                  __html: content || "No content provided.",
+                }}
+              />
             </AccordionItemPanel>
           </AccordionItem>
         ))}

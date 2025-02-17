@@ -188,13 +188,12 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * TODO - add a placeholder to the video poster in hero
- * TODO - complete product details
- * TODO - add ingredients to product details
+ * TODO - build cart for unauthenticated users
+ * TODO - skeletal loader for cards
  * TODO - add 404 not found page
  * TODO - add something went wrong page for bad connection
  * TODO - make users able to add to wishlist on the backend
- * TODO - build cart for unauthenticated users
  * TODO - make a react query for creating product
  * TODO - complete the home page
+ * TODO - add a placeholder to the video poster in hero
  */
