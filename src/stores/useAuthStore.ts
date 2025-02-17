@@ -189,8 +189,12 @@ axiosInstance.interceptors.response.use(
 
 /**
  * TODO - add a placeholder to the video poster in hero
- * TODO - make product card responsive and add neccessary styles to make it align properly
- * TODO - make slide if feautured product responsive
+ * TODO - complete product details
+ * TODO - add ingredients to product details
+ * TODO - add 404 not found page
+ * TODO - add something went wrong page for bad connection
+ * TODO - make users able to add to wishlist on the backend
+ * TODO - build cart for unauthenticated users
  * TODO - make a react query for creating product
  * TODO - complete the home page
  */

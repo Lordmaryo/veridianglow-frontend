@@ -53,6 +53,8 @@ export interface useProductStoreProps {
   toggleFeauturedProduct: (productId: string) => Promise<void>;
   toggleArchivedProduct: (productId: string) => Promise<void>;
   fetchFeauturedProduct: () => Promise<Product[]>;
+  getProductById: (productId: string) => Promise<Product>;
+  getRelatedProduct: (category: string) => Promise<Product[]>;
   // fetchProductByCategory: (category: string) => Promise<void>;
 }
 

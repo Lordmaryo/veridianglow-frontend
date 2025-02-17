@@ -1,3 +1,5 @@
+import { Product } from "../types/types";
+
 export const productCategories = [
   "Serums",
   "Soaps",
@@ -40,3 +42,24 @@ export const productCategories = [
 ];
 
 export const subCategory = ["All", "Men", "Women", "Kids"];
+
+export const productDetailSection = (product: Product) => {
+  return [
+    {
+      key: "information",
+      title: "Information",
+      content: `We currently deliver to Nigeria only via the website. If you do not see
+      your location at checkout, please contact us on whatsapp (+234) 1234567 or
+      email us at support@veridianglow.com`,
+    },
+    { key: "description", title: "Description", content: product.description },
+    { key: "howToUse", title: "How to use", content: product.howToUse },
+    {
+      key: "ingredients",
+      title: "Ingredients",
+      content: product.ingredients?.length
+        ? product.ingredients.map((p, i) => `<li key=${i}>${p}</li>`)
+        : "No content provided.",
+    },
+  ];
+};

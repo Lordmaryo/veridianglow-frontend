@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import OtpVerification from "./pages/OtpVerification";
 import AdminPage from "./pages/AdminPage";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -67,6 +68,7 @@ function App() {
                 )
               }
             />
+            <Route path="/shop/:productSlug" element={<ProductDetail />} />
           </Routes>
         </div>
         <Toaster />
