@@ -58,6 +58,36 @@ export interface useProductStoreProps {
   // fetchProductByCategory: (category: string) => Promise<void>;
 }
 
+export interface CartStore {
+  cartItems: Product[];
+  total: number;
+  subTotal: number;
+  addItem: (item: string) => void;
+  removeItem: (item: string) => void;
+  loadCartFromLocalStorage: () => void;
+  // syncCartToDatabase: () => void;
+}
+
+export interface CartProducts extends Product {
+  quantity: number;
+  total: number;
+}
+
+export interface useCartStoreProps {
+  cart: CartProducts[];
+  total: number;
+  subTotal: number;
+  loading: boolean;
+  isOutOfStock: boolean;
+  getCartItems: () => Promise<void>;
+  // addToCart: (product: CartProducts) => Promise<void>;
+  addToCart: any;
+  removeAllFromCart: (productId: string) => Promise<void>;
+  updateQuantity: (productId: string, quantity: number) => Promise<void>;
+  calculateTotals: () => void;
+  clearCart: () => void;
+}
+
 export interface Product {
   _id: string; // watch this
   name: string;

@@ -11,6 +11,7 @@ import AccountDropDown from "./AccountDropDown";
 import { Lock } from "lucide-react";
 import { Roles } from "../types/types";
 import Cart from "./Cart";
+import { useCartStore } from "../stores/useCartStore";
 
 const NavBar = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -18,6 +19,7 @@ const NavBar = () => {
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleAccount, setToggleAccount] = useState(false);
   const { user, logout } = useAuthStore();
+  const { cart } = useCartStore();
   const isAdmin = user?.role === Roles.ADMIN;
 
   useEffect(() => {
@@ -94,9 +96,11 @@ const NavBar = () => {
                 <FiShoppingCart size={20} />
                 <span>Cart</span>
               </div>
-              <span className="font-bold flex justify-center items-center w-5 h-5 text-xs bg-accent text-textOnAccent absolute -top-2 -left-2 rounded-full">
-                5
-              </span>
+              {cart.length > 0 && (
+                <span className="font-bold flex justify-center items-center w-5 h-5 text-xs bg-accent text-textOnAccent absolute -top-2 -left-2 rounded-full">
+                  {cart.length}
+                </span>
+              )}
             </button>
           </div>
         </div>

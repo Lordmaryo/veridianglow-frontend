@@ -7,8 +7,10 @@ import StarRating from "../components/StarRating";
 import { Heart, Minus, Plus } from "lucide-react";
 import Description from "../components/Description";
 import RelatedProducts from "../components/RelatedProducts";
+import { useCartStore } from "../stores/useCartStore";
 
 const ProductDetail = () => {
+  const { addToCart, cart, updateQuantity } = useCartStore();
   const { productSlug } = useParams();
   const { getProductById } = useProductStore();
   const productId = productSlug?.split("-").pop();
@@ -25,6 +27,11 @@ const ProductDetail = () => {
     queryFn: () => getProductById(productId),
     enabled: !!productId,
   });
+
+  const productExists = cart.some((item) => item._id === product?._id);
+  const currentProductIndex = cart.findIndex(
+    (item) => item._id === product?._id
+  );
 
   if (isLoading) return <LoadingSpinner />;
   if (error) console.error(error);
@@ -71,18 +78,58 @@ const ProductDetail = () => {
               only <span>{product.stock}</span> in stock
             </p>
           )}
-          <div className="flex justify-between items-center p-1 border border-accent w-20">
-            <button className="inline-flex h-5 w-5 shrink-0 items-center justify-center">
-              <Minus />
-            </button>
-            <p className="font-bold">2</p>
-            <button className="inline-flex h-5 w-5 shrink-0 items-center justify-center">
-              <Plus />
-            </button>
-          </div>
+          {!productExists ? (
+            <div className="flex justify-between items-center p-1 border border-accent w-20">
+              <button className="inline-flex h-5 w-5 shrink-0 items-center justify-center disabled:opacity-40">
+                <Minus />
+              </button>
+              <p className="font-bold">1</p>
+              <button
+                onClick={() => addToCart(product)}
+                className="inline-flex h-5 w-5 shrink-0 items-center justify-center disabled:opacity-40"
+              >
+                <Plus />
+              </button>
+            </div>
+          ) : (
+            cart
+              .filter((item) => item._id === product._id)
+              .map((item) => (
+                <div className="flex justify-between items-center p-1 border border-accent w-20">
+                  <button
+                    disabled={item.quantity === 1}
+                    onClick={() =>
+                      updateQuantity(product._id, item.quantity - 1)
+                    }
+                    className="inline-flex h-5 w-5 shrink-0 items-center justify-center disabled:opacity-40"
+                  >
+                    <Minus />
+                  </button>
+                  <p className="font-bold">{item.quantity || "1"}</p>
+                  <button
+                    disabled={item.isOutOfStock}
+                    onClick={() =>
+                      updateQuantity(product._id, item.quantity + 1)
+                    }
+                    className="inline-flex h-5 w-5 shrink-0 items-center justify-center disabled:opacity-40"
+                  >
+                    <Plus />
+                  </button>
+                </div>
+              ))
+          )}
           <div className="flex items-center">
-            <button className="w-full py-2 bg-accent text-textOnAccent rounded-l-lg hover:opacity-85 transition">
-              Add to cart {"₦85,000.00"}
+            <button
+              onClick={() => addToCart(product)}
+              disabled={product.isOutOfStock}
+              className="w-full py-2 bg-accent text-textOnAccent rounded-l-lg hover:opacity-85 transition disabled:opacity-50"
+            >
+              Add to cart{" "}
+              {formatCurrency(
+                productExists
+                  ? cart[currentProductIndex].total
+                  : product.discountPrice
+              )}
             </button>
             <button className="border border-accent p-2">
               <Heart />
