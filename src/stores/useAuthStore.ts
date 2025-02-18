@@ -188,7 +188,7 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * TODO - build cart for unauthenticated users
+ * TODO - sync cart items to database
  * TODO - skeletal loader for cards
  * TODO - add 404 not found page
  * TODO - add something went wrong page for bad connection

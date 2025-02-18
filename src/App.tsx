@@ -13,13 +13,20 @@ import ResetPassword from "./pages/ResetPassword";
 import OtpVerification from "./pages/OtpVerification";
 import AdminPage from "./pages/AdminPage";
 import ProductDetail from "./pages/ProductDetail";
+import { useCartStore } from "./stores/useCartStore";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
+  const { cart, calculateTotals } = useCartStore();
   const location = useLocation();
-
   useEffect(() => {
     checkAuth();
+  }, []);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      calculateTotals();
+    }
   }, []);
 
   if (checkingAuth) return <LoadingSpinner />;

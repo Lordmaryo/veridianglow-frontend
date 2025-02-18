@@ -93,7 +93,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
     set(() => ({ subTotal, total }));
   },
 
-  /** ✅ Clear Cart */
+  // when user buys or logs out
   clearCart: () => {
     set({ cart: [] });
     localStorage.removeItem("cart");
