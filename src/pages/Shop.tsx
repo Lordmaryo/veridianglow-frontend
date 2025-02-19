@@ -7,9 +7,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { sortingOptions } from "../data/product";
 
 const Shop = () => {
+  const [limit, setLimit] = useState(20);
+  const [page, setPage] = useState(1);
   const { getUnarchivedProducts } = useProductStore();
-  const page = 1;
-  const limit = 10;
 
   const { data } = useQuery({
     queryKey: ["shop-products", page, limit],
@@ -31,6 +31,15 @@ const Shop = () => {
     if (data) {
       setSortedProducts(selectedOption.sortFunction(data));
     }
+  };
+
+  const hasMoreProducts = (data?.pagination?.totalProducts ?? 0) > limit;
+
+  const handlePageLimit = () => {
+    if (hasMoreProducts && limit > 10) {
+      setPage((prevPage) => prevPage + 1);
+    }
+    setLimit((prevLimit) => prevLimit + 10);
   };
 
   return (
@@ -57,7 +66,9 @@ const Shop = () => {
       <div className="px-4 flex justify-between items-center gap-4 text-sm">
         <p className="py-2 text-sm">
           Showing <span className="font-bold">1-{limit}</span> of{" "}
-          <span className="font-bold">{data?.products.length} results</span>
+          <span className="font-bold">
+            {data?.pagination.totalProducts} results
+          </span>
         </p>
         <select
           className="w-36 px-4 py-2 border rounded-lg shadow-sm bg-white text-gray-700"
@@ -71,14 +82,23 @@ const Shop = () => {
         </select>
       </div>
       <hr className="w-full border-black pt-10 px-4" />
-      <div className="grid grid-cols-2 place-items-center sm:flex gap-4 px-4 mx-auto flex-wrap max-w-[1200px]">
-        {sortedProducts.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
+      <div className="flex flex-col gap-4 max-w-[1200px] mx-auto px-4">
+        <div className="grid grid-cols-2 place-items-center sm:flex gap-4 flex-wrap">
+          {sortedProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+        {hasMoreProducts && (
+          <button
+            onClick={handlePageLimit}
+            className="font-bold hover:underline"
+          >
+            Show more ...
+          </button>
+        )}
       </div>
     </div>
   );
 };
 
 export default Shop;
-// TODO - handle pagination and limits
