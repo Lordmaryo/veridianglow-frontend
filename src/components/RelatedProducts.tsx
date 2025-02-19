@@ -1,21 +1,15 @@
 import ProductCard from "./ProductCard";
-import LoadingSpinner from "./LoadingSpinner";
 import { useProductStore } from "../stores/useProductStore";
 import { useQuery } from "@tanstack/react-query";
 
 const RelatedProducts = ({ category }: { category: string }) => {
   const { getRelatedProduct } = useProductStore();
 
-  const {
-    data: relatedproducts,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["related products", category],
+  const { data: relatedproducts, error } = useQuery({
+    queryKey: ["related-products", category],
     queryFn: () => getRelatedProduct(category),
   });
 
-  if (isLoading) return <LoadingSpinner />;
   if (error) console.error(error);
   return (
     <div className="mt-10">

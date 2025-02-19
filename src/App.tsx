@@ -14,6 +14,7 @@ import OtpVerification from "./pages/OtpVerification";
 import AdminPage from "./pages/AdminPage";
 import ProductDetail from "./pages/ProductDetail";
 import { useCartStore } from "./stores/useCartStore";
+import Shop from "./pages/Shop";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -76,6 +77,7 @@ function App() {
               }
             />
             <Route path="/shop/:productSlug" element={<ProductDetail />} />
+            <Route path="/shop" element={<Shop />} />
           </Routes>
         </div>
         <Toaster />

@@ -43,6 +43,17 @@ export enum Roles {
   CUSTOMER = "CUSTOMER",
 }
 
+export interface ProductResponse {
+  success: boolean;
+  products: Product[];
+  pagination: {
+    totalProducts: number;
+    currentPage: number;
+    totalPages: number;
+  };
+  totalPages: number;
+}
+
 export interface useProductStoreProps {
   loading: boolean;
   products: Product[];
@@ -55,6 +66,10 @@ export interface useProductStoreProps {
   fetchFeauturedProduct: () => Promise<Product[]>;
   getProductById: (productId: string) => Promise<Product>;
   getRelatedProduct: (category: string) => Promise<Product[]>;
+  getUnarchivedProducts: (
+    page: number,
+    limit: number
+  ) => Promise<ProductResponse>;
   // fetchProductByCategory: (category: string) => Promise<void>;
 }
 
@@ -110,6 +125,8 @@ export interface Product {
   averageRating: number;
   isFeatured: boolean;
   isArchived: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface CreateProduct {

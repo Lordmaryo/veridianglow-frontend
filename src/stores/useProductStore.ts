@@ -105,9 +105,16 @@ export const useProductStore = create<useProductStoreProps>(
         set({ loading: false });
       }
     },
-    
+
     getRelatedProduct: async (category) => {
       const res = await axios.get(`/product/related_products/${category}`);
+      return res.data;
+    },
+
+    getUnarchivedProducts: async (page, limit) => {
+      const res = await axios.get(
+        `/product/all_unarchived?page=${page}&limit=${limit}`
+      );
       return res.data;
     },
   })

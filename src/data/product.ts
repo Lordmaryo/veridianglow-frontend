@@ -1,4 +1,4 @@
-import { Product } from "../types/types";
+import { Product, ProductResponse } from "../types/types";
 
 export const productCategories = [
   "Serums",
@@ -62,6 +62,52 @@ export const productDetailSection = (product: Product) => {
             .map((p) => `<li>${p}</li>`)
             .join("")}</ul>`
         : "No content provided.",
+    },
+  ];
+};
+
+export const sortingOptions = () => {
+  return [
+    {
+      title: "Sort by Latest",
+      sortFunction: (productResponse: ProductResponse) => {
+        return [...productResponse.products].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      },
+    },
+    {
+      title: "Sort by Top Rating",
+      sortFunction: (productResponse: ProductResponse) => {
+        return [...productResponse.products].sort(
+          (a, b) => b.averageRating - a.averageRating
+        );
+      },
+    },
+    {
+      title: "Sort by Average Rating",
+      sortFunction: (productResponse: ProductResponse) => {
+        return [...productResponse.products].sort(
+          (a, b) => b.averageRating - a.averageRating
+        );
+      },
+    },
+    {
+      title: "Sort by Price: High to Low",
+      sortFunction: (roductResponse: ProductResponse) => {
+        return [...roductResponse.products].sort(
+          (a, b) => b.discountPrice - a.discountPrice
+        );
+      },
+    },
+    {
+      title: "Sort by Price: Low to High",
+      sortFunction: (productResponse: ProductResponse) => {
+        return [...productResponse.products].sort(
+          (a, b) => a.discountPrice - b.discountPrice
+        );
+      },
     },
   ];
 };
