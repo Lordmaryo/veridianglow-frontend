@@ -16,6 +16,7 @@ import ProductDetail from "./pages/ProductDetail";
 import { useCartStore } from "./stores/useCartStore";
 import Shop from "./pages/Shop";
 import CategoryPage from "./pages/CategoryPage";
+import Footer from "./components/Footer";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -30,15 +31,14 @@ function App() {
       calculateTotals();
     }
   }, []);
-  
+
   // if (checkingAuth) return <LoadingSpinner />;
 
   return (
     <>
       <QueryProvider>
-        <div>
-          {location.pathname !== "/secrete-dashboard/admin" && <Header />}
-
+        {location.pathname !== "/secrete-dashboard/admin" && <Header />}
+        <div className="pb-10">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
@@ -83,6 +83,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
           </Routes>
         </div>
+        <Footer />
         <Toaster />
       </QueryProvider>
     </>

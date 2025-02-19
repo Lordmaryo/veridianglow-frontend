@@ -18,7 +18,8 @@ const Home = () => {
   });
 
   const { data: productData } = useQuery({
-    queryKey: ["newly-arrived-products", page, limit],
+    // used same key as shop to utilize cache and prevent refetching from api
+    queryKey: ["shop-products", page, limit],
     queryFn: () => getUnarchivedProducts(page, limit),
   });
 

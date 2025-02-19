@@ -10,6 +10,7 @@ const ShopByCategory = () => {
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4 xl:flex justify-center">
         {shopByCategory.map((category) => (
           <CategoryCard
+            key={category.categoryName}
             href={category.href}
             image={category.image}
             title={category.categoryName}
