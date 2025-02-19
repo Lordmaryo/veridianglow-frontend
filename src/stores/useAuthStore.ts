@@ -189,14 +189,15 @@ axiosInstance.interceptors.response.use(
 
 /**
  * TODO - sync cart items to database
- * TODO - refactor types
  * TODO - modify the getAllProduct for admin to ascend from featured products to others
  * TODO - create get archived products for admin draft
  * TODO - Bug in relatedProducts, it displayes the same reccommended product in the category
+ * TODO - categories hsould be an array
  * TODO - add 404 not found page
  * TODO - add something went wrong page for bad connection
  * TODO - make users able to add to wishlist on the backend
  * TODO - make a react query for creating product
  * TODO - complete the home page
  * TODO - add a placeholder to the video poster in hero
+ * TODO - refactor types
  */

@@ -15,6 +15,7 @@ import AdminPage from "./pages/AdminPage";
 import ProductDetail from "./pages/ProductDetail";
 import { useCartStore } from "./stores/useCartStore";
 import Shop from "./pages/Shop";
+import CategoryPage from "./pages/CategoryPage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -29,8 +30,9 @@ function App() {
       calculateTotals();
     }
   }, []);
+  
+  // if (checkingAuth) return <LoadingSpinner />;
 
-  if (checkingAuth) return <LoadingSpinner />;
   return (
     <>
       <QueryProvider>
@@ -77,6 +79,7 @@ function App() {
               }
             />
             <Route path="/shop/:productSlug" element={<ProductDetail />} />
+            <Route path="/shop/category/:category" element={<CategoryPage />} />
             <Route path="/shop" element={<Shop />} />
           </Routes>
         </div>

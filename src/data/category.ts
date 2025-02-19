@@ -22,3 +22,26 @@ export const categories = [
   { href: "/category/skin-repair", name: "Skin Repair" },
   { href: "/consultation", name: "Consultation" },
 ];
+
+export const shopByCategory = [
+  {
+    categoryName: "SUN SCREEN",
+    href: "/shop/category/sunscreen",
+    image: "/sunscreen.webp",
+  },
+  {
+    categoryName: "SERUMS",
+    href: "/shop/category/serums",
+    image: "/serums.webp",
+  },
+  {
+    categoryName: "BODY LOTIONS",
+    href: "/shop/category/body-lotions",
+    image: "/lotion.webp",
+  },
+  {
+    categoryName: "SUPPLEMENTS",
+    href: "/shop/category/supplements",
+    image: "/supplements.webp",
+  },
+];

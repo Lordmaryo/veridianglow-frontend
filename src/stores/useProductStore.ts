@@ -117,5 +117,12 @@ export const useProductStore = create<useProductStoreProps>(
       );
       return res.data;
     },
+
+    getProductsByCategory: async (page, limit, category) => {
+      const res = await axios.get(
+        `/product/category/${category}?page=${page}&limit=${limit}`
+      );
+      return res.data;
+    },
   })
 );

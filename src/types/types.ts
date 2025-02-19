@@ -70,7 +70,11 @@ export interface useProductStoreProps {
     page: number,
     limit: number
   ) => Promise<ProductResponse>;
-  // fetchProductByCategory: (category: string) => Promise<void>;
+  getProductsByCategory: (
+    page: number,
+    limit: number,
+    category: string
+  ) => Promise<ProductResponse>;
 }
 
 export interface CartStore {
