@@ -17,6 +17,10 @@ import { useCartStore } from "./stores/useCartStore";
 import Shop from "./pages/Shop";
 import CategoryPage from "./pages/CategoryPage";
 import Footer from "./components/Footer";
+import NavCategory from "./pages/NavCategory";
+import ForMen from "./pages/ForMen";
+import ForKids from "./pages/ForKids";
+import MenCategoryPage from "./pages/MenCategoryPage";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -80,10 +84,17 @@ function App() {
             />
             <Route path="/shop/:productSlug" element={<ProductDetail />} />
             <Route path="/shop/category/:category" element={<CategoryPage />} />
+            <Route path="/for-men/:menCategory" element={<MenCategoryPage />} />
+            <Route
+              path="/category/:mainCategory/:otherCategory?"
+              element={<NavCategory />}
+            />
+            <Route path="/for-men" element={<ForMen />} />
+            <Route path="/for-kids" element={<ForKids />} />
             <Route path="/shop" element={<Shop />} />
           </Routes>
         </div>
-        <Footer />
+        {location.pathname !== "/secrete-dashboard/admin" && <Footer />}
         <Toaster />
       </QueryProvider>
     </>

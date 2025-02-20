@@ -1,6 +1,6 @@
 import { FaAngleRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { categories } from "../data/category";
+import { NavCategories } from "../data/category";
 import { useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { UserResponse } from "../types/types";
@@ -34,7 +34,7 @@ const SideBar = ({ setToggleNav, logout, user, isAdmin }: SideBarProps) => {
         </div>
 
         <ul className="flex flex-col gap-4 px-4 font-semibold">
-          {categories.map((category) => (
+          {NavCategories.map((category) => (
             <li key={category.href} className="flex flex-col">
               <div className="flex justify-between items-center">
                 {category.subcategories ? (

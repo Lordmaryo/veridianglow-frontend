@@ -99,7 +99,7 @@ export const useProductStore = create<useProductStoreProps>(
     getProductById: async (productId) => {
       set({ loading: true });
       try {
-        const res = await axios.get(`/product/${productId}`);
+        const res = await axios.get(`/product/find_product/${productId}`);
         return res.data;
       } finally {
         set({ loading: false });
@@ -121,6 +121,35 @@ export const useProductStore = create<useProductStoreProps>(
     getProductsByCategory: async (page, limit, category) => {
       const res = await axios.get(
         `/product/category/${category}?page=${page}&limit=${limit}`
+      );
+      return res.data;
+    },
+
+    getProductsForMen: async (page, limit) => {
+      const res = await axios.get(`/product/men?page=${page}&limit=${limit}`);
+      return res.data;
+    },
+
+    getProductsForKids: async (page, limit) => {
+      const res = await axios.get(`/product/kids?page=${page}&limit=${limit}`);
+      return res.data;
+    },
+
+    getProductsByDifferentCategories: async (
+      page,
+      limit,
+      mainCategory,
+      otherCategory
+    ) => {
+      const res = await axios.get(
+        `/product/different_category/${mainCategory}/${otherCategory}?page=${page}&limit=${limit}`
+      );
+      return res.data;
+    },
+
+    getProductsByMenCategory: async (page, limit, category) => {
+      const res = await axios.get(
+        `/product/men_category/${category}?page=${page}&limit=${limit}`
       );
       return res.data;
     },

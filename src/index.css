@@ -4,13 +4,14 @@
 @tailwind utilities;
 
 
-/* :root {
+:root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-} */
-body{
+}
+ 
+/* body{
   font-family: "Roboto", serif;
   font-optical-sizing: auto;
-}
+} */
 
 .character {
   border: 1px grey solid;

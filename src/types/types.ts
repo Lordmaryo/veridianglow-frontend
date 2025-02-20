@@ -75,6 +75,19 @@ export interface useProductStoreProps {
     limit: number,
     category: string
   ) => Promise<ProductResponse>;
+  getProductsForMen: (page: number, limit: number) => Promise<ProductResponse>;
+  getProductsForKids: (page: number, limit: number) => Promise<ProductResponse>;
+  getProductsByDifferentCategories: (
+    page: number,
+    limit: number,
+    mainCategory: string,
+    otherCategory: string | undefined
+  ) => Promise<ProductResponse>;
+  getProductsByMenCategory: (
+    page: number,
+    limit: number,
+    category: string
+  ) => Promise<ProductResponse>;
 }
 
 export interface CartStore {

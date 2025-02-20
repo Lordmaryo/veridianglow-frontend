@@ -6,6 +6,8 @@ export const productCategories = [
   "Cleansers",
   "Moisturizers",
   "Face Masks",
+  "Face Scrub",
+  "Supplements",
   "Toners",
   "Sunscreens",
   "Lip Care",
