@@ -188,7 +188,6 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * TODO - make a controller for the backend that fetches products cats for navbar, it should have two params, if the second params undefined then return products for the first
  * TODO - sync cart items to database
  * TODO - modify the getAllProduct for admin to ascend from featured products to others
  * TODO - create get archived products for admin draft

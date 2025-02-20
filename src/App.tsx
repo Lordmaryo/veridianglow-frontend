@@ -21,6 +21,8 @@ import NavCategory from "./pages/NavCategory";
 import ForMen from "./pages/ForMen";
 import ForKids from "./pages/ForKids";
 import MenCategoryPage from "./pages/MenCategoryPage";
+import NotFound from "./pages/NotFound";
+import ErrorBoundary from "./ErrorBoundry";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -40,63 +42,72 @@ function App() {
 
   return (
     <>
-      <QueryProvider>
-        {location.pathname !== "/secrete-dashboard/admin" && <Header />}
-        <div className="pb-10">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path={"/signin"}
-              element={
-                !user ? (
-                  <SignInPage />
-                ) : user?.role === Roles.ADMIN && !user.isVerified ? (
-                  <Navigate to={"/otp-verification"} />
-                ) : (
-                  <Navigate to={"/"} />
-                )
-              }
-            />
-            <Route path="forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/reset-password/:token"
-              element={!user ? <ResetPassword /> : <Navigate to="/" />}
-            />
-            <Route
-              path={`/secrete-dashboard/admin`}
-              element={
-                // user && user?.role === Roles.ADMIN && user?.isVerified ? (
-                <AdminPage />
-                // ) : (
-                //   <Navigate to={"/"} />
-                // )
-              }
-            />
-            <Route
-              path="/otp-verification"
-              element={
-                user?.role === Roles.ADMIN && !user?.isVerified ? (
-                  <OtpVerification />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route path="/shop/:productSlug" element={<ProductDetail />} />
-            <Route path="/shop/category/:category" element={<CategoryPage />} />
-            <Route path="/for-men/:menCategory" element={<MenCategoryPage />} />
-            <Route
-              path="/category/:mainCategory/:otherCategory?"
-              element={<NavCategory />}
-            />
-            <Route path="/for-men" element={<ForMen />} />
-            <Route path="/for-kids" element={<ForKids />} />
-            <Route path="/shop" element={<Shop />} />
-          </Routes>
-        </div>
-        {location.pathname !== "/secrete-dashboard/admin" && <Footer />}
-        <Toaster />
-      </QueryProvider>
+      <ErrorBoundary>
+        <QueryProvider>
+          {location.pathname !== "/secrete-dashboard/admin" && <Header />}
+          <div className="pb-10">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path={"/signin"}
+                element={
+                  !user ? (
+                    <SignInPage />
+                  ) : user?.role === Roles.ADMIN && !user.isVerified ? (
+                    <Navigate to={"/otp-verification"} />
+                  ) : (
+                    <Navigate to={"/"} />
+                  )
+                }
+              />
+              <Route path="forgot-password" element={<ForgotPassword />} />
+              <Route
+                path="/reset-password/:token"
+                element={!user ? <ResetPassword /> : <Navigate to="/" />}
+              />
+              <Route
+                path={`/secrete-dashboard/admin`}
+                element={
+                  // user && user?.role === Roles.ADMIN && user?.isVerified ? (
+                  <AdminPage />
+                  // ) : (
+                  //   <Navigate to={"/"} />
+                  // )
+                }
+              />
+              <Route
+                path="/otp-verification"
+                element={
+                  user?.role === Roles.ADMIN && !user?.isVerified ? (
+                    <OtpVerification />
+                  ) : (
+                    <Navigate to="/" />
+                  )
+                }
+              />
+              <Route path="/shop/:productSlug" element={<ProductDetail />} />
+              <Route
+                path="/shop/category/:category"
+                element={<CategoryPage />}
+              />
+              <Route
+                path="/for-men/:menCategory"
+                element={<MenCategoryPage />}
+              />
+              <Route
+                path="/category/:mainCategory/:otherCategory?"
+                element={<NavCategory />}
+              />
+              <Route path="/for-men" element={<ForMen />} />
+              <Route path="/for-kids" element={<ForKids />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+          {location.pathname !== "/secrete-dashboard/admin" && <Footer />}
+          <Toaster />
+        </QueryProvider>
+      </ErrorBoundary>
     </>
   );
 }
