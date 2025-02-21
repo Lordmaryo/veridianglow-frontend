@@ -23,13 +23,25 @@ import ForKids from "./pages/ForKids";
 import MenCategoryPage from "./pages/MenCategoryPage";
 import NotFound from "./pages/NotFound";
 import ErrorBoundary from "./ErrorBoundry";
+import UserAccount from "./pages/UserAccount";
+import Account from "./components/Account";
+import UserOrders from "./components/UserOrders";
+import UserAddress from "./components/UserAddress";
+import WishList from "./components/WishList";
+import { useUserStore } from "./stores/useUserStore";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
   const { cart, calculateTotals } = useCartStore();
+  const { loadAddress } = useUserStore();
   const location = useLocation();
+
   useEffect(() => {
     checkAuth();
+  }, []);
+
+  useEffect(() => {
+    loadAddress();
   }, []);
 
   useEffect(() => {
@@ -101,10 +113,20 @@ function App() {
               <Route path="/for-men" element={<ForMen />} />
               <Route path="/for-kids" element={<ForKids />} />
               <Route path="/shop" element={<Shop />} />
+              {/* User Account Routes */}
+              {user && (
+                <Route path="/customer/account/*" element={<UserAccount />}>
+                  <Route index element={<Account />} />
+                  <Route path="orders" element={<UserOrders />} />
+                  <Route path="address" element={<UserAddress />} />
+                  <Route path="wishlist" element={<WishList />} />
+                </Route>
+              )}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
-          {location.pathname !== "/secrete-dashboard/admin" && <Footer />}
+          {location.pathname !== "/secrete-dashboard/admin" &&
+            location.pathname !== "/otp-verification" && <Footer />}
           <Toaster />
         </QueryProvider>
       </ErrorBoundary>

@@ -33,7 +33,7 @@ const AccountDropDown = ({
           </Link>
           <Link
             onClick={() => setToggleAccount(false)}
-            to={"/customer/"}
+            to={"/customer/account/orders"}
             className="flex gap-3 items-center hover:text-accent transition"
           >
             <ShoppingBag />
@@ -41,7 +41,7 @@ const AccountDropDown = ({
           </Link>
           <Link
             onClick={() => setToggleAccount(false)}
-            to={"/customer/"}
+            to={"/customer/account/address"}
             className="flex gap-3 items-center hover:text-accent transition"
           >
             <House />
@@ -49,7 +49,7 @@ const AccountDropDown = ({
           </Link>
           <Link
             onClick={() => setToggleAccount(false)}
-            to={"/customer/"}
+            to={"/customer/account/wishlist"}
             className="flex gap-3 items-center hover:text-accent transition"
           >
             <Heart />

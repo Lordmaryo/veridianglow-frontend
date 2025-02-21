@@ -36,6 +36,13 @@ export interface UserResponse {
   firstName: string;
   role: Roles;
   isVerified: boolean;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    country: string;
+    zipCode: string;
+  };
 }
 
 export enum Roles {
