@@ -33,11 +33,15 @@ import { useUserStore } from "./stores/useUserStore";
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
   const { cart, calculateTotals } = useCartStore();
-  const { loadAddress } = useUserStore();
+  const { loadAddress, getWishlists } = useUserStore();
   const location = useLocation();
 
   useEffect(() => {
     checkAuth();
+  }, []);
+
+  useEffect(() => {
+    getWishlists();
   }, []);
 
   useEffect(() => {

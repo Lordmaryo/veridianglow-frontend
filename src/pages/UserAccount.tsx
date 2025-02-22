@@ -1,6 +1,18 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { useUserStore } from "../stores/useUserStore";
+import { useEffect } from "react";
 
 const UserAccount = () => {
+  const { getWishlists, loadAddress } = useUserStore();
+
+  useEffect(() => {
+    loadAddress();
+  }, []);
+
+  useEffect(() => {
+    getWishlists();
+  }, [getWishlists]);
+
   return (
     <div className="md:flex ">
       <aside className="md:w-1/4 p-4 md:border-r w-full border-b">

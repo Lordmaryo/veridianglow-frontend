@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { CartProducts, useCartStoreProps } from "../types/types";
 import { loadCartFromLocal, saveCartToLocal } from "../utils/cartUtils";
+import toast from "react-hot-toast";
 
 export const useCartStore = create<useCartStoreProps>((set, get) => ({
   cart: loadCartFromLocal(),
@@ -40,6 +41,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
       ];
 
       saveCartToLocal(newCartItems);
+      toast.success("added product to cart");
       return { cart: newCartItems, loading: false };
     });
 

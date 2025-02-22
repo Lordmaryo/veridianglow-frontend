@@ -9,7 +9,7 @@ const UserAddress = () => {
   const { user } = useAuthStore();
   const {
     editAddress: updateNewAddress,
-    loading,
+    loading, 
     address,
     addAddress,
   } = useUserStore();
@@ -23,11 +23,7 @@ const UserAddress = () => {
     zipCode: user?.address.zipCode || "",
     country: "Nigeria", //  Nigeria should be default until we start reaching other countries
   });
-
-  useEffect(() => {
-    console.log("current customer address", address);
-  }, [address]);
-
+  
   useEffect(() => {
     if (user?.address) {
       setSelectedState(user.address.state || "");

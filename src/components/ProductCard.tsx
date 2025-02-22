@@ -3,9 +3,10 @@ import { Product } from "../types/types";
 import { formatCurrency } from "../utils/utils";
 import StarRating from "./StarRating";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import { Wishlists } from "../types/userTypes";
 
 type ProductCardProps = {
-  product: Product;
+  product: Product | Wishlists;
   containerWidth?: string;
 };
 
@@ -16,9 +17,8 @@ const ProductCard = ({
   const toSlug = (name: string) => name.toLowerCase().replace(/\s+/g, "-");
 
   if (!product) return <ProductCardSkeleton />;
-  
   return (
-    <Link to={`/shop/${toSlug(product.name)}-${product._id}`}>
+    <Link to={`/shop/${toSlug(product.name)}-${(product as Product)._id}`}>
       <div
         className={`rounded-sm border border-zinc-300 hover:border-[#ebc9de] hover:border-2 sm:w-56 ${containerWidth} sm:h-[21rem] h-full p-2`}
       >

@@ -8,11 +8,18 @@ import { Heart, Minus, Plus } from "lucide-react";
 import Description from "../components/Description";
 import RelatedProducts from "../components/RelatedProducts";
 import { useCartStore } from "../stores/useCartStore";
+import { useState } from "react";
+import { useAuthStore } from "../stores/useAuthStore";
+import { useUserStore } from "../stores/useUserStore";
+import { Wishlists } from "../types/userTypes";
 
 const ProductDetail = () => {
+  const { user } = useAuthStore();
+  const { wishlists, addToWishlist, removeFromWishlist } = useUserStore();
   const { addToCart, cart, updateQuantity } = useCartStore();
   const { productSlug } = useParams();
   const { getProductById } = useProductStore();
+
   const productId = productSlug?.split("-").pop();
   if (!productId) {
     throw new Error("Product id not found");
@@ -32,6 +39,28 @@ const ProductDetail = () => {
   const currentProductIndex = cart.findIndex(
     (item) => item._id === product?._id
   );
+
+  // wishlists
+  const existInWishlist = wishlists?.some(
+    (item) => item.productId === product?._id
+  );
+
+  const wishlistsProduct: Wishlists = {
+    productId: product?._id || "",
+    name: product?.name || "",
+    averageRating: product?.averageRating || 0,
+    image: product?.image || "",
+    price: product?.price || 0,
+    discountPrice: product?.discountPrice || 0,
+  };
+
+  const handleWishList = () => {
+    if (!existInWishlist) {
+      addToWishlist(wishlistsProduct);
+    } else {
+      removeFromWishlist(wishlistsProduct);
+    }
+  };
 
   if (isLoading) return <LoadingSpinner />;
   if (error) console.error(error);
@@ -131,9 +160,19 @@ const ProductDetail = () => {
                   : product.discountPrice
               )}
             </button>
-            <button className="border border-accent p-2">
-              <Heart />
-            </button>
+            <div className="border border-accent">
+              <button
+                disabled={!user}
+                onClick={handleWishList}
+                className="disabled:opacity-40 disabled:cursor-not-allowed p-2 hover:bg-[#f872c573] transition rounded-full"
+              >
+                <Heart
+                  className={`text-accent  ${
+                    existInWishlist ? "fill-accent text-accent" : ""
+                  } `}
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>
