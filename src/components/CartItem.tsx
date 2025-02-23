@@ -37,7 +37,7 @@ const CartItem = ({
           </div>
           <div className="flex justify-between items-center p-1 border border-accent w-20">
             <button
-              onClick={() => updateQuantity(item._id, item.quantity - 1)}
+              onClick={() => updateQuantity(item.id, item.quantity - 1)}
               className="inline-flex h-3 w-3 shrink-0 items-center justify-center"
             >
               <Minus />
@@ -45,7 +45,7 @@ const CartItem = ({
             <p className="font-bold text-sm">{item.quantity}</p>
             <button
               disabled={item.isOutOfStock}
-              onClick={() => updateQuantity(item._id, item.quantity + 1)}
+              onClick={() => updateQuantity(item.id, item.quantity + 1)}
               className="inline-flex h-3 w-3 shrink-0 items-center justify-center disabled:opacity-50"
             >
               <Plus />
@@ -54,7 +54,7 @@ const CartItem = ({
         </div>
       </div>
       <button
-        onClick={() => removeAllFromCart(item._id)}
+        onClick={() => removeAllFromCart(item.id)}
         className="p-2 border rounded-md"
         title="Remove this product"
       >

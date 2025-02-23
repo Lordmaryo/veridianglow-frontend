@@ -104,10 +104,18 @@ export interface CartStore {
   addItem: (item: string) => void;
   removeItem: (item: string) => void;
   loadCartFromLocalStorage: () => void;
-  // syncCartToDatabase: () => void;
+  // syncCartToDatabase: (cartItems: CartProducts[]) => void;
 }
 
-export interface CartProducts extends Product {
+export interface CartProducts {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  category: string;
+  discountPrice: number;
+  stock: number;
+  isOutOfStock: boolean;
   quantity: number;
   total: number;
 }
@@ -123,6 +131,7 @@ export interface useCartStoreProps {
   addToCart: any;
   removeAllFromCart: (productId: string) => Promise<void>;
   updateQuantity: (productId: string, quantity: number) => Promise<void>;
+  syncCartToDatabase: (cartItems: CartProducts[]) => void;
   calculateTotals: () => void;
   clearCart: () => void;
 }

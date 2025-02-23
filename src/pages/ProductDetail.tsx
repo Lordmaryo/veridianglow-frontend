@@ -8,7 +8,6 @@ import { Heart, Minus, Plus } from "lucide-react";
 import Description from "../components/Description";
 import RelatedProducts from "../components/RelatedProducts";
 import { useCartStore } from "../stores/useCartStore";
-import { useState } from "react";
 import { useAuthStore } from "../stores/useAuthStore";
 import { useUserStore } from "../stores/useUserStore";
 import { Wishlists } from "../types/userTypes";
@@ -35,9 +34,9 @@ const ProductDetail = () => {
     enabled: !!productId,
   });
 
-  const productExists = cart.some((item) => item._id === product?._id);
+  const productExists = cart.some((item) => item.id === product?._id);
   const currentProductIndex = cart.findIndex(
-    (item) => item._id === product?._id
+    (item) => item.id === product?._id
   );
 
   // wishlists
@@ -122,9 +121,12 @@ const ProductDetail = () => {
             </div>
           ) : (
             cart
-              .filter((item) => item._id === product._id)
+              .filter((item) => item.id === product._id)
               .map((item) => (
-                <div className="flex justify-between items-center p-1 border border-accent w-20">
+                <div
+                  key={item.id}
+                  className="flex justify-between items-center p-1 border border-accent w-20"
+                >
                   <button
                     disabled={item.quantity === 1}
                     onClick={() =>

@@ -5,8 +5,8 @@ import Header from "./components/Header";
 import SignInPage from "./pages/SignInPage";
 import { useAuthStore } from "./stores/useAuthStore";
 import { Toaster } from "react-hot-toast";
-import { Roles } from "./types/types";
-import { useEffect } from "react";
+import { CartProducts, Roles } from "./types/types";
+import { useCallback, useEffect, useRef } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -29,16 +29,35 @@ import UserOrders from "./components/UserOrders";
 import UserAddress from "./components/UserAddress";
 import WishList from "./components/WishList";
 import { useUserStore } from "./stores/useUserStore";
+import debounce from "lodash/debounce";
+import { isEqual } from "lodash";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
-  const { cart, calculateTotals } = useCartStore();
+  const { cart, calculateTotals, syncCartToDatabase } = useCartStore();
   const { loadAddress, getWishlists } = useUserStore();
   const location = useLocation();
 
   useEffect(() => {
     checkAuth();
   }, []);
+
+  const prevCartRef = useRef<CartProducts[]>(cart);
+
+  const debouncedSyncCart = useCallback(
+    debounce((cart) => syncCartToDatabase(cart), 2000), // 2s delay to update cart in database
+    [syncCartToDatabase]
+  );
+
+  useEffect(() => {
+    if (!user) return;
+
+    // Only sync if the cart has actually changed
+    if (!isEqual(prevCartRef.current, cart)) {
+      debouncedSyncCart(cart);
+      prevCartRef.current = cart;
+    }
+  }, [user, cart, debouncedSyncCart]);
 
   useEffect(() => {
     getWishlists();

@@ -189,10 +189,9 @@ axiosInstance.interceptors.response.use(
 
 /**
  * TODO - sync cart items to database
+ * TODO - implement search
  * TODO - modify the getAllProduct for admin to ascend from featured products to others
  * TODO - create get archived products for admin draft
- * TODO - categories should be an array
- * TODO - make users able to add to wishlist on the backend
  * TODO - make a react query for creating product
  * TODO - add a placeholder to the video poster in hero
  * TODO - refactor types

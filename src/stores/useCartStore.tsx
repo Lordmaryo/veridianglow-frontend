@@ -1,7 +1,8 @@
 import { create } from "zustand";
-import { CartProducts, useCartStoreProps } from "../types/types";
+import { CartProducts, Product, useCartStoreProps } from "../types/types";
 import { loadCartFromLocal, saveCartToLocal } from "../utils/cartUtils";
 import toast from "react-hot-toast";
+import axios from "../lib/axios";
 
 export const useCartStore = create<useCartStoreProps>((set, get) => ({
   cart: loadCartFromLocal(),
@@ -26,10 +27,10 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
     }
   },
 
-  addToCart: async (product: CartProducts) => {
+  addToCart: async (product: Product) => {
     set((prevState) => {
       const existingItem = prevState.cart.find(
-        (item) => item._id === product._id
+        (item) => item.id === product._id
       );
       if (existingItem) {
         return prevState;
@@ -37,10 +38,22 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
 
       const newCartItems = [
         ...prevState.cart,
-        { ...product, quantity: 1, total: product.discountPrice * 1 },
+        {
+          id: product._id,
+          name: product.name,
+          image: product.image,
+          price: product.price,
+          category: product.category,
+          stock: product.stock,
+          isOutOfStock: product.isOutOfStock,
+          discountPrice: product.discountPrice,
+          quantity: 1,
+          total: product.discountPrice * 1,
+        },
       ];
 
       saveCartToLocal(newCartItems);
+      console.log("This is the cart product", product);
       toast.success("added product to cart");
       return { cart: newCartItems, loading: false };
     });
@@ -51,7 +64,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
   removeAllFromCart: async (productId: string) => {
     set((prevState) => {
       const updatedCart = prevState.cart.filter(
-        (item) => item._id !== productId
+        (item) => item.id !== productId
       );
 
       saveCartToLocal(updatedCart);
@@ -66,7 +79,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
 
     set((prevState) => {
       const updatedCart = prevState.cart.map((item) => {
-        if (item._id === productId) {
+        if (item.id === productId) {
           const isOutOfStock = quantity + 1 > item.stock;
           return {
             ...item,
@@ -84,6 +97,24 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
       return { cart: updatedCart, isOutOfStock: isAnyOutOfStock };
     });
     get().calculateTotals();
+  },
+
+  syncCartToDatabase: async (cartItems) => {
+    set({ loading: true });
+    try {
+      const res = await axios.post<{
+        message: string;
+        success: boolean;
+        cart: CartProducts[];
+      }>("/cart/sync", {
+        cartItems,
+      });
+
+      toast.success(res.data.message);
+      set({ cart: res.data.cart });
+    } finally {
+      set({ loading: false });
+    }
   },
 
   calculateTotals: () => {
