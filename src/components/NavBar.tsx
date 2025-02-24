@@ -12,9 +12,10 @@ import { Lock } from "lucide-react";
 import { Roles } from "../types/types";
 import Cart from "./Cart";
 import { useCartStore } from "../stores/useCartStore";
+import SearchBar from "./SearchBar";
 
 const NavBar = () => {
-  const [searchInput, setSearchInput] = useState("");
+  const [toggleSearch, setToggleSearch] = useState(false);
   const [toggleNav, setToggleNav] = useState(false);
   const [toggleCart, setToggleCart] = useState(false);
   const [toggleAccount, setToggleAccount] = useState(false);
@@ -37,15 +38,8 @@ const NavBar = () => {
         <button className="lg:hidden" onClick={() => setToggleNav(!toggleNav)}>
           <IoMenu size={30} />
         </button>
-        <div className="relative hidden lg:block">
-          <FaMagnifyingGlass className="absolute left-2 bottom-2" />
-          <input
-            type="text"
-            placeholder="SEARCH PRODUCTS..."
-            className="outline-none pl-8 py-1 w-80 rounded-sm border border-zinc-400"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
+        <div className="hidden lg:block w-80">
+          <SearchBar />
         </div>
         <Link to={"/"}>
           <div className="sm:w-20 w-16">
@@ -85,7 +79,10 @@ const NavBar = () => {
           </Link>
 
           <div className="flex gap-4 items-center">
-            <button className="lg:hidden">
+            <button
+              onClick={() => setToggleSearch(!toggleSearch)}
+              className="lg:hidden"
+            >
               <FaMagnifyingGlass size={23} />
             </button>
             <button
@@ -145,6 +142,15 @@ const NavBar = () => {
             />
             <Cart setToggleCart={setToggleCart} />
           </>
+        </div>
+      )}
+      {toggleSearch && (
+        <div className="absolute top-24 left-0 w-full z-20">
+          <SearchBar setToggleSearch={setToggleSearch} />
+          <div
+            onClick={() => setToggleSearch(false)}
+            className="bg-[#000000bf] h-screen w-full"
+          />
         </div>
       )}
     </>

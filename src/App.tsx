@@ -30,6 +30,7 @@ import WishList from "./components/WishList";
 import { useUserStore } from "./stores/useUserStore";
 import debounce from "lodash/debounce";
 import { isEqual } from "lodash";
+import SearchResults from "./pages/SearchResults";
 
 function App() {
   const { user, checkAuth } = useAuthStore();
@@ -143,6 +144,7 @@ function App() {
                 </Route>
               )}
               <Route path="*" element={<NotFound />} />
+              <Route path="/search" element={<SearchResults />} />
             </Routes>
           </div>
           {location.pathname !== "/secrete-dashboard/admin" &&

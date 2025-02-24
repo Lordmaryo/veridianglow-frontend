@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Product } from "../types/types";
-import { formatCurrency } from "../utils/utils";
+import { formatCurrency, toSlug } from "../utils/utils";
 import StarRating from "./StarRating";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import { Wishlists } from "../types/userTypes";
@@ -14,7 +14,6 @@ const ProductCard = ({
   product,
   containerWidth = "w-full",
 }: ProductCardProps) => {
-  const toSlug = (name: string) => name.toLowerCase().replace(/\s+/g, "-");
 
   if (!product) return <ProductCardSkeleton />;
   return (

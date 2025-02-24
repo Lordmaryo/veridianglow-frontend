@@ -6,3 +6,12 @@ export const formatCurrency = (amount: number | undefined) => {
     minimumFractionDigits: 2,
   })}`;
 };
+
+export const truncateWord = (word: string | null, maxLength: number) => {
+  if (!word) return word;
+
+  const numOfWords = word.length;
+  return numOfWords > maxLength ? word.slice(0, maxLength) + "..." : word;
+};
+
+export const toSlug = (name: string) => name.toLowerCase().replace(/\s+/g, "-");
