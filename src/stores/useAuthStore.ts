@@ -188,8 +188,8 @@ axiosInstance.interceptors.response.use(
 );
 
 /**
- * TODO - sync cart items to database
  * TODO - implement search
+ * TODO - disable add button in cart if quantity is greater than stock
  * TODO - modify the getAllProduct for admin to ascend from featured products to others
  * TODO - create get archived products for admin draft
  * TODO - make a react query for creating product

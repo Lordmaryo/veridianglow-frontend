@@ -126,7 +126,6 @@ export interface useCartStoreProps {
   subTotal: number;
   loading: boolean;
   isOutOfStock: boolean;
-  getCartItems: () => Promise<void>;
   // addToCart: (product: CartProducts) => Promise<void>;
   addToCart: any;
   removeAllFromCart: (productId: string) => Promise<void>;

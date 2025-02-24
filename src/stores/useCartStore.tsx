@@ -11,22 +11,6 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
   loading: false,
   isOutOfStock: false,
 
-  getCartItems: async () => {
-    try {
-      set({ loading: true });
-      const res = await fetch("/api/cart", { credentials: "include" });
-      if (!res.ok) throw new Error("Failed to fetch cart");
-
-      const data = await res.json();
-      set({ cart: data.cart });
-      get().calculateTotals();
-    } catch (error) {
-      console.error("Error fetching cart:", error);
-    } finally {
-      set({ loading: false });
-    }
-  },
-
   addToCart: async (product: Product) => {
     set((prevState) => {
       const existingItem = prevState.cart.find(
@@ -110,7 +94,6 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
         cartItems,
       });
 
-      toast.success(res.data.message);
       set({ cart: res.data.cart });
     } finally {
       set({ loading: false });

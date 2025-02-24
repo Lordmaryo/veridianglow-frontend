@@ -11,3 +11,4 @@ export const loadCartFromLocal = (): CartProducts[] => {
   }
   return [];
 };
+

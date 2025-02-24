@@ -99,7 +99,9 @@ export const useProductStore = create<useProductStoreProps>(
     getProductById: async (productId) => {
       set({ loading: true });
       try {
-        const res = await axios.get(`/product/find_product/${productId}`);
+        const res = await axios.get<Product>(
+          `/product/find_product/${productId}`
+        );
         return res.data;
       } finally {
         set({ loading: false });

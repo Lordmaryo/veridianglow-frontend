@@ -138,7 +138,7 @@ const ProductDetail = () => {
                   </button>
                   <p className="font-bold">{item.quantity || "1"}</p>
                   <button
-                    disabled={item.isOutOfStock}
+                    disabled={item.quantity + 1 > product.stock}
                     onClick={() =>
                       updateQuantity(product._id, item.quantity + 1)
                     }

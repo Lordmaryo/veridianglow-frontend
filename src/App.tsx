@@ -7,7 +7,6 @@ import { useAuthStore } from "./stores/useAuthStore";
 import { Toaster } from "react-hot-toast";
 import { CartProducts, Roles } from "./types/types";
 import { useCallback, useEffect, useRef } from "react";
-import LoadingSpinner from "./components/LoadingSpinner";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import OtpVerification from "./pages/OtpVerification";
@@ -33,7 +32,7 @@ import debounce from "lodash/debounce";
 import { isEqual } from "lodash";
 
 function App() {
-  const { user, checkAuth, checkingAuth } = useAuthStore();
+  const { user, checkAuth } = useAuthStore();
   const { cart, calculateTotals, syncCartToDatabase } = useCartStore();
   const { loadAddress, getWishlists } = useUserStore();
   const location = useLocation();
@@ -45,7 +44,7 @@ function App() {
   const prevCartRef = useRef<CartProducts[]>(cart);
 
   const debouncedSyncCart = useCallback(
-    debounce((cart) => syncCartToDatabase(cart), 2000), // 2s delay to update cart in database
+    debounce((cart: CartProducts[]) => syncCartToDatabase(cart), 2000), // 2s delay to update cart in database
     [syncCartToDatabase]
   );
 
@@ -72,8 +71,6 @@ function App() {
       calculateTotals();
     }
   }, []);
-
-  // if (checkingAuth) return <LoadingSpinner />;
 
   return (
     <>
