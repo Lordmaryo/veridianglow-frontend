@@ -10,11 +10,16 @@ interface ProductListProps {
 }
 
 const ProductList = ({ products }: ProductListProps) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [toggleAction, setToggleAction] = useState<string | null>(null);
   const [deleteProductId, setDeleteProductId] = useState<string | null>(null);
   const [updateProductId, setUpdateProductId] = useState<string | null>(null);
   const { deleteProduct, toggleFeauturedProduct, toggleArchivedProduct } =
     useProductStore();
+
+  const filteredProducts = products?.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const toggleActionMenu = (productId: string) => {
     setToggleAction((prev) => (prev === productId ? null : productId));
@@ -41,60 +46,49 @@ const ProductList = ({ products }: ProductListProps) => {
   return (
     <>
       <div className="h-screen w-full mt-10 mb-4 px-4 overflow-y-hidden">
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-2 mb-4 border rounded-md"
+        />
         <thead className="bg-zinc-200 uppercase font-bold">
           <tr>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs tracking-wider"
-            >
+            <th className="px-6 py-3 text-left text-xs tracking-wider">
               Product
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs tracking-wider"
-            >
+            <th className="px-6 py-3 text-left text-xs tracking-wider">
               Stock
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs tracking-wider"
-            >
+            <th className="px-6 py-3 text-left text-xs tracking-wider">
               Price
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs tracking-wider"
-            >
+            <th className="px-6 py-3 text-left text-xs tracking-wider">
               Featured
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs tracking-wider"
-            >
+            <th className="px-6 py-3 text-left text-xs tracking-wider">
               Archived
             </th>
-            <th
-              scope="col"
-              className="px-6 py-3 text-left text-xs tracking-wider"
-            >
+            <th className="px-6 py-3 text-left text-xs tracking-wider">
               Actions
             </th>
           </tr>
         </thead>
         <tbody className="bg-zinc-300 divide-y divide-gray-700">
-          {products?.map((product) => (
-            <tr key={product?._id} className="hover:bg-gray-400">
+          {filteredProducts?.map((product) => (
+            <tr key={product._id} className="hover:bg-gray-400">
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 h-10 w-10">
                     <img
                       className="h-10 w-10 rounded-full object-cover"
-                      src={product?.image}
-                      alt={product?.name}
+                      src={product.image}
+                      alt={product.name}
                     />
                   </div>
                   <div className="ml-4">
-                    <div className="text-sm font-medium">{product?.name}</div>
+                    <div className="text-sm font-medium">{product.name}</div>
                   </div>
                 </div>
               </td>
@@ -108,9 +102,9 @@ const ProductList = ({ products }: ProductListProps) => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <button
-                  onClick={() => toggleFeauturedProduct(product?._id)}
+                  onClick={() => toggleFeauturedProduct(product._id)}
                   className={`p-1 rounded-full ${
-                    product?.isFeatured
+                    product.isFeatured
                       ? "bg-yellow-400 text-gray-900"
                       : "transparent"
                   } hover:bg-yellow-500 transition-colors duration-200`}
@@ -120,11 +114,9 @@ const ProductList = ({ products }: ProductListProps) => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <button
-                  onClick={() =>
-                    product?._id && toggleArchivedProduct(product?._id)
-                  }
+                  onClick={() => toggleArchivedProduct(product._id)}
                   className={`p-1 rounded-full ${
-                    product?.isArchived
+                    product.isArchived
                       ? "bg-accent text-gray-900"
                       : "transparent"
                   } hover:bg-accent transition-colors duration-200`}
@@ -151,15 +143,13 @@ const ProductList = ({ products }: ProductListProps) => {
                       className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 transition"
                       onClick={() => setUpdateProductId(product._id)}
                     >
-                      <PenLine className="w-4 h-4 mr-2 text-blue-600" />
-                      Edit
+                      <PenLine className="w-4 h-4 mr-2 text-blue-600" /> Edit
                     </button>
                     <button
                       className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-red-100 transition"
                       onClick={() => setDeleteProductId(product._id)}
                     >
-                      <Trash className="w-4 h-4 mr-2 text-red-600" />
-                      Delete
+                      <Trash className="w-4 h-4 mr-2 text-red-600" /> Delete
                     </button>
                   </div>
                 )}

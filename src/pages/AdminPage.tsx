@@ -71,10 +71,10 @@ const AdminPage = () => {
             </div>
           </div>
           <div className="pt-14 overflow-x-auto">
+            {activeTab === Tabs.OVERVIEW && <OverviewTab />}
             {activeTab === Tabs.CREATE && <CreateProductForm />}
             {activeTab === Tabs.PRODUCTS && <ProductList products={products} />}
-            {activeTab === Tabs.OVERVIEW && <OverviewTab />}
-            {activeTab === Tabs.ARCHIVED && <ArchivedTab />}
+            {activeTab === Tabs.ARCHIVED && <ArchivedTab products={products} />}
             {/* {activeTab === Tabs.ORDERS && <OrdersTab />} */}
             {/* {activeTab === Tabs.COUPON && <CouponTab />} */}
           </div>
