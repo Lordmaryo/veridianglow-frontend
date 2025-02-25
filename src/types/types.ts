@@ -64,8 +64,10 @@ export interface ProductResponse {
 export interface useProductStoreProps {
   loading: boolean;
   products: Product[];
+  singleProduct: Product | null;
   setProduct: (products: Product[]) => void;
   createProduct: (newProduct: CreateProduct) => Promise<void>;
+  updateProduct: (productId: string, product: CreateProduct) => Promise<void>;
   deleteProduct: (productId: string) => Promise<void>;
   getAllProduct: () => Promise<Product[]>;
   toggleFeauturedProduct: (productId: string) => Promise<void>;

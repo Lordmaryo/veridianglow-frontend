@@ -72,7 +72,7 @@ const CreateProductForm = () => {
   };
 
   return (
-    <div className="max-w-[600px] h-screen w-full mt-10 mb-4 px-4">
+    <div className="max-w-[800px] mx-auto h-screen w-full mt-10 mb-4 px-4">
       <h2 className="text-2xl font-bold capitalize">Create a new product</h2>
       <form onSubmit={handleSubmit} className="mt-4 space-y-3">
         <div className="flex items-center gap-4">
@@ -134,7 +134,9 @@ const CreateProductForm = () => {
             />
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="discount-price">Discount Price</label>
+            <label htmlFor="discount-price">
+              Discount Price / Selling Price
+            </label>
             <input
               id="discount-price"
               type="number"

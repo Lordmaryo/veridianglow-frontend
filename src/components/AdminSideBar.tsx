@@ -12,7 +12,7 @@ export const AdminSideBar = ({
   setActiveTab,
 }: SideBarProps) => {
   return (
-    <div className="z-[1000] fixed top-0 left-0 w-52 h-screen bg-white pt-2 flex flex-col justify-between">
+    <div className="z-[1000] fixed top-0 left-0 w-52 min-h-screen bg-white pt-2 flex flex-col justify-between">
       <div className="flex flex-col items-center h-screen">
         <div className="w-full mb-6 flex justify-between items-center px-4">
           <Link to={"/"} className="w-16">

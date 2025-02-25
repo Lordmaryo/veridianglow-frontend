@@ -9,9 +9,11 @@ import { useAuthStore } from "../stores/useAuthStore";
 import ProductList from "../components/ProductList";
 import { useProductStore } from "../stores/useProductStore";
 import { useQuery } from "@tanstack/react-query";
+import OverviewTab from "../components/OverviewTab";
+import ArchivedTab from "../components/ArchivedTab";
 
 const AdminPage = () => {
-  const [activeTab, setActiveTab] = useState(Tabs.PRODUCTS); // change to overview on production
+  const [activeTab, setActiveTab] = useState(Tabs.OVERVIEW); // change to overview on production
   const [toggleSideBar, setToggleSideBar] = useState(false);
   const { logout } = useAuthStore();
   const { getAllProduct } = useProductStore();
@@ -24,7 +26,7 @@ const AdminPage = () => {
   return (
     <>
       <div className="flex">
-        <aside className="bg-white z-10 hidden md:flex flex-col items-center border-r border-zinc-300 w-48 fixed left-0 top-0 h-screen">
+        <aside className="bg-white z-50 hidden md:flex flex-col items-center border-r border-zinc-300 w-48 fixed left-0 top-0 h-screen">
           <Link to={"/"}>
             <div className="w-28">
               <img src="/logo.png" alt="logo" className="w-full" />
@@ -45,7 +47,7 @@ const AdminPage = () => {
           </ul>
         </aside>
         <div className="md:ml-48 flex-1 py-2 px-4 min-h-screen max-w-[1070px]">
-          <div className="md:pl-52 fixed top-0 left-0 w-full px-4 py-2 bg-white flex items-center justify-between">
+          <div className="z-20 md:pl-52 fixed top-0 left-0 w-full px-4 py-2 bg-white flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 className="md:hidden"
@@ -70,14 +72,14 @@ const AdminPage = () => {
               </button>
             </div>
           </div>
-          <div className="pt-14">
+          <div className="pt-14 overflow-x-auto">
             {activeTab === Tabs.CREATE && <CreateProductForm />}
             {activeTab === Tabs.PRODUCTS && (
               <ProductList products={products} isLoading={isLoading} />
             )}
-            {/* {activeTab === Tabs.OVERVIEW && <OverviewTab />} */}
+            {activeTab === Tabs.OVERVIEW && <OverviewTab />}
+            {activeTab === Tabs.ARCHIVED && <ArchivedTab />}
             {/* {activeTab === Tabs.ORDERS && <OrdersTab />} */}
-            {/* {activeTab === Tabs.DRAFT && <DraftTab />} */}
             {/* {activeTab === Tabs.COUPON && <CouponTab />} */}
           </div>
         </div>
@@ -86,7 +88,7 @@ const AdminPage = () => {
       {toggleSideBar && (
         <div
           onClick={() => setToggleSideBar(false)}
-          className={`bg-[#0000008d] fixed top-0 left-0 w-full h-screen transition-transform ${
+          className={`z-[1000] bg-[#0000008d] fixed top-0 left-0 w-full h-screen transition-transform ${
             toggleSideBar ? "translate-x-0" : "translate-x-full"
           }`}
         >

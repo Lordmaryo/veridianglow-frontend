@@ -124,7 +124,6 @@ const ProductList = ({ products, isLoading }: ProductListProps) => {
                 // onClick={() => product?._id && deleteProduct(product?._id)}
                 className="hover:bg-zinc-500 py-1 px-2 rounded-md"
               >
-                {/* <Trash className="h-5 w-5" /> */}
                 <Ellipsis className="h-5 w-5" />
               </button>
             </td>

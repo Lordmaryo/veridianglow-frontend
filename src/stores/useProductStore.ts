@@ -7,6 +7,7 @@ export const useProductStore = create<useProductStoreProps>(
   (set, get): useProductStoreProps => ({
     loading: false,
     products: [],
+    singleProduct: null,
 
     setProduct: (products: Product[]) => set({ products }),
 
@@ -80,6 +81,21 @@ export const useProductStore = create<useProductStoreProps>(
           ),
         }));
         toast.success("Product deleted successfully");
+      } finally {
+        set({ loading: false });
+      }
+    },
+
+    updateProduct: async (productId, product) => {
+      set({ loading: true });
+      try {
+        const res = await axios.put<{
+          message: string;
+          updatedProduct: Product;
+        }>(`/product/update/${productId}`, product);
+
+        set({ singleProduct: res.data.updatedProduct });
+        toast.success(res.data.message);
       } finally {
         set({ loading: false });
       }
