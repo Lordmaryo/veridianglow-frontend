@@ -2,54 +2,39 @@ import { useState } from "react";
 import { useProductStore } from "../stores/useProductStore";
 import toast from "react-hot-toast";
 import { productCategories, subCategory } from "../data/product";
-import { Loader, PlusCircle, Upload } from "lucide-react";
+import { Loader, PenLine, Upload } from "lucide-react";
 import AddIngredients from "./AddIngredients";
+import { Product } from "../types/types";
 
-const CreateProductForm = () => {
+const EditProduct = ({
+  onClose,
+  product,
+}: {
+  onClose: (close: null) => void;
+  product: Product;
+}) => {
+  const { updateProduct, loading } = useProductStore();
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: 0.0,
-    discountPrice: 0.0,
-    stock: 0,
-    isOutOfStock: false,
-    howToUse: "",
-    image: "",
-    category: "",
-    subCategory: "",
-    brand: "",
-    ingredients: [""],
-    isFeatured: false,
-    isArchived: true,
+    name: product?.name || "",
+    description: product?.description || "",
+    price: product?.price || 0.0,
+    discountPrice: product?.discountPrice || 0.0,
+    stock: product?.stock || 0,
+    isOutOfStock: product?.isOutOfStock || false,
+    howToUse: product?.howToUse || "",
+    image: product?.image || "",
+    category: product?.category || "",
+    subCategory: product?.subCategory || "MEN" || "WOMEN" || "KIDS" || "ALL",
+    brand: product?.brand || "",
+    ingredients: product?.ingredients?.length ? product.ingredients : [""],
+    isFeatured: product?.isFeatured || false,
+    isArchived: product?.isArchived || false,
   });
-
-  const { createProduct, loading } = useProductStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form data", formData);
-    try {
-      await createProduct(formData);
-      setFormData({
-        name: "",
-        description: "",
-        price: 0.0,
-        discountPrice: 0.0,
-        stock: 0,
-        isOutOfStock: false,
-        howToUse: "",
-        image: "",
-        category: "",
-        subCategory: "",
-        brand: "",
-        ingredients: [""],
-        isFeatured: false,
-        isArchived: true,
-      });
-    } catch (error: any) {
-      toast.error("Error upoading product");
-      console.error("Error creating products", error.response.data.error);
-    }
+    await updateProduct(product._id, formData);
+    onClose(null);
   };
 
   interface ImageChangeEvent extends React.ChangeEvent<HTMLInputElement> {
@@ -73,7 +58,7 @@ const CreateProductForm = () => {
 
   return (
     <div className="max-w-[800px] mx-auto w-full mt-10 mb-4 px-4">
-      <h2 className="text-2xl font-bold capitalize">Create a new product</h2>
+      <h2 className="text-2xl font-bold capitalize">Edit Product</h2>
       <form onSubmit={handleSubmit} className="mt-4 space-y-3">
         <div className="flex items-center gap-4">
           <div className="flex flex-col w-full">
@@ -200,7 +185,11 @@ const CreateProductForm = () => {
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  subCategory: e.target.value.toUpperCase(),
+                  subCategory: e.target.value.toUpperCase() as
+                    | "MEN"
+                    | "WOMEN"
+                    | "KIDS"
+                    | "ALL",
                 })
               }
               required
@@ -234,7 +223,7 @@ const CreateProductForm = () => {
           <input
             id="image"
             type="file"
-            required
+            required={!formData.image}
             onChange={handleImageChange}
             className="sr-only"
             accept="image/*"
@@ -284,25 +273,33 @@ const CreateProductForm = () => {
             }
           />
         </div>
-        <button
-          disabled={loading}
-          className="disabled:opacity-75 cursor-pointer bg-accent text-white w-full py-2 rounded-md hover:opacity-85 transition-opacity"
-        >
-          {loading ? (
-            <div className="flex flex-row justify-center items-center gap-2">
-              <Loader size={20} className="animate-spin" aria-hidden={true} />
-              <span>Loading...</span>
-            </div>
-          ) : (
-            <div className="flex flex-row justify-center items-center gap-2">
-              <PlusCircle size={20} />
-              <span>Create product</span>
-            </div>
-          )}
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => onClose(null)}
+            className="bg-zinc-300 hover:bg-zinc-200 transition px-4 py-2 rounded-md"
+          >
+            Cancel
+          </button>
+          <button
+            disabled={loading}
+            className="disabled:opacity-75 cursor-pointer bg-accent text-white px-4 py-2 rounded-md hover:opacity-85 transition-opacity"
+          >
+            {loading ? (
+              <div className="flex flex-row justify-center items-center gap-2">
+                <Loader size={20} className="animate-spin" aria-hidden={true} />
+                <span>Loading...</span>
+              </div>
+            ) : (
+              <div className="flex flex-row justify-center items-center gap-2">
+                <PenLine size={20} />
+                <span>Save changes</span>
+              </div>
+            )}
+          </button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default CreateProductForm;
+export default EditProduct;

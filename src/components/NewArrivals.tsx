@@ -50,6 +50,7 @@ const NewArrivals = ({ productData }: FeaturedProductsProp) => {
   const newlyAddedProducts = productData?.products.sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
+  
   return (
     <div className="py-12">
       <div className="container mx-auto px-4">

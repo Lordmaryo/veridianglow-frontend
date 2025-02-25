@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CreateProductForm from "../components/CreateProductForm";
 import { IoMenu } from "react-icons/io5";
@@ -8,20 +8,18 @@ import { tabs, Tabs } from "../data/admin";
 import { useAuthStore } from "../stores/useAuthStore";
 import ProductList from "../components/ProductList";
 import { useProductStore } from "../stores/useProductStore";
-import { useQuery } from "@tanstack/react-query";
 import OverviewTab from "../components/OverviewTab";
 import ArchivedTab from "../components/ArchivedTab";
 
 const AdminPage = () => {
-  const [activeTab, setActiveTab] = useState(Tabs.OVERVIEW); // change to overview on production
+  const [activeTab, setActiveTab] = useState(Tabs.OVERVIEW);
   const [toggleSideBar, setToggleSideBar] = useState(false);
   const { logout } = useAuthStore();
-  const { getAllProduct } = useProductStore();
+  const { getAllProduct, products } = useProductStore();
 
-  const { data: products, isLoading } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProduct,
-  });
+  useEffect(() => {
+    getAllProduct();
+  }, []);
 
   return (
     <>
@@ -74,9 +72,7 @@ const AdminPage = () => {
           </div>
           <div className="pt-14 overflow-x-auto">
             {activeTab === Tabs.CREATE && <CreateProductForm />}
-            {activeTab === Tabs.PRODUCTS && (
-              <ProductList products={products} isLoading={isLoading} />
-            )}
+            {activeTab === Tabs.PRODUCTS && <ProductList products={products} />}
             {activeTab === Tabs.OVERVIEW && <OverviewTab />}
             {activeTab === Tabs.ARCHIVED && <ArchivedTab />}
             {/* {activeTab === Tabs.ORDERS && <OrdersTab />} */}

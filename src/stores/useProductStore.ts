@@ -29,6 +29,7 @@ export const useProductStore = create<useProductStoreProps>(
       set({ loading: true });
       try {
         const res = await axios.get("/product");
+        set({ products: res.data });
         return res.data;
       } finally {
         set({ loading: false });
@@ -36,39 +37,31 @@ export const useProductStore = create<useProductStoreProps>(
     },
 
     toggleFeauturedProduct: async (productId) => {
-      set({ loading: true });
-      try {
-        const res = await axios.patch<Product>(
-          `/product/update_feature/${productId}`
-        );
-        set((prevProduct) => ({
-          products: prevProduct.products.map((product) =>
-            product._id === productId
-              ? { ...product, isFeatured: res.data.isFeatured }
-              : product
-          ),
-        }));
-      } finally {
-        set({ loading: false });
-      }
+      const res = await axios.patch<{
+        success: boolean;
+        isFeatured: boolean;
+      }>(`/product/update_feature/${productId}`);
+      console.log("Toggle product", res.data);
+      set((prevProduct) => ({
+        products: prevProduct.products.map((product) =>
+          product._id === productId
+            ? { ...product, isFeatured: res.data.isFeatured }
+            : product
+        ),
+      }));
     },
 
     toggleArchivedProduct: async (productId) => {
-      set({ loading: true });
-      try {
-        const res = await axios.patch<Product>(
-          `/product/update_archived/${productId}`
-        );
-        set((prevProduct) => ({
-          products: prevProduct.products.map((product) =>
-            product._id === productId
-              ? { ...product, isFeatured: res.data.isFeatured }
-              : product
-          ),
-        }));
-      } finally {
-        set({ loading: false });
-      }
+      const res = await axios.patch<{ success: boolean; isArchived: boolean }>(
+        `/product/update_archived/${productId}`
+      );
+      set((prevProduct) => ({
+        products: prevProduct.products.map((product) =>
+          product._id === productId
+            ? { ...product, isArchived: res.data.isArchived }
+            : product
+        ),
+      }));
     },
 
     deleteProduct: async (productId) => {
@@ -94,7 +87,13 @@ export const useProductStore = create<useProductStoreProps>(
           updatedProduct: Product;
         }>(`/product/update/${productId}`, product);
 
-        set({ singleProduct: res.data.updatedProduct });
+        set((prevState) => {
+          return {
+            products: prevState.products.map((product) =>
+              product._id === productId ? res.data.updatedProduct : product
+            ),
+          };
+        });
         toast.success(res.data.message);
       } finally {
         set({ loading: false });
@@ -118,6 +117,7 @@ export const useProductStore = create<useProductStoreProps>(
         const res = await axios.get<Product>(
           `/product/find_product/${productId}`
         );
+        set({ singleProduct: res.data });
         return res.data;
       } finally {
         set({ loading: false });
