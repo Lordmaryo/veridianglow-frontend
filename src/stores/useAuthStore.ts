@@ -190,13 +190,11 @@ axiosInstance.interceptors.response.use(
 /**
  * TODO - disable add button in cart if quantity is greater than stock
  * TODO - fix axios intrceptor it might not be working because of protected route uses 401
- * TODO - implement action to delete or edit in admin
  * TODO - make product card decent in mobile device
+ * TODO - include delivery location and order notes in order response
  * TODO - make the page load faster
  * TODO - complete admin dashboard
- * TODO - modify the getAllProduct for admin to ascend from featured products to others
  * TODO - create get archived products for admin draft
- * TODO - make a react query for creating product
  * TODO - add a placeholder to the video poster in hero
  * TODO - refactor types
  */
