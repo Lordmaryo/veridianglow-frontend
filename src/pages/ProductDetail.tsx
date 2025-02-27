@@ -101,11 +101,14 @@ const ProductDetail = () => {
               Find out more about this product
             </a>
           </div>
-          {product.stock < 3 && (
-            <p>
-              only <span>{product.stock}</span> in stock
-            </p>
-          )}
+          {product.stock < 3 &&
+            (product.isOutOfStock ? (
+              <p className="text-red-500 font-semibold">Out of stock</p>
+            ) : (
+              <p className="text-red-500 font-semibold">
+                only <span>{product.stock}</span> in stock
+              </p>
+            ))}
           {!productExists ? (
             <div className="flex justify-between items-center p-1 border border-accent w-20">
               <button className="inline-flex h-5 w-5 shrink-0 items-center justify-center disabled:opacity-40">
@@ -114,6 +117,7 @@ const ProductDetail = () => {
               <p className="font-bold">1</p>
               <button
                 onClick={() => addToCart(product)}
+                disabled={product.isOutOfStock}
                 className="inline-flex h-5 w-5 shrink-0 items-center justify-center disabled:opacity-40"
               >
                 <Plus />

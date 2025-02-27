@@ -109,7 +109,7 @@ const OrderTab = () => {
                 key={order._id}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="border-b hover:bg-gray-50 cursor-pointer"
+                className="border-b hover:bg-zinc-300 cursor-pointer"
                 onClick={(e) => {
                   if (!(e.target as HTMLElement).closest("button")) {
                     setSelectedOrder(order);

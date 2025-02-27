@@ -8,7 +8,7 @@ interface AnalyticsCard {
 const AnalyticsCard = ({ title, value, icon: Icon, color }: AnalyticsCard) => {
   return (
     <div
-      className={`bg-zinc-200 rounded-lg p-6 shadow-lg overflow-hidden relative ${color}`}
+      className={`rounded-lg p-6 shadow-lg overflow-hidden relative ${color}`}
     >
       <div className="flex justify-between items-center">
         <div className="z-10">

@@ -18,7 +18,7 @@ import {
   Cell,
 } from "recharts";
 import { AnalyticsResponse, DailySales } from "../types/analyticsType";
-import { currencyAbbreviation } from "../utils/utils";
+import { currencyAbbreviation, formatCurrency } from "../utils/utils";
 import LoadingSpinner from "./LoadingSpinner";
 import { COLORS, dateOptions, orderDistributionData } from "../data/admin";
 
@@ -48,7 +48,7 @@ const OverviewTab = () => {
           res.data.dailySalesData.map((item, index) => ({
             day: `Day ${index + 1}`,
             sales: item.sales,
-            revenue: Number(item.revenue),
+            revenue: formatCurrency(Number(item.revenue)),
           }))
         );
       } finally {
@@ -68,31 +68,31 @@ const OverviewTab = () => {
           title="Total Users"
           value={analyticsData.totalUsers.toLocaleString()}
           icon={Users}
-          color="bg-blue-400"
+          color="bg-blue-300"
         />
         <AnalyticsCard
           title="Total Products"
           value={analyticsData.totalProducts.toLocaleString()}
           icon={Package}
-          color="bg-yellow-400"
+          color="bg-yellow-300"
         />
         <AnalyticsCard
           title="Total Sales"
           value={analyticsData.totalSales.toLocaleString()}
           icon={ShoppingCart}
-          color="bg-green-400"
+          color="bg-green-300"
         />
         <AnalyticsCard
           title="Total Revenue"
           value={currencyAbbreviation(analyticsData.totalRevenue)}
           icon={DollarSign}
-          color="bg-purple-400"
+          color="bg-purple-300"
         />
         <AnalyticsCard
           title="Successful Deliveries"
           value={analyticsData.totalSuccessfullDeliveries.toLocaleString()}
           icon={Truck}
-          color="bg-red-500"
+          color="bg-gray-300"
         />
       </div>
 

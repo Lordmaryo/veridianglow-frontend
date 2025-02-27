@@ -1,6 +1,7 @@
 import {
   Address,
   AddressResponse,
+  User,
   useUserStoreProps,
   Wishlists,
 } from "./../types/userTypes";
@@ -12,6 +13,7 @@ export const useUserStore = create<useUserStoreProps>((set) => ({
   address: null,
   wishlists: null,
   loading: false,
+  users: [],
 
   addAddress: async ({ street, city, state, country, zipCode }) => {
     set({ loading: true });
@@ -122,6 +124,16 @@ export const useUserStore = create<useUserStoreProps>((set) => ({
       });
 
       toast.success(res.data.message);
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  getAllUsers: async () => {
+    set({ loading: true });
+    try {
+      const { data } = await axios.get<{ users: User[] }>("/user");
+      set({ users: data.users });
     } finally {
       set({ loading: false });
     }

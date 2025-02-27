@@ -45,7 +45,7 @@ const ProductList = ({ products }: ProductListProps) => {
     );
   return (
     <>
-      <div className="h-screen w-full mt-10 mb-4 px-4 overflow-y-hidden">
+      <div className="h-screen w-full mt-10 mb-4 px-4 ">
         <input
           type="text"
           placeholder="Search product..."

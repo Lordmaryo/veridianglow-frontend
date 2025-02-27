@@ -11,6 +11,7 @@ import { useProductStore } from "../stores/useProductStore";
 import OverviewTab from "../components/OverviewTab";
 import ArchivedTab from "../components/ArchivedTab";
 import OrdersTab from "../components/OrdersTab";
+import CouponTab from "../components/CouponTab";
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState(Tabs.OVERVIEW);
@@ -77,7 +78,7 @@ const AdminPage = () => {
             {activeTab === Tabs.PRODUCTS && <ProductList products={products} />}
             {activeTab === Tabs.ARCHIVED && <ArchivedTab products={products} />}
             {activeTab === Tabs.ORDERS && <OrdersTab />}
-            {/* {activeTab === Tabs.COUPON && <CouponTab />} */}
+            {activeTab === Tabs.COUPON && <CouponTab />}
           </div>
         </div>
       </div>

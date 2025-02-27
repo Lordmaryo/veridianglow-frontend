@@ -72,7 +72,7 @@ const OrderDetailModal = ({
           {selectedOrder.orderNote || "N/A"}
         </p>
         <p className="text-lg font-semibold text-gray-900">
-          <strong>Total Paid:</strong> $
+          <strong>Total Paid:</strong>{" "}
           {formatCurrency(Number(selectedOrder.amountPaid))}
         </p>
       </div>
