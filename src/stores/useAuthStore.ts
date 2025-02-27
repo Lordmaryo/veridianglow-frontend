@@ -8,8 +8,6 @@ import {
   UserResponse,
 } from "../types/types";
 import toast from "react-hot-toast";
-import { AxiosError } from "axios";
-import axiosInstance from "../lib/axios";
 
 // ERRORS ARE HANDLED GLOBALLY USING AXIOS INTERCEPTORS IN LIB FOLDER
 
@@ -112,17 +110,10 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 
     set({ checkingAuth: true });
     try {
-      const res = await axios.post(
-        "/auth/refresh-token",
-        {},
-        { withCredentials: true }
-      );
-
-      set({ user: res.data.user, checkingAuth: false });
-      return res.data.user;
-    } catch (error) {
-      set({ user: null, checkingAuth: false });
-      throw error;
+      const res = await axios.post("/auth/refresh-token");
+      return res.data;
+    } finally {
+      set({ checkingAuth: false });
     }
   },
 
@@ -138,63 +129,11 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
   },
 }));
 
-let refreshPromise: Promise<void> | null = null;
-
-axiosInstance.interceptors.response.use(
-  (response) => response,
-
-  async (error: AxiosError) => {
-    const originalRequest: any = error.config;
-
-    if (error.response?.status === 403) {
-      return Promise.reject(error);
-    }
-
-    if (
-      error.response?.status === 401 &&
-      (originalRequest?.url === "/auth/signin" ||
-        originalRequest?.url === "/auth/logout")
-    ) {
-      return Promise.reject(error);
-    }
-
-    if (error.response?.status === 401 && !originalRequest?._retry) {
-      originalRequest._retry = true;
-
-      try {
-        if (refreshPromise) {
-          await refreshPromise;
-          return axiosInstance(originalRequest);
-        }
-
-        refreshPromise = useAuthStore.getState().refreshToken();
-        await refreshPromise;
-        refreshPromise = null;
-
-        return axiosInstance(originalRequest);
-      } catch (refreshError: any) {
-        if (
-          refreshError.response?.status === 401 ||
-          refreshError.response?.status === 403
-        ) {
-          useAuthStore.getState().logout();
-        }
-        return Promise.reject(refreshError);
-      }
-    }
-
-    return Promise.reject(error);
-  }
-);
-
 /**
  * TODO - disable add button in cart if quantity is greater than stock
- * TODO - fix axios intrceptor it might not be working because of protected route uses 401
  * TODO - make product card decent in mobile device
- * TODO - implement coupon in admin
  * TODO - create checkout page
  * TODO - make the page load faster
- * TODO - complete admin dashboard
  * TODO - add a placeholder to the video poster in hero
  * TODO - refactor types
  */

@@ -8,7 +8,26 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    console.log("inside interceptor");
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        console.log("refreshing token");
+        const { data } = await axiosInstance.post(
+          "/auth/refresh-token",
+          {},
+          { withCredentials: true }
+        );
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${data.accessToken}`;
+        return axiosInstance(originalRequest);
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    }
     handleError(error);
     return Promise.reject(error);
   }
