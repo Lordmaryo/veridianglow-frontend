@@ -1,15 +1,22 @@
 import { create } from "zustand";
-import { CartProducts, Product, useCartStoreProps } from "../types/types";
+import {
+  CartProducts,
+  Coupon,
+  Product,
+  useCartStoreProps,
+} from "../types/types";
 import { loadCartFromLocal, saveCartToLocal } from "../utils/cartUtils";
 import toast from "react-hot-toast";
 import axios from "../lib/axios";
 
 export const useCartStore = create<useCartStoreProps>((set, get) => ({
   cart: loadCartFromLocal(),
+  coupons: null,
   total: 0,
   subTotal: 0,
   loading: false,
   isOutOfStock: false,
+  shouldReinitializeCheckout: false,
 
   addToCart: async (product: Product) => {
     set((prevState) => {
@@ -106,7 +113,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
     const subTotal = cart.reduce((sum, item) => sum + item.total, 0);
     const total = subTotal;
 
-    set(() => ({ subTotal, total }));
+    set(() => ({ subTotal, total, shouldReinitializeCheckout: true }));
   },
 
   // when user buys or logs out
@@ -114,5 +121,19 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
     set({ cart: [] });
     localStorage.removeItem("cart");
     get().calculateTotals();
+  },
+
+  getMyCoupons: async () => {
+    set({ loading: true });
+    try {
+      const res = await axios.get<Coupon[]>("/coupon");
+      set({ coupons: res.data });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  resetReinitializeFlag: () => {
+    set({ shouldReinitializeCheckout: false });
   },
 }));

@@ -9,7 +9,7 @@ const UserAddress = () => {
   const { user } = useAuthStore();
   const {
     editAddress: updateNewAddress,
-    loading, 
+    loading,
     address,
     addAddress,
   } = useUserStore();
@@ -20,10 +20,11 @@ const UserAddress = () => {
     street: user?.address.street || "",
     city: user?.address.city || selectedCity,
     state: user?.address.state || selectedState,
+    buildingType: user?.address.buildingType || "",
     zipCode: user?.address.zipCode || "",
     country: "Nigeria", //  Nigeria should be default until we start reaching other countries
   });
-  
+
   useEffect(() => {
     if (user?.address) {
       setSelectedState(user.address.state || "");
@@ -143,6 +144,28 @@ const UserAddress = () => {
             </div>
           )}
 
+          <div
+            className={
+              !toggleAction ? "md:col-span-2 opacity-50" : "md:col-span-2"
+            }
+          >
+            <label className="text-gray-600 text-sm">
+              Apartment, Suite, Unit ETC (Optional)
+            </label>
+            <input
+              type="text"
+              value={formData.buildingType}
+              onChange={(e) =>
+                setFormData({ ...formData, buildingType: e.target.value })
+              }
+              readOnly={!toggleAction}
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
+                toggleAction
+                  ? "border-gray-400 focus:ring-2 focus:ring-accent"
+                  : "bg-gray-100 text-gray-600 cursor-not-allowed"
+              }`}
+            />
+          </div>
           <div
             className={
               !toggleAction ? "md:col-span-2 opacity-50" : "md:col-span-2"

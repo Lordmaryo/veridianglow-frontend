@@ -131,7 +131,13 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 
 /**
  * TODO - disable add button in cart if quantity is greater than stock
+ * TODO - remove address from user response
+ * TODO - add building type to user address
+ * TODO - create simple coupon page for users
+ * TODO - have a cron job that gets rid of abandoned orders every week
  * TODO - make product card decent in mobile device
+ * TODO - create apartment suite field in address
+ * TODO - add a whatsapp chat icon
  * TODO - create checkout page
  * TODO - make the page load faster
  * TODO - add a placeholder to the video poster in hero

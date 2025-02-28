@@ -1,12 +1,17 @@
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../stores/useAuthStore";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const NotFound = () => {
+  const { checkingAuth } = useAuthStore();
+
+  if (checkingAuth) return <LoadingSpinner />;
   return (
     <div className="px-4 flex flex-col items-center justify-center h-screen text-accent">
       {/* Ghost Animation */}
-        <div className="ghost w-24 h-24 bg-accent rounded-full flex items-center justify-center shadow-lg animate-float">
-          👻
-        </div>
+      <div className="ghost w-24 h-24 bg-accent rounded-full flex items-center justify-center shadow-lg animate-float">
+        👻
+      </div>
 
       {/* Error Message */}
       <h1 className="text-6xl font-bold mt-6">404</h1>

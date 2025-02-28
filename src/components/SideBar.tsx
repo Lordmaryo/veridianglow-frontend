@@ -99,6 +99,16 @@ const SideBar = ({ setToggleNav, logout, user, isAdmin }: SideBarProps) => {
       </div>
 
       <div className="flex gap-4 items-center p-4 border-t px-4">
+        {user && !isAdmin && (
+          <Link to={`/customer/account`}>
+            <button
+              onClick={() => setToggleNav(false)}
+              className="flex flex-row items-center gap-2 bg-accent text-white rounded-md py-1 px-2 hover:opacity-90 transition-opacity"
+            >
+              <span>Your account</span>
+            </button>
+          </Link>
+        )}
         {!user ? (
           <Link
             to={"/signin"}

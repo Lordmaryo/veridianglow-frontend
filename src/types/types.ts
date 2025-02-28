@@ -1,3 +1,5 @@
+import { Address } from "./userTypes";
+
 export interface SignUpProps {
   firstName: string;
   lastName: string;
@@ -31,18 +33,14 @@ export interface useAuthStoreProps {
 
 export interface UserResponse {
   message?: string;
+  email: string;
   status: string;
   userId: string;
   firstName: string;
+  lastName: string;
   role: Roles;
   isVerified: boolean;
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    country: string;
-    zipCode: string;
-  };
+  address: Address;
 }
 
 export enum Roles {
@@ -125,16 +123,29 @@ export interface CartProducts {
 export interface useCartStoreProps {
   cart: CartProducts[];
   total: number;
+  coupons: Coupon[] | null;
   subTotal: number;
+  shouldReinitializeCheckout: boolean;
   loading: boolean;
   isOutOfStock: boolean;
   // addToCart: (product: CartProducts) => Promise<void>;
   addToCart: any;
+  getMyCoupons: () => Promise<void>;
+  resetReinitializeFlag: () => void;
   removeAllFromCart: (productId: string) => Promise<void>;
   updateQuantity: (productId: string, quantity: number) => Promise<void>;
   syncCartToDatabase: (cartItems: CartProducts[]) => void;
   calculateTotals: () => void;
   clearCart: () => void;
+}
+
+export interface Coupon {
+  _id: string;
+  code: string;
+  discountPercentage: number;
+  expirationDate: Date;
+  isActive: boolean;
+  userId: string;
 }
 
 export interface Product {

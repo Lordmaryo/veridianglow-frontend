@@ -49,7 +49,7 @@ const LocationSelector = ({
           type="text"
           value={searchState}
           onChange={(e) => setSearchState(e.target.value)}
-          placeholder="Type to search..."
+          placeholder="Search state..."
           className="w-full p-2 border rounded-md mt-2"
         />
       </div>
@@ -72,7 +72,7 @@ const LocationSelector = ({
           type="text"
           value={searchCity}
           onChange={(e) => setSearchCity(e.target.value)}
-          placeholder="Type to search..."
+          placeholder="Search city..."
           className="w-full p-2 border rounded-md mt-2"
           disabled={!selectedState}
         />

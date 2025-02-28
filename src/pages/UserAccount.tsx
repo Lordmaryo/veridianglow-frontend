@@ -32,6 +32,9 @@ const UserAccount = () => {
             <li className="hover:text-accent transition">
               <NavLink to="/customer/account/wishlist">Wishlist</NavLink>
             </li>
+            <li className="hover:text-accent transition">
+              <NavLink to="/customer/account/coupon">Gifts and coupons</NavLink>
+            </li>
           </ul>
         </nav>
       </aside>

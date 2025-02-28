@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { MdOutlinePerson } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IoMenu } from "react-icons/io5";
 import SideBar from "./SideBar";
 import { useAuthStore } from "../stores/useAuthStore";
@@ -22,6 +22,7 @@ const NavBar = () => {
   const { user, logout } = useAuthStore();
   const { cart } = useCartStore();
   const isAdmin = user?.role === Roles.ADMIN;
+  const location = useLocation();
 
   useEffect(() => {
     if (toggleCart) {
@@ -87,7 +88,16 @@ const NavBar = () => {
             </button>
             <button
               className="relative"
-              onClick={() => setToggleCart(!toggleCart)}
+              onClick={() => {
+                if (
+                  location.pathname === "/checkout" ||
+                  location.pathname === "/cart"
+                ) {
+                  window.location.href = "/cart";
+                } else {
+                  setToggleCart(!toggleCart);
+                }
+              }}
             >
               <div className="flex flex-row gap-1 items-center">
                 <FiShoppingCart size={20} />

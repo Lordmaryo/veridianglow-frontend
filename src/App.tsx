@@ -31,9 +31,12 @@ import { useUserStore } from "./stores/useUserStore";
 import debounce from "lodash/debounce";
 import { isEqual } from "lodash";
 import SearchResults from "./pages/SearchResults";
+import CheckoutPage from "./pages/CheckoutPage";
+import UserCoupon from "./components/UserCoupon";
+import CartPage from "./pages/CartPage";
 
 function App() {
-  const { user, checkAuth } = useAuthStore();
+  const { user, checkAuth, checkingAuth } = useAuthStore();
   const { cart, calculateTotals, syncCartToDatabase } = useCartStore();
   const { loadAddress, getWishlists } = useUserStore();
   const location = useLocation();
@@ -101,11 +104,11 @@ function App() {
               <Route
                 path={`/secrete-dashboard/admin`}
                 element={
-                  // user && user?.role === Roles.ADMIN && user?.isVerified ? (
-                  <AdminPage />
-                  // ) : (
-                  //   <Navigate to={"/"} />
-                  // )
+                  user && user?.role === Roles.ADMIN && user?.isVerified ? (
+                    <AdminPage />
+                  ) : (
+                    <Navigate to={"/"} />
+                  )
                 }
               />
               <Route
@@ -141,10 +144,18 @@ function App() {
                   <Route path="orders" element={<UserOrders />} />
                   <Route path="address" element={<UserAddress />} />
                   <Route path="wishlist" element={<WishList />} />
+                  <Route path="coupon" element={<UserCoupon />} />
                 </Route>
               )}
               <Route path="*" element={<NotFound />} />
               <Route path="/search" element={<SearchResults />} />
+              <Route path="/cart" element={<CartPage />} />
+              {!checkingAuth && (
+                <Route
+                  path="/checkout"
+                  element={user ? <CheckoutPage /> : <Navigate to="/" />}
+                />
+              )}
             </Routes>
           </div>
           {location.pathname !== "/secrete-dashboard/admin" &&

@@ -2,11 +2,11 @@ export interface useUserStoreProps {
   loading: boolean;
   users: User[] | null;
   wishlists: Wishlists[] | null;
-  address: AddressResponse | Address | null;
-  addAddress: (newAddres: Address) => void;
+  address: AddressResponse | null;
+  addAddress: (newAddres: Address) => Promise<void>;
   getAllUsers: () => Promise<void>;
   loadAddress: () => void;
-  editAddress: (address: Address) => void;
+  editAddress: (address: Address) => Promise<void>;
   addToWishlist: (product: Wishlists) => void;
   removeFromWishlist: (product: Wishlists) => void;
   getWishlists: () => void;
@@ -18,6 +18,7 @@ export interface Address {
   state: string;
   country: string;
   zipCode: string;
+  buildingType?: string;
 }
 
 export interface AddressResponse {

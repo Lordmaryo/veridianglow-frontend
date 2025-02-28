@@ -1,5 +1,4 @@
 import {
-  Address,
   AddressResponse,
   User,
   useUserStoreProps,
@@ -15,7 +14,7 @@ export const useUserStore = create<useUserStoreProps>((set) => ({
   loading: false,
   users: [],
 
-  addAddress: async ({ street, city, state, country, zipCode }) => {
+  addAddress: async ({ street, city, state, country, zipCode, buildingType }) => {
     set({ loading: true });
     try {
       const res = await axios.post<AddressResponse>("/user/address", {
@@ -24,6 +23,7 @@ export const useUserStore = create<useUserStoreProps>((set) => ({
         state,
         country,
         zipCode,
+        buildingType
       });
       toast.success(res.data.message);
       set({ address: res.data, loading: false });
@@ -32,7 +32,7 @@ export const useUserStore = create<useUserStoreProps>((set) => ({
     }
   },
 
-  editAddress: async ({ street, city, state, country, zipCode }) => {
+  editAddress: async ({ street, city, state, country, zipCode, buildingType }) => {
     set({ loading: true });
     try {
       const res = await axios.put<AddressResponse>("/user/edit/address", {
@@ -41,6 +41,7 @@ export const useUserStore = create<useUserStoreProps>((set) => ({
         state,
         country,
         zipCode,
+        buildingType
       });
       toast.success(res.data.message);
       set({ address: res.data });
@@ -52,8 +53,8 @@ export const useUserStore = create<useUserStoreProps>((set) => ({
   loadAddress: async () => {
     set({ loading: true });
     try {
-      const res = await axios.get<{ address: Address }>("/user/address");
-      set({ address: res.data.address });
+      const res = await axios.get<AddressResponse>("/user/address");
+      set({ address: res.data });
     } finally {
       set({ loading: false });
     }
