@@ -105,18 +105,6 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
     }
   },
 
-  refreshToken: async () => {
-    if (get().checkingAuth) return;
-
-    set({ checkingAuth: true });
-    try {
-      const res = await axios.post("/auth/refresh-token");
-      return res.data;
-    } finally {
-      set({ checkingAuth: false });
-    }
-  },
-
   verifyEmail: async (code) => {
     set({ loading: true });
     try {
@@ -130,16 +118,12 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 }));
 
 /**
- * TODO - disable add button in cart if quantity is greater than stock
- * TODO - remove address from user response
- * TODO - add building type to user address
- * TODO - create simple coupon page for users
- * TODO - have a cron job that gets rid of abandoned orders every week
+ * TODO - disable plus button in cart if quantity is greater than stock
+ * TODO - make products in cart clickable
  * TODO - make product card decent in mobile device
  * TODO - fix the issue of giving users free coupon only when they initialize
- * TODO - create apartment suite field in address
  * TODO - add a whatsapp chat icon
- * TODO - create checkout page
+ * TODO - clear the entire project of unnecessary code
  * TODO - make the page load faster
  * TODO - add a placeholder to the video poster in hero
  * TODO - refactor types

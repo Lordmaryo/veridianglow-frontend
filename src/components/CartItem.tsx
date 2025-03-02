@@ -44,7 +44,7 @@ const CartItem = ({
             </button>
             <p className="font-bold text-sm">{item.quantity}</p>
             <button
-              disabled={item.isOutOfStock}
+              disabled={item.quantity > item.stock}
               onClick={() => updateQuantity(item.id, item.quantity + 1)}
               className="inline-flex h-3 w-3 shrink-0 items-center justify-center disabled:opacity-50"
             >
