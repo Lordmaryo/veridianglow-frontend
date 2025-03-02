@@ -102,7 +102,7 @@ const ProductDetail = () => {
             </a>
           </div>
           {product.stock < 3 &&
-            (product.isOutOfStock ? (
+            (product.stock < 1 ? (
               <p className="text-red-500 font-semibold">Out of stock</p>
             ) : (
               <p className="text-red-500 font-semibold">
@@ -117,7 +117,7 @@ const ProductDetail = () => {
               <p className="font-bold">1</p>
               <button
                 onClick={() => addToCart(product)}
-                disabled={product.isOutOfStock}
+                disabled={product.stock < 1}
                 className="inline-flex h-5 w-5 shrink-0 items-center justify-center disabled:opacity-40"
               >
                 <Plus />
@@ -156,7 +156,7 @@ const ProductDetail = () => {
           <div className="flex items-center">
             <button
               onClick={() => addToCart(product)}
-              disabled={product.isOutOfStock}
+              disabled={product.stock < 1}
               className="w-full py-2 bg-accent text-textOnAccent rounded-l-lg hover:opacity-85 transition disabled:opacity-50"
             >
               Add to cart{" "}

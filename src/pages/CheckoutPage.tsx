@@ -1,4 +1,3 @@
-import { Loader } from "lucide-react";
 import LocationSelector from "../components/LocationSelector";
 import { useAuthStore } from "../stores/useAuthStore";
 import { useCartStore } from "../stores/useCartStore";
@@ -9,11 +8,22 @@ import { isFormComplete } from "../utils/paymentUtils";
 import OrderPayment from "../components/OrderPayment";
 import { Coupon } from "../types/types";
 
+/**
+ * Checkout Page Logic
+ *
+ * How the checkout logic was done was that before you try to checkout you have
+ * to be authenticated to prevent fraudulent activities from taking place. there's
+ * a useEffect that monitors cart changes and syncs to database every time a cart changes when user is
+ * authenticated. so the cart is being mapped on the backend when you trigger a checkout. The database
+ * uses the latest cart updates to calculate everything sending you responses that includes the totalAmount
+ * @component
+ */
 const CheckoutPage = () => {
-  const { cart, resetReinitializeFlag, shouldReinitializeCheckout } =
+  const { resetReinitializeFlag, shouldReinitializeCheckout, cart } =
     useCartStore();
   const { user } = useAuthStore();
-  const { loading, initializeCheckout, paymentResponse } = usePaymentStore();
+  const { initializePayment, calculateOrderDetails, detailsResponse } =
+    usePaymentStore();
   const { selectedState, selectedCity } = useLocationStore();
   const [couponCode, setCouponCode] = useState<Coupon["code"]>("");
 
@@ -46,56 +56,79 @@ const CheckoutPage = () => {
   }, [selectedCity, selectedState]);
 
   useEffect(() => {
-    if (shouldReinitializeCheckout && isFormDataComplete && paymentResponse) {
-      const products = cart.map((item) => ({
-        productName: item.name,
-        productId: item.id,
-        quantity: item.quantity,
-        price: item.discountPrice,
-      }));
-
-      initializeCheckout({
-        products,
+    if (
+      (shouldReinitializeCheckout && isFormDataComplete) ||
+      isFormDataComplete ||
+      (isFormDataComplete && couponCode.trim().length === 10)
+    ) {
+      calculateOrderDetails({
         location: formData.location,
-        currency: "NGN",
         phoneNumber: formData.phoneNumber,
         couponCode,
-        orderNote: formData.additionalNote,
-        email: formData.email,
       });
 
       resetReinitializeFlag();
     }
-  }, [formData, shouldReinitializeCheckout]);
+  }, [
+    shouldReinitializeCheckout,
+    isFormDataComplete,
+    cart,
+    couponCode.trim().length === 10,
+  ]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const products = cart.map((item) => ({
-      productName: item.name,
-      productId: item.id,
-      quantity: item.quantity,
-      price: item.discountPrice,
-    }));
 
-    await initializeCheckout({
-      products,
+    await calculateOrderDetails({
       location: formData.location,
-      currency: "NGN",
       phoneNumber: formData.phoneNumber,
       couponCode,
-      orderNote: formData.additionalNote,
-      email: formData.email,
     });
 
     resetReinitializeFlag();
   };
 
+  const handlePayment = async () => {
+    if (!detailsResponse) {
+      throw new Error("Fill in required order details to procceed");
+    }
+    await initializePayment({
+      location: formData.location,
+      couponCode,
+      orderNote: formData.additionalNote,
+      phoneNumber: formData.phoneNumber,
+      deliveryFee: detailsResponse?.deliveryFee,
+      discountedTotal: detailsResponse?.discountedTotal,
+      subtotal: detailsResponse?.subtotal,
+      tax: detailsResponse?.tax,
+      totalAmount: detailsResponse?.totalAmount,
+    });
+
+    console.log(
+      "Every data needed",
+      formData.location,
+      couponCode,
+      formData.additionalNote,
+      formData.phoneNumber,
+      detailsResponse?.deliveryFee,
+      detailsResponse?.discountedTotal,
+      detailsResponse?.subtotal,
+      detailsResponse?.tax,
+      detailsResponse?.totalAmount
+    );
+  };
+
   return (
     <div className="min-h-screen p-4 lg:flex gap-6 justify-between items-start mt-4">
       <div className="lg:w-1/2 mb-4">
-        <div className="flex flex-col mb-10">
-          <label htmlFor="coupon-code">Have any coupon? add here</label>
-          <div className="relative">
+        <div className="flex items-end gap-4 mb-6">
+          <div className="flex flex-col w-full">
+            <label
+              htmlFor="coupon-code"
+              className="text-sm font-medium text-gray-700 mb-2"
+            >
+              Have any coupon? Add here
+            </label>
             <input
               id="coupon-code"
               type="text"
@@ -103,36 +136,26 @@ const CheckoutPage = () => {
               onChange={(e) => setCouponCode(e.target.value)}
               required
               placeholder="Coupon or gift code"
-              className="bg-zinc-200 w-full outline-none p-2 rounded-md"
+              className="bg-zinc-100 border border-gray-300 w-full outline-none px-3 py-2 rounded-md focus:ring-2 focus:ring-accent"
             />
           </div>
         </div>
+
         <h2 className="text-xl text-zinc-700 font-semibold mb-4">
           Delivery details
         </h2>
-        <form
-          className="space-y-4"
-          onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
-          onSubmit={handleSubmit}
-        >
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-col">
-            <div className="flex justify-between items-center gap-2">
-              <label htmlFor="email">Email *</label>
-              <button className="underline" type="button">
-                Logout
-              </button>
-            </div>
-            <div className="relative">
-              <input
-                id="email"
-                type="text"
-                value={formData.email}
-                required
-                readOnly
-                placeholder="johndoe@gmail.com"
-                className="bg-zinc-200 w-full outline-none p-2 rounded-md cursor-not-allowed opacity-40"
-              />
-            </div>
+            <label htmlFor="email">Email *</label>
+            <input
+              id="email"
+              type="text"
+              value={formData.email}
+              required
+              readOnly
+              placeholder="johndoe@gmail.com"
+              className="bg-zinc-200 w-full outline-none p-2 rounded-md cursor-not-allowed opacity-40"
+            />
           </div>
 
           <div className="flex item-center gap-2">
@@ -143,51 +166,45 @@ const CheckoutPage = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
               <label htmlFor="firstName">Firstname *</label>
-              <div className="relative">
-                <input
-                  id="firstName"
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, firstName: e.target.value })
-                  }
-                  required
-                  placeholder="John"
-                  className="bg-zinc-200 w-full outline-none p-2 rounded-md"
-                />
-              </div>
+              <input
+                id="firstName"
+                type="text"
+                value={formData.firstName}
+                onChange={(e) =>
+                  setFormData({ ...formData, firstName: e.target.value })
+                }
+                required
+                placeholder="John"
+                className="bg-zinc-200 w-full outline-none p-2 rounded-md"
+              />
             </div>
             <div className="flex flex-col">
               <label htmlFor="lastname">Lastname *</label>
-              <div className="relative">
-                <input
-                  id="lastname"
-                  type="text"
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, lastName: e.target.value })
-                  }
-                  required
-                  placeholder="Doe"
-                  className="bg-zinc-200 w-full outline-none p-2 rounded-md"
-                />
-              </div>
+              <input
+                id="lastname"
+                type="text"
+                value={formData.lastName}
+                onChange={(e) =>
+                  setFormData({ ...formData, lastName: e.target.value })
+                }
+                required
+                placeholder="Doe"
+                className="bg-zinc-200 w-full outline-none p-2 rounded-md"
+              />
             </div>
           </div>
 
           <div className="flex flex-col opacity-40">
             <label htmlFor="country">Country</label>
-            <div className="relative">
-              <input
-                id="country"
-                type="text"
-                required
-                readOnly
-                value={formData.location.country}
-                placeholder="Nigeria"
-                className="bg-zinc-200 w-full outline-none p-2 rounded-md cursor-not-allowed"
-              />
-            </div>
+            <input
+              id="country"
+              type="text"
+              required
+              readOnly
+              value={formData.location.country}
+              placeholder="Nigeria"
+              className="bg-zinc-200 w-full outline-none p-2 rounded-md cursor-not-allowed"
+            />
           </div>
           <div className="md:col-span-2">
             <LocationSelector
@@ -273,25 +290,14 @@ const CheckoutPage = () => {
               className="bg-zinc-200 h-28 w-full outline-none py-2 px-4 rounded-md"
             />
           </div>
-
-          <button
-            disabled={!isFormDataComplete}
-            className="disabled:opacity-50 disabled:hover:opacity:40 w-full py-3 bg-accent hover:opacity-85 text-textOnAccent font-semibold rounded-md"
-          >
-            {loading ? (
-              <div className="flex flex-row justify-center items-center gap-2">
-                <Loader size={20} className="animate-spin" aria-hidden={true} />
-                <span>Loading...</span>
-              </div>
-            ) : (
-              <span>Confirm</span>
-            )}
-          </button>
         </form>
       </div>
 
       {/* Orders */}
-      <OrderPayment />
+      <OrderPayment
+        handlePayment={handlePayment}
+        isFormDataComplete={isFormDataComplete}
+      />
     </div>
   );
 };

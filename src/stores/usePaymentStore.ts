@@ -1,42 +1,80 @@
 import { create } from "zustand";
 import {
-  CheckoutDetails,
+  CalculateOrderResponse,
   InitializeCheckoutResponse,
   UsePaymentStoreProps,
 } from "../types/paymentType";
 import axios from "../lib/axios";
+import toast from "react-hot-toast";
 
 export const usePaymentStore = create<UsePaymentStoreProps>((set, get) => ({
   paymentResponse: null,
-  productsOrder: null, // TODO: check this
+  detailsResponse: null,
   loading: false,
+  verifyPaymentResponse: null,
 
-  initializeCheckout: async ({
-    products,
+  initializePayment: async ({
     location,
-    currency,
     couponCode,
     orderNote,
     phoneNumber,
-  }: CheckoutDetails) => {
+    subtotal,
+    deliveryFee,
+    tax,
+    totalAmount,
+    discountedTotal,
+  }) => {
+    console.log("In initialize payment");
+    set({ loading: true });
+    const res = await axios.post<InitializeCheckoutResponse>(
+      "/payment/initialize_checkout",
+      {
+        location,
+        couponCode,
+        orderNote,
+        phoneNumber,
+        subtotal,
+        deliveryFee,
+        tax,
+        totalAmount,
+        discountedTotal,
+      }
+    );
+
+    set({ paymentResponse: res.data });
+    console.log("payment initialized... response", res.data);
+    if (res.data.paystackResponse.status) {
+      window.location.href = res.data.paystackResponse.data.authorization_url;
+    }
+  },
+
+  calculateOrderDetails: async ({ location, couponCode, phoneNumber }) => {
     set({ loading: true });
     try {
-      const res = await axios.post<InitializeCheckoutResponse>(
-        "/payment/initialize_checkout",
+      const res = await axios.post<CalculateOrderResponse>(
+        "/payment/calculate_order",
         {
-          products,
           location,
-          currency,
           couponCode,
-          orderNote,
           phoneNumber,
         }
       );
 
-      if (res.status === 200) set({ productsOrder: products });
-      set({ paymentResponse: res.data });
+      if (res.data.discountedTotal > 0) {
+        toast.success("Discount successfully calculated", { id: "success" });
+      }
+
+      set({ detailsResponse: res.data });
     } finally {
       set({ loading: false });
     }
+  },
+
+  setLoadingState: (loadingState) => {
+    set({ loading: loadingState });
+  },
+
+  setVerifyPaymentResponse: async (response) => {
+    set({ verifyPaymentResponse: response });
   },
 }));

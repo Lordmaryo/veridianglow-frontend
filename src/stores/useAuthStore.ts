@@ -136,6 +136,7 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
  * TODO - create simple coupon page for users
  * TODO - have a cron job that gets rid of abandoned orders every week
  * TODO - make product card decent in mobile device
+ * TODO - fix the issue of giving users free coupon only when they initialize
  * TODO - create apartment suite field in address
  * TODO - add a whatsapp chat icon
  * TODO - create checkout page

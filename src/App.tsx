@@ -34,10 +34,15 @@ import SearchResults from "./pages/SearchResults";
 import CheckoutPage from "./pages/CheckoutPage";
 import UserCoupon from "./components/UserCoupon";
 import CartPage from "./pages/CartPage";
+import PaymentFailed from "./pages/PaymentFailed";
+import { usePaymentStore } from "./stores/usePaymentStore";
+import PaymentSucess from "./pages/PaymentSuccess";
+import VerifyPayment from "./pages/VerifyPayment";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
   const { cart, calculateTotals, syncCartToDatabase } = useCartStore();
+  const { verifyPaymentResponse } = usePaymentStore(); // payment
   const { loadAddress, getWishlists } = useUserStore();
   const location = useLocation();
 
@@ -150,6 +155,22 @@ function App() {
               <Route path="*" element={<NotFound />} />
               <Route path="/search" element={<SearchResults />} />
               <Route path="/cart" element={<CartPage />} />
+              {user && verifyPaymentResponse && (
+                <Route
+                  path="/order/payment-failed"
+                  element={<PaymentFailed />}
+                />
+              )}
+              {user && verifyPaymentResponse && (
+                <Route
+                  path="/order/payment-success"
+                  element={<PaymentSucess />}
+                />
+              )}
+              <Route
+                path="/payment/verify-payment"
+                element={<VerifyPayment />}
+              />
               {!checkingAuth && (
                 <Route
                   path="/checkout"

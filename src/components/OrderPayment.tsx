@@ -1,11 +1,17 @@
-import { Lock } from "lucide-react";
 import { useCartStore } from "../stores/useCartStore";
 import { formatCurrency } from "../utils/utils";
 import { usePaymentStore } from "../stores/usePaymentStore";
+import PaystackPayNow from "./PaystackPayNow";
 
-const OrderPayment = () => {
+const OrderPayment = ({
+  isFormDataComplete,
+  handlePayment,
+}: {
+  handlePayment: () => Promise<void>;
+  isFormDataComplete: boolean;
+}) => {
   const { cart, subTotal, shouldReinitializeCheckout } = useCartStore();
-  const { paymentResponse } = usePaymentStore();
+  const { paymentResponse, detailsResponse } = usePaymentStore();
 
   return (
     <div className="lg:w-[40%] ">
@@ -44,26 +50,26 @@ const OrderPayment = () => {
             <span>{formatCurrency(subTotal)}</span>
           </div>
 
-          {paymentResponse && paymentResponse.discountedTotal > 0 && (
+          {detailsResponse && detailsResponse.discountedTotal > 0 && (
             <div className="flex justify-between items-center gap-4">
               <span className="font-bold">Discount</span>
-              <span>-{formatCurrency(paymentResponse.discountedTotal)}</span>
+              <span>-{formatCurrency(detailsResponse.discountedTotal)}</span>
             </div>
           )}
 
           <div className="flex justify-between items-center gap-4">
             <span className="font-bold">Shipping</span>
             <span>
-              {paymentResponse && paymentResponse.deliveryFee
-                ? formatCurrency(paymentResponse.deliveryFee)
+              {detailsResponse && detailsResponse.deliveryFee
+                ? formatCurrency(detailsResponse.deliveryFee)
                 : "Confirm shipping address"}
             </span>
           </div>
           <div className="flex justify-between items-center gap-4">
             <span className="font-bold">Total</span>
             <span>
-              {paymentResponse && paymentResponse.totalAmount
-                ? formatCurrency(paymentResponse.totalAmount)
+              {detailsResponse && detailsResponse.totalAmount
+                ? formatCurrency(detailsResponse.totalAmount)
                 : formatCurrency(subTotal)}
             </span>
           </div>
@@ -83,13 +89,10 @@ const OrderPayment = () => {
           After clicking “Pay now”, you will be redirected to Paystack to
           complete your purchase securely.
         </p>
-        <button
-          disabled={shouldReinitializeCheckout}
-          className="disabled:opacity-50 disabled:hover:opacity:40 mt-10 flex gap-2 bg-accent w-full justify-center items-center py-3 rounded-md hover:opacity-85 transition"
-        >
-          <Lock />
-          <span>Pay Now</span>
-        </button>
+        <PaystackPayNow
+          handlePayment={handlePayment}
+          isFormDataComplete={isFormDataComplete}
+        />
       </div>
     </div>
   );
