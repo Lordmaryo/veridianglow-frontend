@@ -118,10 +118,8 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 }));
 
 /**
- * TODO - disable plus button in cart if quantity is greater than stock
- * TODO - make products in cart clickable
  * TODO - make product card decent in mobile device
- * TODO - fix the issue of giving users free coupon only when they initialize
+ * TODO - improve search in navigation on the backend
  * TODO - add a whatsapp chat icon
  * TODO - clear the entire project of unnecessary code
  * TODO - make the page load faster

@@ -37,6 +37,7 @@ const Cart = ({
         <div className="flex-1 overflow-y-auto px-4 pt-4">
           {cart.map((item) => (
             <CartItem
+              setToggleCart={setToggleCart}
               key={item.id}
               item={item}
               updateQuantity={updateQuantity}

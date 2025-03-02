@@ -75,7 +75,7 @@ const CreateProductForm = () => {
     <div className="max-w-[800px] mx-auto w-full mt-10 mb-4 px-4">
       <h2 className="text-2xl font-bold capitalize">Create a new product</h2>
       <form onSubmit={handleSubmit} className="mt-4 space-y-3">
-        <div className="flex items-center gap-4">
+        <div className="flex lg:flex-row flex-col items-center gap-4">
           <div className="flex flex-col w-full">
             <label htmlFor="product-name">Product name</label>
             <input
@@ -135,7 +135,7 @@ const CreateProductForm = () => {
           </div>
           <div className="flex flex-col w-full">
             <label htmlFor="discount-price">
-              Discount Price / Selling Price
+              Discount / Selling Price
             </label>
             <input
               id="discount-price"

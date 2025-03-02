@@ -6,11 +6,11 @@ const SignInPage = () => {
   const [toggleEvent, setToggleEvent] = useState(false);
 
   return (
-    <div>
+    <div className="min-h-screen">
       {toggleEvent ? (
-        <LoginContainer setToggleEvent={setToggleEvent} />
-      ) : (
         <SignUpContainer setToggleEvent={setToggleEvent} />
+      ) : (
+        <LoginContainer setToggleEvent={setToggleEvent} />
       )}
     </div>
   );

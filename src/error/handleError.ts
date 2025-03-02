@@ -15,5 +15,9 @@ export const handleError = (error: any, customMessage?: string) => {
     errorMessage = "Password must be 8 or more characters";
   }
 
+  if (errorMessage === "Refresh token not found") {
+    return;
+  }
+
   toast.error(errorMessage, { id: "error" });
 };

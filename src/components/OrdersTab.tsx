@@ -38,7 +38,7 @@ const OrderTab = () => {
 
   const markAsShipped = (id: string) => {
     confirmAction(
-      "Are you sure you want to mark this order as shipped?",
+      "Are you sure you want to mark this order as shipped? Selected customer will recieve an email update about this order",
       () => {
         updateOrderStatus(id, OrderStatus.SHIPPED);
         updateStatus(id, OrderStatus.SHIPPED);
@@ -48,7 +48,7 @@ const OrderTab = () => {
 
   const markAsDelivered = (id: string) => {
     confirmAction(
-      "Are you sure you want to mark this order as delivered?",
+      "Are you sure you want to mark this order as delivered? Selected customer will recieve an email update about this order",
       () => {
         updateOrderStatus(id, OrderStatus.DELIVERED);
         updateStatus(id, OrderStatus.DELIVERED);

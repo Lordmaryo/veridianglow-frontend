@@ -9,10 +9,17 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log("inside interceptor");
     const originalRequest = error.config;
+    if (
+      originalRequest.url === "/auth/signIn" ||
+      originalRequest.url === "/auth/logout"
+    ) {
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
       try {
         console.log("refreshing token");
         const { data } = await axiosInstance.post(

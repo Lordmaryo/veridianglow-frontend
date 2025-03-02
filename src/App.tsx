@@ -155,7 +155,7 @@ function App() {
               <Route path="*" element={<NotFound />} />
               <Route path="/search" element={<SearchResults />} />
               <Route path="/cart" element={<CartPage />} />
-              {user && verifyPaymentResponse && (
+              {user && (
                 <Route
                   path="/order/payment-failed"
                   element={<PaymentFailed />}

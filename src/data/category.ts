@@ -104,7 +104,7 @@ export const NavCategories = [
       },
     ],
   },
-  { href: "/#", name: "Consultation" },
+  // { href: "/#", name: "Consultation" },
 ];
 
 export const shopByCategory = [
