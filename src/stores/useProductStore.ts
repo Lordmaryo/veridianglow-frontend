@@ -15,10 +15,12 @@ export const useProductStore = create<useProductStoreProps>(
       try {
         set({ loading: true });
         const res = await axios.post("/product", newProduct);
-        set((prevState: { products: Product[] }) => ({
-          products: [...prevState.products, res.data],
+
+        set((state) => ({
+          products: [...state.products, res.data],
           loading: false,
         }));
+
         toast.success("Product uploaded!");
       } finally {
         set({ loading: false });

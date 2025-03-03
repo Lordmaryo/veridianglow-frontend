@@ -1,27 +1,23 @@
 import { Archive, Ellipsis, PenLine, Star, Trash } from "lucide-react";
 import { useProductStore } from "../stores/useProductStore";
-import { Product } from "../types/types";
 import { formatCurrency } from "../utils/utils";
 import { useState } from "react";
 import EditProduct from "./EditProduct";
 
-interface ProductListProps {
-  products: Product[] | undefined;
-}
-
-const ProductList = ({ products }: ProductListProps) => {
+const ProductList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [toggleAction, setToggleAction] = useState<string | null>(null);
+  const { products } = useProductStore();
   const [deleteProductId, setDeleteProductId] = useState<string | null>(null);
   const [updateProductId, setUpdateProductId] = useState<string | null>(null);
   const { deleteProduct, toggleFeauturedProduct, toggleArchivedProduct } =
     useProductStore();
 
-  const filteredProducts =
-    products &&
-    products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  if (!products) return <div>Updating products...</div>;
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const toggleActionMenu = (productId: string) => {
     setToggleAction((prev) => (prev === productId ? null : productId));

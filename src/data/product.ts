@@ -12,6 +12,8 @@ export const productCategories = [
   "Sunscreens",
   "Lip Care",
   "Asian Skin Care",
+  "Tools and kits",
+  "Bath and body",
   "Eye Creams",
   "Concealers",
   "Blushes",

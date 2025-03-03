@@ -21,7 +21,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     getAllProduct();
-  }, []);
+  }, [products.length]);
 
   return (
     <>
@@ -75,7 +75,7 @@ const AdminPage = () => {
           <div className="pt-14 overflow-x-auto">
             {activeTab === Tabs.OVERVIEW && <OverviewTab />}
             {activeTab === Tabs.CREATE && <CreateProductForm />}
-            {activeTab === Tabs.PRODUCTS && <ProductList products={products} />}
+            {activeTab === Tabs.PRODUCTS && <ProductList />}
             {activeTab === Tabs.ARCHIVED && <ArchivedTab products={products} />}
             {activeTab === Tabs.ORDERS && <OrdersTab />}
             {activeTab === Tabs.COUPON && <CouponTab />}
