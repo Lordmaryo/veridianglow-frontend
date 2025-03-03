@@ -11,6 +11,7 @@ export const productCategories = [
   "Toners",
   "Sunscreens",
   "Lip Care",
+  "Asian Skin Care",
   "Eye Creams",
   "Concealers",
   "Blushes",
@@ -41,6 +42,7 @@ export const productCategories = [
   "Organic & Natural",
   "Anti-Aging Products",
   "Face Toner",
+  "Skin Repair",
 ];
 
 export const subCategory = ["All", "Men", "Women", "Kids"];

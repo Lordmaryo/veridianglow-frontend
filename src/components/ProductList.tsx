@@ -17,9 +17,11 @@ const ProductList = ({ products }: ProductListProps) => {
   const { deleteProduct, toggleFeauturedProduct, toggleArchivedProduct } =
     useProductStore();
 
-  const filteredProducts = products?.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts =
+    products &&
+    products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   const toggleActionMenu = (productId: string) => {
     setToggleAction((prev) => (prev === productId ? null : productId));

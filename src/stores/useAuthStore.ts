@@ -118,7 +118,6 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 }));
 
 /**
- * TODO - make product card decent in mobile device
  * TODO - improve search in navigation on the backend
  * TODO - add a whatsapp chat icon
  * TODO - clear the entire project of unnecessary code

@@ -38,6 +38,7 @@ import PaymentFailed from "./pages/PaymentFailed";
 import { usePaymentStore } from "./stores/usePaymentStore";
 import PaymentSucess from "./pages/PaymentSuccess";
 import VerifyPayment from "./pages/VerifyPayment";
+import NavSubCatgory from "./pages/NavSubCategory";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -136,8 +137,12 @@ function App() {
                 element={<MenCategoryPage />}
               />
               <Route
-                path="/category/:mainCategory/:otherCategory?"
+                path="/category/:mainCategory"
                 element={<NavCategory />}
+              />
+              <Route
+                path="/category/:mainCategory/:otherCategory"
+                element={<NavSubCatgory />}
               />
               <Route path="/for-men" element={<ForMen />} />
               <Route path="/for-kids" element={<ForKids />} />

@@ -4,7 +4,7 @@ import axios from "../lib/axios";
 import { CreateProduct, Product, useProductStoreProps } from "../types/types";
 
 export const useProductStore = create<useProductStoreProps>(
-  (set, get): useProductStoreProps => ({
+  (set): useProductStoreProps => ({
     loading: false,
     products: [],
     singleProduct: null,
@@ -153,14 +153,9 @@ export const useProductStore = create<useProductStoreProps>(
       return res.data;
     },
 
-    getProductsByDifferentCategories: async (
-      page,
-      limit,
-      mainCategory,
-      otherCategory
-    ) => {
+    getProductsByOtherCategories: async (page, limit, otherCategory) => {
       const res = await axios.get(
-        `/product/different_category/${mainCategory}/${otherCategory}?page=${page}&limit=${limit}`
+        `/product/products_by_other_category/${otherCategory}/?page=${page}&limit=${limit}`
       );
       return res.data;
     },

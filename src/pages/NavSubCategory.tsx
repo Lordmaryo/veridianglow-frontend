@@ -1,39 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
-import { ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import { Link, useParams } from "react-router-dom";
+import { useProductStore } from "../stores/useProductStore";
+import { useQuery } from "@tanstack/react-query";
 import { sortingOptions } from "../data/product";
-import { ProductResponse } from "../types/types";
+import { ChevronRight } from "lucide-react";
+import ProductCard from "../components/ProductCard";
 
-interface NavPagesProps {
-  title: string;
-  imageSrc: string;
-  fetchProducts: (
-    page: number,
-    limit: number,
-    mainCategory: string,
-    otherCategory: string | undefined
-  ) => Promise<ProductResponse>;
-  queryKey: string;
-  mainCategory: string;
-  otherCategory?: string;
-}
+const NavSubCatgory = () => {
+  const { otherCategory, mainCategory } = useParams();
+  const otherCategoryProduct = otherCategory?.replace(/-/g, " ");
+  const mainCategoryProduct = mainCategory?.replace(/-/g, " ");
+  const { getProductsByOtherCategories } = useProductStore();
 
-const NavPages = ({
-  title,
-  imageSrc,
-  fetchProducts,
-  queryKey,
-  mainCategory,
-  otherCategory,
-}: NavPagesProps) => {
   const [limit, setLimit] = useState(20);
   const [page, setPage] = useState(1);
 
   const { data } = useQuery({
-    queryKey: [queryKey, page, limit],
-    queryFn: () => fetchProducts(page, limit, mainCategory, otherCategory),
+    queryKey: ["other categories", page, limit, otherCategoryProduct],
+    queryFn: () =>
+      getProductsByOtherCategories(page, limit, otherCategoryProduct || ""),
   });
 
   const [sortedProducts, setSortedProducts] = useState(data?.products || []);
@@ -69,20 +54,18 @@ const NavPages = ({
       <div className="relative">
         <div className="sm:h-80 h-60 w-full">
           <img
-            src={imageSrc}
+            src={"/planeskincare.webp"}
             className="object-cover scale-x-[-1] w-full h-full"
           />
         </div>
         <div className="bg-[#00000092] w-full sm:h-80 h-60 absolute top-0" />
         <div className="text-white px-4 absolute bottom-6 flex justify-between items-end w-full">
           <div>
-            {otherCategory !== undefined && (
-              <h4 className="capitalize font-semibold pb-1 sm:text-xl text-accent">
-                {otherCategory}
-              </h4>
-            )}
+            <h4 className="capitalize font-semibold pb-1 sm:text-xl text-accent">
+              {otherCategoryProduct}
+            </h4>
             <h3 className="capitalize font-semibold md:text-5xl sm:text-4xl text-xl">
-              {title}
+              {mainCategoryProduct}
             </h3>
           </div>
           <div className="flex items-center gap-2 text-sm">
@@ -112,11 +95,18 @@ const NavPages = ({
       </div>
       <hr className="w-full border-black pt-10 px-4" />
       <div className="flex flex-col gap-4 max-w-[1240px] mx-auto px-4">
-        <div className="grid grid-cols-2 place-items-center sm:flex gap-4 flex-wrap">
-          {sortedProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
+        {sortedProducts.length > 0 ? (
+          <div className="grid grid-cols-2 place-items-center sm:flex gap-4 flex-wrap">
+            {sortedProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="h-screen">
+            <p>No product based on this category yet</p>
+          </div>
+        )}
+
         {hasMoreProducts && (
           <button
             onClick={handlePageLimit}
@@ -130,4 +120,4 @@ const NavPages = ({
   );
 };
 
-export default NavPages;
+export default NavSubCatgory;

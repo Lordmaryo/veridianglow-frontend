@@ -1,25 +1,22 @@
 import { useParams } from "react-router-dom";
 import { useProductStore } from "../stores/useProductStore";
-import NavPages from "../components/NavPages";
+import ReusableProductsPage from "../components/ReusableProductsPage";
 
 const NavCategory = () => {
-  const { mainCategory, otherCategory } = useParams();
-  const productMainCategory = mainCategory?.replace(/-/g, " ");
-  const productOtherCategory = otherCategory?.replace(/-/g, " ");
-
-  const { getProductsByDifferentCategories } = useProductStore();
+  const { mainCategory } = useParams();
+  const productCategory = mainCategory?.replace(/-/g, " ");
+  const { getProductsByCategory } = useProductStore();
 
   return (
     <div>
-      <NavPages
-        title={productMainCategory || ""}
+      <ReusableProductsPage
+        title={productCategory || ""}
         imageSrc="/planeskincare.webp"
-        fetchProducts={(page, limit, productMainCategory) =>
-          getProductsByDifferentCategories(page, limit, productMainCategory, "")
+        fetchProducts={(page, limit, productCategory) =>
+          getProductsByCategory(page, limit, productCategory || "")
         }
         queryKey={mainCategory || ""}
-        mainCategory={productMainCategory || ""}
-        otherCategory={productOtherCategory}
+        category={productCategory}
       />
     </div>
   );

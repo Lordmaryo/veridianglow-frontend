@@ -83,11 +83,10 @@ export interface useProductStoreProps {
   ) => Promise<ProductResponse>;
   getProductsForMen: (page: number, limit: number) => Promise<ProductResponse>;
   getProductsForKids: (page: number, limit: number) => Promise<ProductResponse>;
-  getProductsByDifferentCategories: (
+  getProductsByOtherCategories: (
     page: number,
     limit: number,
-    mainCategory: string,
-    otherCategory: string | undefined
+    otherCategory: string
   ) => Promise<ProductResponse>;
   getProductsByMenCategory: (
     page: number,
