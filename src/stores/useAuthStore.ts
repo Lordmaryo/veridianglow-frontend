@@ -119,7 +119,6 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 
 /**
  * TODO - add a whatsapp chat icon
- * TODO - add search to select category in admin
  * TODO - add building type to user credentials in admin
  * TODO - edit refactor the email
  * TODO - clear the entire project of unnecessary code

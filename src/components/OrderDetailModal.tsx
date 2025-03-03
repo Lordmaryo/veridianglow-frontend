@@ -1,4 +1,5 @@
 import { Order } from "../types/OrderType";
+import { Address } from "../types/userTypes";
 import { formatCurrency } from "../utils/utils";
 
 const OrderDetailModal = ({
@@ -8,7 +9,7 @@ const OrderDetailModal = ({
   selectedOrder: Order;
   setSelectedOrder: (selectedOrder: Order | null) => void;
 }) => {
-  const { street, city, state, country, zipCode } =
+  const { street, city, state, country, zipCode, buildingType }: Address =
     selectedOrder.deliveryLocation;
 
   return (
@@ -35,6 +36,10 @@ const OrderDetailModal = ({
           <span className="block">
             {street}, {city}, {state}, {zipCode}, {country}
           </span>
+        </p>
+        <p className="border-b pb-2 flex gap-2">
+          <strong className="text-gray-900">Building:</strong>
+          <span className="block">{buildingType ? buildingType : "N/A"}</span>
         </p>
 
         <div className="border-b pb-2">
