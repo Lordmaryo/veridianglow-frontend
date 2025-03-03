@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useProductStore } from "../stores/useProductStore";
-import toast from "react-hot-toast";
 import { productCategories, subCategory } from "../data/product";
 import { Loader, PenLine, Upload } from "lucide-react";
 import AddIngredients from "./AddIngredients";
 import { Product } from "../types/types";
+import SelectSearch from "./SelectSearch";
 
 const EditProduct = ({
   onClose,
@@ -54,6 +54,13 @@ const EditProduct = ({
 
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleSelect = (value: string) => {
+    setFormData((prevFormData) => {
+      const updatedData = { ...prevFormData, category: value };
+      return updatedData;
+    });
   };
 
   return (
@@ -158,24 +165,10 @@ const EditProduct = ({
         <div className="flex gap-4 items-center">
           <div className="flex flex-col w-full">
             <label htmlFor="category">Category</label>
-            <select
-              id="category"
-              value={formData.category}
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
-              required
-              className="mt-1 block w-full border border-gray-600 rounded-md
-      shadow-sm py-2 px-3 focus:outline-none cursor-pointer
-      focus:ring-2 focus:ring-black"
-            >
-              <option value="">Select a category</option>
-              {productCategories.map((category) => (
-                <option value={category} key={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+            <SelectSearch
+              subCategory={productCategories}
+              onSelect={handleSelect}
+            />
           </div>
           <div className="flex flex-col w-full">
             <label htmlFor="sub-category">Suitable for?</label>

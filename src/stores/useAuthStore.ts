@@ -118,8 +118,10 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 }));
 
 /**
- * TODO - improve search in navigation on the backend
  * TODO - add a whatsapp chat icon
+ * TODO - add search to select category in admin
+ * TODO - add building type to user credentials in admin
+ * TODO - edit refactor the email
  * TODO - clear the entire project of unnecessary code
  * TODO - make the page load faster
  * TODO - add a placeholder to the video poster in hero

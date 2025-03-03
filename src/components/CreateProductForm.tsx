@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useProductStore } from "../stores/useProductStore";
-import toast from "react-hot-toast";
 import { productCategories, subCategory } from "../data/product";
 import { Loader, PlusCircle, Upload } from "lucide-react";
 import AddIngredients from "./AddIngredients";
+import SelectSearch from "./SelectSearch";
 
 const CreateProductForm = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +27,6 @@ const CreateProductForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form data", formData);
     try {
       await createProduct(formData);
       setFormData({
@@ -47,7 +46,6 @@ const CreateProductForm = () => {
         isArchived: true,
       });
     } catch (error: any) {
-      toast.error("Error upoading product");
       console.error("Error creating products", error.response.data.error);
     }
   };
@@ -69,6 +67,13 @@ const CreateProductForm = () => {
 
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleSelect = (value: string) => {
+    setFormData((prevFormData) => {
+      const updatedData = { ...prevFormData, category: value };
+      return updatedData;
+    });
   };
 
   return (
@@ -134,9 +139,7 @@ const CreateProductForm = () => {
             />
           </div>
           <div className="flex flex-col w-full">
-            <label htmlFor="discount-price">
-              Discount / Selling Price
-            </label>
+            <label htmlFor="discount-price">Discount / Selling Price</label>
             <input
               id="discount-price"
               type="number"
@@ -173,24 +176,10 @@ const CreateProductForm = () => {
         <div className="flex gap-4 items-center">
           <div className="flex flex-col w-full">
             <label htmlFor="category">Category</label>
-            <select
-              id="category"
-              value={formData.category}
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
-              required
-              className="mt-1 block w-full border border-gray-600 rounded-md
-      shadow-sm py-2 px-3 focus:outline-none cursor-pointer
-      focus:ring-2 focus:ring-black"
-            >
-              <option value="">Select a category</option>
-              {productCategories.map((category) => (
-                <option value={category} key={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
+            <SelectSearch
+              subCategory={productCategories}
+              onSelect={handleSelect}
+            />
           </div>
           <div className="flex flex-col w-full">
             <label htmlFor="sub-category">Suitable for?</label>
@@ -273,7 +262,7 @@ const CreateProductForm = () => {
               }
               className="w-5 h-5 cursor-pointer"
             />
-            <label htmlFor="draft">Draft</label>
+            <label htmlFor="draft">Archive</label>
           </div>
         </div>
         <div className="py-4">
