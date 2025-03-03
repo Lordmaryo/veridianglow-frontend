@@ -77,7 +77,7 @@ const ProductDetail = () => {
           </div>
           <section
             id="description"
-            className="pt-20 hidden lg:block xl:h-screen"
+            className="pt-20 hidden lg:block xl:min-h-screen"
           >
             <Description product={product} />
           </section>

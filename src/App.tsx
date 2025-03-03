@@ -39,6 +39,8 @@ import { usePaymentStore } from "./stores/usePaymentStore";
 import PaymentSucess from "./pages/PaymentSuccess";
 import VerifyPayment from "./pages/VerifyPayment";
 import NavSubCatgory from "./pages/NavSubCategory";
+import { FaWhatsappSquare } from "react-icons/fa";
+import WhatsAppButton from "./components/WhatsappButton";
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
@@ -87,7 +89,7 @@ function App() {
       <ErrorBoundary>
         <QueryProvider>
           {location.pathname !== "/secrete-dashboard/admin" && <Header />}
-          <div className="pb-10">
+          <div className="pb-10 min-h-screen">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route
@@ -136,10 +138,7 @@ function App() {
                 path="/for-men/:menCategory"
                 element={<MenCategoryPage />}
               />
-              <Route
-                path="/category/:mainCategory"
-                element={<NavCategory />}
-              />
+              <Route path="/category/:mainCategory" element={<NavCategory />} />
               <Route
                 path="/category/:mainCategory/:otherCategory"
                 element={<NavSubCatgory />}
@@ -187,6 +186,7 @@ function App() {
           {location.pathname !== "/secrete-dashboard/admin" &&
             location.pathname !== "/otp-verification" && <Footer />}
           <Toaster />
+          <WhatsAppButton />
         </QueryProvider>
       </ErrorBoundary>
     </>
