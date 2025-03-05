@@ -186,7 +186,7 @@ function App() {
           {location.pathname !== "/secrete-dashboard/admin" &&
             location.pathname !== "/otp-verification" && <Footer />}
           <Toaster />
-          <WhatsAppButton />
+          {user?.role !== Roles.ADMIN && <WhatsAppButton />}
         </QueryProvider>
       </ErrorBoundary>
     </>

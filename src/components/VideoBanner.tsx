@@ -38,9 +38,12 @@ const VideoBanner = ({ videoPath }: { videoPath: string }) => {
         loop
         muted
         playsInline
-        preload="auto"
+        poster="/poster-image.png"
+        preload="metadata"
+        // preload="auto"
         className="absolute inset-0 w-full h-full object-cover"
       >
+        <source src={`${videoPath}.webm`} type="video/webm" />
         <source src={`${videoPath}.mp4`} type="video/mp4" />
       </video>
     </div>

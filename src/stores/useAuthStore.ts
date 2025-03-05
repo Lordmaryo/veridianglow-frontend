@@ -118,12 +118,9 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 }));
 
 /**
- * TODO - add a whatsapp chat icon
  * TODO - edit refactor the email
  * TODO - clear the entire project of unnecessary code
  * TODO - make the page load faster
- * TODO - resolve dependency issues
- * TODO - add a placeholder to the video poster in hero
  * TODO - refactor types
  * TODO - change email service to something more generous maybe resend or brevo (optional)
  */
