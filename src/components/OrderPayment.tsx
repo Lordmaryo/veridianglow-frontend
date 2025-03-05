@@ -24,6 +24,7 @@ const OrderPayment = ({
             <div key={item.id} className="flex gap-2">
               <div className="h-28 w-24">
                 <img
+                loading="lazy"
                   src={item.image}
                   alt={item.name}
                   className="w-full h-full object-cover"
@@ -80,6 +81,7 @@ const OrderPayment = ({
         <p>Paystack (Bank Transfer, Debit/Credit Cards, USSD)</p>
         <div className="w-72 pt-4">
           <img
+          loading="lazy"
             src="./poweredbypaystack.png"
             alt="powered by paystack"
             className="w-full h-full object-cover"

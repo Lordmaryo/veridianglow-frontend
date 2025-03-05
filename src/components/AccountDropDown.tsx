@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { UserResponse } from "../types/types";
-import { Heart, House, ShoppingBag } from "lucide-react";
-import { MdOutlinePerson } from "react-icons/md";
+import { Heart, House, ShoppingBag, UserRound } from "lucide-react";
 
 interface AccountDropDownProps {
   user: UserResponse | null;
@@ -28,7 +27,7 @@ const AccountDropDown = ({
             to={"/customer/account"}
             className="flex gap-3 items-center hover:text-accent transition"
           >
-            <MdOutlinePerson size={25} />
+            <UserRound size={25} />
             <span>My Account</span>
           </Link>
           <Link

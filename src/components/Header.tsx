@@ -4,13 +4,13 @@ import NavBar from "./NavBar";
 
 const Header = () => {
   return (
-    <div className="sticky top-0 z-50">
+    <nav className="sticky top-0 z-50">
       <InfoBar />
       <NavBar />
       <div className="hidden lg:block">
         <CategoryNav />
       </div>
-    </div>
+    </nav>
   );
 };
 

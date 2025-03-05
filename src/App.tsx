@@ -1,88 +1,77 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Suspense, lazy, useCallback, useEffect, useRef } from "react";
 import QueryProvider from "./QueryProvider";
-import Home from "./pages/Home";
-import Header from "./components/Header";
-import SignInPage from "./pages/SignInPage";
 import { useAuthStore } from "./stores/useAuthStore";
 import { Toaster } from "react-hot-toast";
 import { CartProducts, Roles } from "./types/types";
-import { useCallback, useEffect, useRef } from "react";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import OtpVerification from "./pages/OtpVerification";
-import AdminPage from "./pages/AdminPage";
-import ProductDetail from "./pages/ProductDetail";
 import { useCartStore } from "./stores/useCartStore";
-import Shop from "./pages/Shop";
-import CategoryPage from "./pages/CategoryPage";
-import Footer from "./components/Footer";
-import NavCategory from "./pages/NavCategory";
-import ForMen from "./pages/ForMen";
-import ForKids from "./pages/ForKids";
-import MenCategoryPage from "./pages/MenCategoryPage";
-import NotFound from "./pages/NotFound";
-import ErrorBoundary from "./ErrorBoundry";
-import UserAccount from "./pages/UserAccount";
-import Account from "./components/Account";
-import UserOrders from "./components/UserOrders";
-import UserAddress from "./components/UserAddress";
-import WishList from "./components/WishList";
 import { useUserStore } from "./stores/useUserStore";
+import { usePaymentStore } from "./stores/usePaymentStore";
 import debounce from "lodash/debounce";
 import { isEqual } from "lodash";
-import SearchResults from "./pages/SearchResults";
-import CheckoutPage from "./pages/CheckoutPage";
-import UserCoupon from "./components/UserCoupon";
-import CartPage from "./pages/CartPage";
-import PaymentFailed from "./pages/PaymentFailed";
-import { usePaymentStore } from "./stores/usePaymentStore";
-import PaymentSucess from "./pages/PaymentSuccess";
-import VerifyPayment from "./pages/VerifyPayment";
-import NavSubCatgory from "./pages/NavSubCategory";
-import { FaWhatsappSquare } from "react-icons/fa";
+import ErrorBoundary from "./ErrorBoundry";
 import WhatsAppButton from "./components/WhatsappButton";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LoadingSpinner from "./components/LoadingSpinner";
+
+// Eagerly loaded components
+import Home from "./pages/Home";
+import SignInPage from "./pages/SignInPage";
+import Shop from "./pages/Shop";
+import CategoryPage from "./pages/CategoryPage";
+import ForMen from "./pages/ForMen";
+import ForKids from "./pages/ForKids";
+import ProductDetail from "./pages/ProductDetail";
+import SearchResults from "./pages/SearchResults";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import NotFound from "./pages/NotFound";
+
+// Lazily loaded secondary components
+const OtpVerification = lazy(() => import("./pages/OtpVerification"));
+const AdminPage = lazy(() => import("./pages/AdminPage"));
+const UserAccount = lazy(() => import("./pages/UserAccount"));
+const Account = lazy(() => import("./components/Account"));
+const UserOrders = lazy(() => import("./components/UserOrders"));
+const UserAddress = lazy(() => import("./components/UserAddress"));
+const WishList = lazy(() => import("./components/WishList"));
+const UserCoupon = lazy(() => import("./components/UserCoupon"));
+const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const VerifyPayment = lazy(() => import("./pages/VerifyPayment"));
+const NavCategory = lazy(() => import("./pages/NavCategory"));
+const MenCategoryPage = lazy(() => import("./pages/MenCategoryPage"));
+const NavSubCategory = lazy(() => import("./pages/NavSubCategory"));
 
 function App() {
   const { user, checkAuth, checkingAuth } = useAuthStore();
   const { cart, calculateTotals, syncCartToDatabase } = useCartStore();
-  const { verifyPaymentResponse } = usePaymentStore(); // payment
+  const { verifyPaymentResponse } = usePaymentStore();
   const { loadAddress, getWishlists } = useUserStore();
   const location = useLocation();
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
   const prevCartRef = useRef<CartProducts[]>(cart);
-
   const debouncedSyncCart = useCallback(
-    debounce((cart: CartProducts[]) => syncCartToDatabase(cart), 2000), // 2s delay to update cart in database
+    debounce((cart: CartProducts[]) => syncCartToDatabase(cart), 2000),
     [syncCartToDatabase]
   );
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) checkAuth();
+    getWishlists();
+    loadAddress();
+    if (cart.length > 0) calculateTotals();
+  }, [user, cart]);
 
-    // Only sync if the cart has actually changed
-    if (!isEqual(prevCartRef.current, cart)) {
+  useEffect(() => {
+    if (user && !isEqual(prevCartRef.current, cart)) {
       debouncedSyncCart(cart);
       prevCartRef.current = cart;
     }
   }, [user, cart, debouncedSyncCart]);
-
-  useEffect(() => {
-    getWishlists();
-  }, []);
-
-  useEffect(() => {
-    loadAddress();
-  }, []);
-
-  useEffect(() => {
-    if (cart.length > 0) {
-      calculateTotals();
-    }
-  }, []);
 
   return (
     <>
@@ -90,101 +79,66 @@ function App() {
         <QueryProvider>
           {location.pathname !== "/secrete-dashboard/admin" && <Header />}
           <div className="pb-10 min-h-screen">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route
-                path={"/signin"}
-                element={
-                  !user ? (
-                    <SignInPage />
-                  ) : user?.role === Roles.ADMIN && !user.isVerified ? (
-                    <Navigate to={"/otp-verification"} />
-                  ) : (
-                    <Navigate to={"/"} />
-                  )
-                }
-              />
-              <Route path="forgot-password" element={<ForgotPassword />} />
-              <Route
-                path="/reset-password/:token"
-                element={!user ? <ResetPassword /> : <Navigate to="/" />}
-              />
-              <Route
-                path={`/secrete-dashboard/admin`}
-                element={
-                  user && user?.role === Roles.ADMIN && user?.isVerified ? (
-                    <AdminPage />
-                  ) : (
-                    <Navigate to={"/"} />
-                  )
-                }
-              />
-              <Route
-                path="/otp-verification"
-                element={
-                  user?.role === Roles.ADMIN && !user?.isVerified ? (
-                    <OtpVerification />
-                  ) : (
-                    <Navigate to="/" />
-                  )
-                }
-              />
-              <Route path="/shop/:productSlug" element={<ProductDetail />} />
-              <Route
-                path="/shop/category/:category"
-                element={<CategoryPage />}
-              />
-              <Route
-                path="/for-men/:menCategory"
-                element={<MenCategoryPage />}
-              />
-              <Route path="/category/:mainCategory" element={<NavCategory />} />
-              <Route
-                path="/category/:mainCategory/:otherCategory"
-                element={<NavSubCatgory />}
-              />
-              <Route path="/for-men" element={<ForMen />} />
-              <Route path="/for-kids" element={<ForKids />} />
-              <Route path="/shop" element={<Shop />} />
-              {/* User Account Routes */}
-              {user && (
-                <Route path="/customer/account/*" element={<UserAccount />}>
-                  <Route index element={<Account />} />
-                  <Route path="orders" element={<UserOrders />} />
-                  <Route path="address" element={<UserAddress />} />
-                  <Route path="wishlist" element={<WishList />} />
-                  <Route path="coupon" element={<UserCoupon />} />
-                </Route>
-              )}
-              <Route path="*" element={<NotFound />} />
-              <Route path="/search" element={<SearchResults />} />
-              <Route path="/cart" element={<CartPage />} />
-              {user && (
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
                 <Route
-                  path="/order/payment-failed"
-                  element={<PaymentFailed />}
+                  path="/signin"
+                  element={!user ? <SignInPage /> : <Navigate to={"/"} />}
                 />
-              )}
-              {user && verifyPaymentResponse && (
+                <Route path="forgot-password" element={<ForgotPassword />} />
                 <Route
-                  path="/order/payment-success"
-                  element={<PaymentSucess />}
+                  path="/reset-password/:token"
+                  element={!user ? <ResetPassword /> : <Navigate to="/" />}
                 />
-              )}
-              <Route
-                path="/payment/verify-payment"
-                element={<VerifyPayment />}
-              />
-              {!checkingAuth && (
                 <Route
-                  path="/checkout"
-                  element={user ? <CheckoutPage /> : <Navigate to="/" />}
+                  path="/secrete-dashboard/admin"
+                  element={
+                    user?.role === Roles.ADMIN ? (
+                      <AdminPage />
+                    ) : (
+                      <Navigate to="/" />
+                    )
+                  }
                 />
-              )}
-            </Routes>
+                <Route path="/otp-verification" element={<OtpVerification />} />
+                <Route path="/shop/:productSlug" element={<ProductDetail />} />
+                <Route path="/shop/category/:category" element={<CategoryPage />} />
+                <Route path="/for-men/:menCategory" element={<MenCategoryPage />} />
+                <Route path="/category/:mainCategory" element={<NavCategory />} />
+                <Route path="/category/:mainCategory/:otherCategory" element={<NavSubCategory />} />
+                <Route path="/for-men" element={<ForMen />} />
+                <Route path="/for-kids" element={<ForKids />} />
+                <Route path="/shop" element={<Shop />} />
+                {user && (
+                  <Route path="/customer/account/*" element={<UserAccount />}>
+                    <Route index element={<Account />} />
+                    <Route path="orders" element={<UserOrders />} />
+                    <Route path="address" element={<UserAddress />} />
+                    <Route path="wishlist" element={<WishList />} />
+                    <Route path="coupon" element={<UserCoupon />} />
+                  </Route>
+                )}
+                <Route path="*" element={<NotFound />} />
+                <Route path="/search" element={<SearchResults />} />
+                <Route path="/cart" element={<CartPage />} />
+                {user && (
+                  <Route path="/order/payment-failed" element={<PaymentFailed />} />
+                )}
+                {user && verifyPaymentResponse && (
+                  <Route path="/order/payment-success" element={<PaymentSuccess />} />
+                )}
+                <Route path="/payment/verify-payment" element={<VerifyPayment />} />
+                {!checkingAuth && (
+                  <Route
+                    path="/checkout"
+                    element={user ? <CheckoutPage /> : <Navigate to="/" />}
+                  />
+                )}
+              </Routes>
+            </Suspense>
           </div>
-          {location.pathname !== "/secrete-dashboard/admin" &&
-            location.pathname !== "/otp-verification" && <Footer />}
+          {location.pathname !== "/secrete-dashboard/admin" && <Footer />}
           <Toaster />
           {user?.role !== Roles.ADMIN && <WhatsAppButton />}
         </QueryProvider>

@@ -70,6 +70,7 @@ const ProductDetail = () => {
         <div>
           <div className="lg:w-[600px] w-full">
             <img
+            loading="lazy"
               src={product?.image}
               alt={product?.name}
               className="object-cover w-full h-full"

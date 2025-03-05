@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 const Hero = () => {
   return (
     <div className="relative">
-      {/* <div className="w-full h-full absolute bg-[#000000b3] z-10"/> */}
+      {/* <div className="w-full h-full absolute bg-[#0000009c] z-10"/> */}
       <VideoBanner videoPath={"/output-with-brandname"} />
-      <div className="z-10 px-4 absolute xl:bottom-24 bottom-4 left-2 md:w-[400px] w-[300px]">
+      <div className="z-10 px-4 absolute xl:bottom-24 bottom-4 left-1/2 transform -translate-x-1/2 text-center w-full">
         <motion.div
-          className="font-semibold text-white backdrop-blur-md p-2"
+          className="font-semibold text-white"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}

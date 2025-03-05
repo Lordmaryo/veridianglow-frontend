@@ -54,6 +54,7 @@ const NavSubCatgory = () => {
       <div className="relative">
         <div className="sm:h-80 h-60 w-full">
           <img
+          loading="lazy"
             src={"/planeskincare.webp"}
             className="object-cover scale-x-[-1] w-full h-full"
           />

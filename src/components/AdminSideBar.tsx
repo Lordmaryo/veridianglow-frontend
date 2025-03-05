@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Tabs, tabs } from "../data/admin";
-import { FaAngleRight } from "react-icons/fa";
+import { ChevronRight } from "lucide-react";
 
 interface SideBarProps {
   setToggleSideBar: (toggleSideBar: boolean) => void;
@@ -16,10 +16,10 @@ export const AdminSideBar = ({
       <div className="flex flex-col items-center h-screen">
         <div className="w-full mb-6 flex justify-between items-center px-4">
           <Link to={"/"} className="w-16">
-            <img src="/logo.png" alt="logo" className="w-full h-full" />
+            <img src="/logo.png" alt="logo" loading="lazy" className="w-full h-full" />
           </Link>
           <button onClick={() => setToggleSideBar(false)}>
-            <FaAngleRight size={25} />
+            <ChevronRight size={25} />
           </button>
         </div>
         <ul className="w-full">

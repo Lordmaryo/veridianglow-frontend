@@ -25,6 +25,7 @@ const CartItem = ({
           className="shrink-0"
         >
           <img
+           loading="lazy"
             className="sm:h-32 h-32 w-20 rounded object-cover"
             src={item.image}
           />

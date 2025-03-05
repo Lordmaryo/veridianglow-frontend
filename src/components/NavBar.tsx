@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
-import { FiShoppingCart } from "react-icons/fi";
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { MdOutlinePerson } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
-import { IoMenu } from "react-icons/io5";
 import SideBar from "./SideBar";
 import { useAuthStore } from "../stores/useAuthStore";
 import { capitalize } from "../utils/utils";
 import AccountDropDown from "./AccountDropDown";
-import { Lock } from "lucide-react";
+import { Lock, ShoppingCart, Search, UserRound, Menu } from "lucide-react";
 import { Roles } from "../types/types";
 import Cart from "./Cart";
 import { useCartStore } from "../stores/useCartStore";
@@ -37,14 +33,19 @@ const NavBar = () => {
     <>
       <div className="flex flex-row justify-between items-center px-4 bg-background">
         <button className="lg:hidden" onClick={() => setToggleNav(!toggleNav)}>
-          <IoMenu size={30} />
+          <Menu size={30} />
         </button>
         <div className="hidden lg:block w-80">
           <SearchBar />
         </div>
         <Link to={"/"}>
           <div className="sm:w-20 w-16">
-            <img src="/logo.png" alt="logo" className="w-full h-full" />
+            <img
+              src="/logo.png"
+              alt="logo"
+              loading="lazy"
+              className="w-full h-full"
+            />
           </div>
         </Link>
 
@@ -65,7 +66,7 @@ const NavBar = () => {
                   : ""
               } px-4 py-2 hidden lg:flex items-center gap-1 hover:text-accent transition-colors`}
             >
-              <MdOutlinePerson size={25} />
+              <UserRound size={20} />
               <span>
                 {user ? `Hi, ${capitalize(user.firstName)}` : "Account"}
               </span>
@@ -84,7 +85,7 @@ const NavBar = () => {
               onClick={() => setToggleSearch(!toggleSearch)}
               className="lg:hidden"
             >
-              <FaMagnifyingGlass size={23} />
+              <Search size={23} />
             </button>
             <button
               className="relative"
@@ -100,7 +101,7 @@ const NavBar = () => {
               }}
             >
               <div className="flex flex-row gap-1 items-center">
-                <FiShoppingCart size={20} />
+                <ShoppingCart size={20} />
                 <span>Cart</span>
               </div>
               {cart.length > 0 && (

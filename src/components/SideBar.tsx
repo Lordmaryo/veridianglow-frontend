@@ -1,10 +1,8 @@
-import { FaAngleRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { NavCategories } from "../data/category";
 import { useState } from "react";
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { UserResponse } from "../types/types";
-import { Lock } from "lucide-react";
+import { ChevronDown, ChevronRight, ChevronUp, Lock } from "lucide-react";
 
 interface SideBarProps {
   setToggleNav: (toggleNav: boolean) => void;
@@ -26,10 +24,15 @@ const SideBar = ({ setToggleNav, logout, user, isAdmin }: SideBarProps) => {
       <div>
         <div className="flex justify-between items-center px-4">
           <Link to={"/"} className="w-24">
-            <img src="/logo.png" alt="logo" className="w-full h-full" />
+            <img
+              src="/logo.png"
+              loading="lazy"
+              alt="logo"
+              className="w-full h-full"
+            />
           </Link>
           <button onClick={() => setToggleNav(false)}>
-            <FaAngleRight size={25} />
+            <ChevronRight size={25} />
           </button>
         </div>
 
@@ -70,9 +73,9 @@ const SideBar = ({ setToggleNav, logout, user, isAdmin }: SideBarProps) => {
                     }
                   >
                     {expandedCategory === category.name ? (
-                      <BsChevronUp />
+                      <ChevronUp />
                     ) : (
-                      <BsChevronDown />
+                      <ChevronDown />
                     )}
                   </button>
                 )}

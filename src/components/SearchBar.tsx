@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "../lib/axios";
 import { Product, ProductResponse } from "../types/types";
-import { FaMagnifyingGlass } from "react-icons/fa6";
 import { toSlug, truncateWord } from "../utils/utils";
 import { Link, useNavigate } from "react-router-dom";
+import { Search } from "lucide-react";
 
 const SearchBar = ({
   setToggleSearch,
@@ -47,11 +47,11 @@ const SearchBar = ({
   return (
     <form className="relative w-full" onSubmit={handleSubmit}>
       <div className="relative">
-        <FaMagnifyingGlass className="absolute left-2 bottom-2" />
+        <Search className="absolute left-2 bottom-2" />
         <input
           type="search"
           placeholder="SEARCH PRODUCTS..."
-          className="outline-none pl-8 py-1 w-full rounded-sm border border-zinc-400"
+          className="outline-none pl-10 py-2 w-full rounded-sm border border-zinc-400"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

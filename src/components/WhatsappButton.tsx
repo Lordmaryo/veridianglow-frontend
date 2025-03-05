@@ -16,7 +16,7 @@ const WhatsAppButton = () => {
           >
             <div className="rounded-t-md p-4 w-80 h-20 flex items-center justify-between bg-accent text-textOnAccent">
               <div className="w-12 h-12">
-                <img src="/whatsapp-icon.png" alt="whatsapp icon" />
+                <img loading="lazy" src="/whatsapp-icon.png" alt="whatsapp icon" />
               </div>
               <h2 className="font-semibold">Start a conversation</h2>
             </div>
@@ -33,7 +33,7 @@ const WhatsAppButton = () => {
                 className="flex flex-row gap-6 hover:bg-[#f872c580] transition-all p-2 rounded-md"
               >
                 <div className="w-12 h-12">
-                  <img src="/WhatsApp.svg.webp" alt="whatsapp logo" />
+                  <img loading="lazy" src="/WhatsApp.svg.webp" alt="whatsapp logo" />
                 </div>
                 <div>
                   <p>Customer care</p>
@@ -60,7 +60,7 @@ const WhatsAppButton = () => {
             onClick={() => setClicked(!clicked)}
             className="w-16 h-16 bg-accent rounded-full p-4"
           >
-            <img src="/whatsapp-icon.png" alt="whatsapp icon" />
+            <img loading="lazy" src="/whatsapp-icon.png" alt="whatsapp icon" />
           </motion.button>
         )}
       </div>

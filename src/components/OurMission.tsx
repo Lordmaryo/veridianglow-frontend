@@ -4,7 +4,7 @@ const OurMission = () => {
   return (
     <div className="py-6 px-2 md:px-4 md:flex flex-row-reverse items-center">
       <div className="md:w-[50%] lg:h-[300px]">
-        <img src="bosslady.webp" className="object-cover w-full h-full"/>
+        <img src="bosslady.webp" loading="lazy" className="object-cover w-full h-full"/>
       </div>
       <div className="space-y-4 md:w-[50%] md:pr-4 pt-4 md:pt-0">
         <div className="space-y-2">

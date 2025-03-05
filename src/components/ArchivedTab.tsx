@@ -82,6 +82,7 @@ const ArchivedTab = ({ products }: { products: Product[] }) => {
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
                         <img
+                        loading="lazy"
                           className="h-10 w-10 rounded-full object-cover"
                           src={product.image}
                           alt={product.name}

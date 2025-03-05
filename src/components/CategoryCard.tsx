@@ -12,6 +12,7 @@ const CategoryCard = ({ href, image, title }: CategoryCardProps) => {
       <div className="xl:w-[300px] lg:w-[240px] md:max-w-80 w-full">
         <div className="w-full md:h-72 h-52">
           <img
+          loading="lazy"
             src={image}
             alt={title + " category"}
             className="w-full h-full object-cover"

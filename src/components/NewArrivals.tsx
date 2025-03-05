@@ -47,10 +47,13 @@ const NewArrivals = ({ productData }: FeaturedProductsProp) => {
    * @newlyAddedProducts sorts the data directly from unarchived products endpoint
    * to reduce repetetive database and api calls
    */
-  const newlyAddedProducts = productData?.products.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
-  
+  const newlyAddedProducts = productData?.products
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    .slice(0, 10);
+
   return (
     <div className="py-12">
       <div className="container mx-auto px-4">

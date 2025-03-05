@@ -1,6 +1,4 @@
-import { FaInstagram } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { FiFacebook } from "react-icons/fi";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -11,6 +9,7 @@ const Footer = () => {
           <div className="w-80">
             <Link to={"/"} className="">
               <img
+                loading="lazy"
                 src="/logo.png"
                 alt="logo"
                 className="w-40 h-40 object-cover"
@@ -27,9 +26,9 @@ const Footer = () => {
               latest updates on amazing offers
             </p>
             <div className="flex items-center gap-4 py-2">
-              <FaInstagram size={30} />
-              <FaXTwitter size={30} />
-              <FiFacebook size={30} />
+              <Instagram size={30} />
+              <Twitter size={30} />
+              <Facebook size={30} />
             </div>
           </div>
         </div>

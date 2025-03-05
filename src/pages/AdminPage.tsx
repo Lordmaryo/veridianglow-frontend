@@ -1,8 +1,7 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CreateProductForm from "../components/CreateProductForm";
-import { IoMenu } from "react-icons/io5";
 import { AdminSideBar } from "../components/AdminSideBar";
 import { tabs, Tabs } from "../data/admin";
 import { useAuthStore } from "../stores/useAuthStore";
@@ -29,7 +28,7 @@ const AdminPage = () => {
         <aside className="bg-white z-50 hidden md:flex flex-col items-center border-r border-zinc-300 w-48 fixed left-0 top-0 h-screen">
           <Link to={"/"}>
             <div className="w-28">
-              <img src="/logo.png" alt="logo" className="w-full" />
+              <img loading="lazy" src="/logo.png" alt="logo" className="w-full" />
             </div>
           </Link>
           <ul className="w-full">
@@ -53,7 +52,7 @@ const AdminPage = () => {
                 className="md:hidden"
                 onClick={() => setToggleSideBar(!toggleSideBar)}
               >
-                <IoMenu size={25} />
+                <Menu size={25} />
               </button>
               <Link to={"/"} className="flex items-center gap-2 font-semibold">
                 <ArrowLeft />
