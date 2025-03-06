@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { UserResponse } from "../types/types";
 import { Heart, House, ShoppingBag, UserRound } from "lucide-react";
+import { UserResponse } from "../types/userTypes";
 
 interface AccountDropDownProps {
   user: UserResponse | null;

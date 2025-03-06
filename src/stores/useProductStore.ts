@@ -1,7 +1,11 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import axios from "../lib/axios";
-import { CreateProduct, Product, useProductStoreProps } from "../types/types";
+import {
+  CreateProduct,
+  Product,
+  useProductStoreProps,
+} from "../types/ProductTypes";
 
 export const useProductStore = create<useProductStoreProps>(
   (set): useProductStoreProps => ({

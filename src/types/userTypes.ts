@@ -1,3 +1,5 @@
+import { Roles } from "./types";
+
 export interface useUserStoreProps {
   loading: boolean;
   users: User[] | null;
@@ -40,4 +42,16 @@ export interface User {
   lastName: string;
   _id: string;
   email: string;
+}
+
+export interface UserResponse {
+  message?: string;
+  email: string;
+  status: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  role: Roles;
+  isVerified: boolean;
+  address: Address;
 }

@@ -6,7 +6,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useLocationStore } from "../stores/useLocationStore";
 import { isFormComplete } from "../utils/paymentUtils";
 import OrderPayment from "../components/OrderPayment";
-import { Coupon } from "../types/types";
+import { Coupon } from "../types/couponType";
 
 /**
  * Checkout Page Logic

@@ -1,13 +1,9 @@
 import { create } from "zustand";
-import {
-  CartProducts,
-  Coupon,
-  Product,
-  useCartStoreProps,
-} from "../types/types";
 import { loadCartFromLocal, saveCartToLocal } from "../utils/cartUtils";
 import toast from "react-hot-toast";
 import axios from "../lib/axios";
+import { CartProducts, useCartStoreProps } from "../types/CartTypes";
+import { Coupon } from "../types/couponType";
 
 export const useCartStore = create<useCartStoreProps>((set, get) => ({
   cart: loadCartFromLocal(),
@@ -18,7 +14,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
   isOutOfStock: false,
   shouldReinitializeCheckout: false,
 
-  addToCart: async (product: Product) => {
+  addToCart: async (product) => {
     set((prevState) => {
       const existingItem = prevState.cart.find(
         (item) => item.id === product._id

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { NavCategories } from "../data/category";
 import { useState } from "react";
-import { UserResponse } from "../types/types";
 import { ChevronDown, ChevronRight, ChevronUp, Lock } from "lucide-react";
+import { UserResponse } from "../types/userTypes";
 
 interface SideBarProps {
   setToggleNav: (toggleNav: boolean) => void;

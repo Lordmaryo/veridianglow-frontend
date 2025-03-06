@@ -1,13 +1,11 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
 import {
-  LogInProps,
   Roles,
-  SignUpProps,
-  useAuthStoreProps,
-  UserResponse,
 } from "../types/types";
 import toast from "react-hot-toast";
+import { UserResponse } from "../types/userTypes";
+import { LogInProps, SignUpProps, useAuthStoreProps } from "../types/authType";
 
 // ERRORS ARE HANDLED GLOBALLY USING AXIOS INTERCEPTORS IN LIB FOLDER
 
@@ -119,7 +117,6 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 
 /**
  * TODO - edit refactor the email
- * TODO - clear the entire project of unnecessary code
  * TODO - make the page load faster
  * TODO - refactor types
  * TODO - change email service to something more generous maybe resend or brevo (optional)
