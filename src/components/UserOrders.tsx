@@ -65,7 +65,7 @@ const UserOrders = () => {
                 >
                   {order.paid
                     ? order.status === "PAID"
-                      ? "Order awaiting confirmation"
+                      ? "Order Pending"
                       : order.status
                     : order.status === "PENDING"
                     ? "PAYMENT PENDING"

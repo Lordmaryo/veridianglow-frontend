@@ -12,13 +12,13 @@ const UserCoupon = () => {
   return (
     <div>
       <h2 className="md:text-2xl text-lg font-bold pb-6">Gift and Coupons</h2>
-      {coupons && (
+      {coupons && coupons?.length > 0 && (
         <p>
           Congratulations, You've been gifted {coupons.length} coupon
           {coupons.length > 1 ? "s" : ""}
         </p>
       )}
-      {coupons ? (
+      {coupons && coupons?.length > 0 ? (
         <table className="w-full mt-10 mb-4 px-4 overflow-y-hidden">
           <thead className="bg-zinc-200 uppercase font-bold">
             <tr>

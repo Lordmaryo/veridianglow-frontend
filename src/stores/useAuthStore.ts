@@ -118,6 +118,6 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 /**
  * TODO - edit refactor the email
  * TODO - make the page load faster
- * TODO - refactor types
+ * TODO - add v kee paystack
  * TODO - change email service to something more generous maybe resend or brevo (optional)
  */
