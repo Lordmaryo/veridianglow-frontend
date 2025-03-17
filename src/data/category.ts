@@ -4,26 +4,26 @@ export const NavCategories = [
     href: "/for-men",
     name: "For Men",
     subcategories: [
-      {
-        href: "/for-men/beard-care",
-        name: "Beard Oils & Balms",
-      },
-      {
-        href: "/for-men/shaving-essentials",
-        name: "Shaving Essentials",
-      },
+      // {
+      //   href: "/for-men/beard-care",
+      //   name: "Beard Oils & Balms",
+      // },
+      // {
+      //   href: "/for-men/shaving-essentials",
+      //   name: "Shaving Essentials",
+      // },
       {
         href: "/for-men/face-care",
         name: "Face Care",
       },
-      {
-        href: "/for-men/body-care",
-        name: "Soaps & Deodorants",
-      },
-      {
-        href: "/for-men/hair-styling",
-        name: "Pomades & Waxes",
-      },
+      // {
+      //   href: "/for-men/body-care",
+      //   name: "Soaps & Deodorants",
+      // },
+      // {
+      //   href: "/for-men/hair-styling",
+      //   name: "Pomades & Waxes",
+      // },
     ],
   },
   { href: "/category/tools-and-kits", name: "Tools & Kits" },
@@ -39,11 +39,11 @@ export const NavCategories = [
       { href: "/category/skin-care/sunscreens", name: "Sunscreens" },
       { href: "/category/skin-care/face-masks", name: "Face Masks" },
       { href: "/category/skin-care/exfoliators", name: "Exfoliators" },
-      { href: "/category/skin-care/eye-care", name: "Eye Care" },
-      {
-        href: "/category/skin-care/natural-and-organic",
-        name: "Natural & Organic",
-      },
+      // { href: "/category/skin-care/eye-care", name: "Eye Care" },
+      // {
+      //   href: "/category/skin-care/natural-and-organic",
+      //   name: "Natural & Organic",
+      // },
     ],
   },
 
@@ -77,7 +77,7 @@ export const NavCategories = [
       },
     ],
   },
-  { href: "/category/asian-skin-care", name: "Asian Skin Care" },
+  { href: "/category/korean-skin-care", name: "Korean Skin Care" },
   {
     href: "/category/skin-repair",
     name: "Skin Repair",
@@ -90,18 +90,18 @@ export const NavCategories = [
         href: "/category/skin-repair/stretch-mark",
         name: "Scar & Stretch Mark",
       },
-      {
-        href: "/category/skin-repair/hydration-therapy",
-        name: "Deep Hydration Repair",
-      },
+      // {
+      //   href: "/category/skin-repair/hydration-therapy",
+      //   name: "Deep Hydration Repair",
+      // },
       {
         href: "/category/skin-repair/anti-aging",
         name: "Anti-Aging & Wrinkle",
       },
-      {
-        href: "/category/skin-repair/sunburn-relief",
-        name: "Sunburn Repair",
-      },
+      // {
+      //   href: "/category/skin-repair/sunburn-relief",
+      //   name: "Sunburn Repair",
+      // },
     ],
   },
   // { href: "/#", name: "Consultation" },

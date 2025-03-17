@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import axios from "../lib/axios";
 import { CartProducts, useCartStoreProps } from "../types/CartTypes";
 import { Coupon } from "../types/couponType";
+import { truncate } from "lodash";
 
 export const useCartStore = create<useCartStoreProps>((set, get) => ({
   cart: loadCartFromLocal(),
@@ -41,7 +42,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
 
       saveCartToLocal(newCartItems);
       console.log("This is the cart product", product);
-      toast.success("added product to cart");
+      toast.success(`added ${truncate(product.name)} to cart`);
       return { cart: newCartItems, loading: false };
     });
 

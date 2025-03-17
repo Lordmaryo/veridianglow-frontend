@@ -110,7 +110,7 @@ const CouponTab = () => {
               type="number"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition"
               value={discountValue}
-              onChange={(e) => setDiscountValue(Number(e.target.value))}
+              onChange={(e) => setDiscountValue(parseInt(e.target.value))}
             />
           </div>
           <button

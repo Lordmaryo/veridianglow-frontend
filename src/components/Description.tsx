@@ -1,5 +1,5 @@
-import { Product } from "../types/types";
 import { productDetailSection } from "../data/product";
+import { Product } from "../types/ProductTypes";
 import FramerMotionAccordion from "./FramerMotionAccordion";
 import { useState } from "react";
 

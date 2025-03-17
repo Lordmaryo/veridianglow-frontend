@@ -3,8 +3,8 @@ import { useProductStore } from "../stores/useProductStore";
 import { productCategories, subCategory } from "../data/product";
 import { Loader, PenLine, Upload } from "lucide-react";
 import AddIngredients from "./AddIngredients";
-import { Product } from "../types/types";
 import SelectSearch from "./SelectSearch";
+import { Product } from "../types/ProductTypes";
 
 const EditProduct = ({
   onClose,

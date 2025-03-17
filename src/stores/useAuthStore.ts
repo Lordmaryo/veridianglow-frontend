@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import axios from "../lib/axios";
-import {
-  Roles,
-} from "../types/types";
+import { Roles } from "../types/types";
 import toast from "react-hot-toast";
 import { UserResponse } from "../types/userTypes";
 import { LogInProps, SignUpProps, useAuthStoreProps } from "../types/authType";
+import { useNavigate } from "react-router-dom";
 
 // ERRORS ARE HANDLED GLOBALLY USING AXIOS INTERCEPTORS IN LIB FOLDER
 
@@ -49,10 +48,12 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
         password,
       });
 
-      if (get().user?.role === Roles.ADMIN) {
-        return toast.success(res.data.message);
-      }
       set({ user: res.data });
+
+      if (res.data.role === Roles.ADMIN && !res.data.isVerified) {
+        window.location.href = "/otp-verification";
+        toast.success(res.data.message);
+      }
     } finally {
       set({ loading: false });
     }
@@ -71,6 +72,7 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 
   logout: async () => {
     await axios.post("/auth/logout");
+    window.location.href = "/";
     set({ user: null });
   },
 
@@ -109,6 +111,7 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
       const res = await axios.post("/auth/verify-email", { code });
       set({ user: res.data });
       toast.success("Email verification success!");
+      window.location.href = "/";
     } finally {
       set({ loading: false });
     }
@@ -117,7 +120,8 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 
 /**
  * TODO - edit refactor the email
- * TODO - make the page load faster
- * TODO - add v kee paystack
- * TODO - change email service to something more generous maybe resend or brevo (optional)
+ * TODO - add delivery company
+ * TODO - let product be 10 by default in admin
+ * TODO - sort pending unshipped, undelivered orders
+ * TODO - dockerize backend
  */

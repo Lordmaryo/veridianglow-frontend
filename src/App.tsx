@@ -3,7 +3,7 @@ import { Suspense, lazy, useCallback, useEffect, useRef } from "react";
 import QueryProvider from "./QueryProvider";
 import { useAuthStore } from "./stores/useAuthStore";
 import { Toaster } from "react-hot-toast";
-import { CartProducts, Roles } from "./types/types";
+import { Roles } from "./types/types";
 import { useCartStore } from "./stores/useCartStore";
 import { useUserStore } from "./stores/useUserStore";
 import { usePaymentStore } from "./stores/usePaymentStore";
@@ -29,6 +29,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import { CartProducts } from "./types/CartTypes";
 
 // Lazily loaded secondary components
 const OtpVerification = lazy(() => import("./pages/OtpVerification"));
@@ -40,7 +41,11 @@ const UserAddress = lazy(() => import("./components/UserAddress"));
 const WishList = lazy(() => import("./components/WishList"));
 const UserCoupon = lazy(() => import("./components/UserCoupon"));
 const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
+const FAQs = lazy(() => import("./pages/FAQs"));
 const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const ReturnPolicy = lazy(() => import("./pages/ReturnPolicy"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const VerifyPayment = lazy(() => import("./pages/VerifyPayment"));
 const NavCategory = lazy(() => import("./pages/NavCategory"));
 const MenCategoryPage = lazy(() => import("./pages/MenCategoryPage"));
@@ -86,7 +91,8 @@ function App() {
                   path="/signin"
                   element={!user ? <SignInPage /> : <Navigate to={"/"} />}
                 />
-                <Route path="forgot-password" element={<ForgotPassword />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/frequently-asked-questions" element={<FAQs />} />
                 <Route
                   path="/reset-password/:token"
                   element={!user ? <ResetPassword /> : <Navigate to="/" />}
@@ -101,12 +107,27 @@ function App() {
                     )
                   }
                 />
-                <Route path="/otp-verification" element={<OtpVerification />} />
+                <Route
+                  path="/otp-verification"
+                  element={!user ? <OtpVerification /> : <Navigate to="/" />}
+                />
                 <Route path="/shop/:productSlug" element={<ProductDetail />} />
-                <Route path="/shop/category/:category" element={<CategoryPage />} />
-                <Route path="/for-men/:menCategory" element={<MenCategoryPage />} />
-                <Route path="/category/:mainCategory" element={<NavCategory />} />
-                <Route path="/category/:mainCategory/:otherCategory" element={<NavSubCategory />} />
+                <Route
+                  path="/shop/category/:category"
+                  element={<CategoryPage />}
+                />
+                <Route
+                  path="/for-men/:menCategory"
+                  element={<MenCategoryPage />}
+                />
+                <Route
+                  path="/category/:mainCategory"
+                  element={<NavCategory />}
+                />
+                <Route
+                  path="/category/:mainCategory/:otherCategory"
+                  element={<NavSubCategory />}
+                />
                 <Route path="/for-men" element={<ForMen />} />
                 <Route path="/for-kids" element={<ForKids />} />
                 <Route path="/shop" element={<Shop />} />
@@ -122,13 +143,28 @@ function App() {
                 <Route path="*" element={<NotFound />} />
                 <Route path="/search" element={<SearchResults />} />
                 <Route path="/cart" element={<CartPage />} />
+                <Route
+                  path="/terms-and-conditions"
+                  element={<TermsAndConditions />}
+                />
+                <Route path="/return-policy" element={<ReturnPolicy />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 {user && (
-                  <Route path="/order/payment-failed" element={<PaymentFailed />} />
+                  <Route
+                    path="/order/payment-failed"
+                    element={<PaymentFailed />}
+                  />
                 )}
                 {user && verifyPaymentResponse && (
-                  <Route path="/order/payment-success" element={<PaymentSuccess />} />
+                  <Route
+                    path="/order/payment-success"
+                    element={<PaymentSuccess />}
+                  />
                 )}
-                <Route path="/payment/verify-payment" element={<VerifyPayment />} />
+                <Route
+                  path="/payment/verify-payment"
+                  element={<VerifyPayment />}
+                />
                 {!checkingAuth && (
                   <Route
                     path="/checkout"

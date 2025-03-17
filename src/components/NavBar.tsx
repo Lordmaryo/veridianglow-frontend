@@ -73,12 +73,21 @@ const NavBar = () => {
             </button>
           )}
 
-          <Link
-            to={"/about-us"}
-            className="hidden lg:block hover:text-accent transition-colors"
-          >
-            About us
-          </Link>
+          {!user ? (
+            <Link
+              to={"/frequently-asked-questions"}
+              className="hidden lg:block hover:text-accent transition-colors"
+            >
+              FAQs
+            </Link>
+          ) : (
+            <Link
+              className="hidden lg:block hover:text-accent transition-colors"
+              to={"/customer/account/wishlist"}
+            >
+              Wishlists
+            </Link>
+          )}
 
           <div className="flex gap-4 items-center">
             <button

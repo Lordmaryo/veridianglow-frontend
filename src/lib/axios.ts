@@ -10,8 +10,10 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
     if (
-      originalRequest.url === "/auth/signIn" ||
+      originalRequest.url === "/auth/signin" ||
+      originalRequest.url === "/auth/signUp" ||
       originalRequest.url === "/auth/logout"
     ) {
       return Promise.reject(error);

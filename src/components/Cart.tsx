@@ -18,7 +18,7 @@ const Cart = ({
     if (user) {
       navigate("/checkout");
     } else {
-      navigate("/signin", { state: { from: "/checkout" } });
+      navigate("/signin", { state: { from: "/checkout" }, replace: true });
     }
     setToggleCart(false);
   };

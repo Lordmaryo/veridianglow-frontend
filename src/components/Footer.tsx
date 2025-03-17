@@ -43,13 +43,10 @@ const Footer = () => {
                 <a href="#">
                   <li>Track your order</li>
                 </a>
-                <a href="/frequently-asked-question">
-                  <li>FAQ</li>
+                <a href="/frequently-asked-questions">
+                  <li>FAQs</li>
                 </a>
-                <a href="#">
-                  <li>Shipping and return</li>
-                </a>
-                <a href="#">
+                <a href="/return-policy">
                   <li>Return policy</li>
                 </a>
               </ul>

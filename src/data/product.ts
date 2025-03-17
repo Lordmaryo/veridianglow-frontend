@@ -1,4 +1,4 @@
-import { Product, ProductResponse } from "../types/types";
+import { Product, ProductResponse } from "../types/ProductTypes";
 
 export const productCategories = [
   "Serums",
@@ -11,7 +11,7 @@ export const productCategories = [
   "Toners",
   "Sunscreens",
   "Lip Care",
-  "Asian Skin Care",
+  "Korean Skin Care",
   "Tools and kits",
   "Bath and body",
   "Eye Creams",

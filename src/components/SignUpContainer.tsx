@@ -140,7 +140,7 @@ const SignUpContainer = ({ setToggleEvent }: ToggleEventProps) => {
         <div className="text-center mt-2">
           <span>Already have an account? </span>
           <button
-            onClick={() => setToggleEvent(true)}
+            onClick={() => setToggleEvent(false)}
             className="text-black font-bold"
           >
             Login here{" "}
