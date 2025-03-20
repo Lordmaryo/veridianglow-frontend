@@ -36,7 +36,9 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
           isOutOfStock: product.isOutOfStock,
           discountPrice: product.discountPrice,
           quantity: 1,
+          weight: product.weight,
           total: product.discountPrice * 1,
+          totalWeight: product.weight,
         },
       ];
 
@@ -74,6 +76,7 @@ export const useCartStore = create<useCartStoreProps>((set, get) => ({
             quantity,
             isOutOfStock,
             total: item.discountPrice * quantity,
+            totalWeight: item.weight * quantity,
           };
         }
         return item;

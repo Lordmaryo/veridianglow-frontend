@@ -1,5 +1,5 @@
+import { Coupon } from "./couponType";
 import { Product } from "./ProductTypes";
-import { Coupon } from "./types";
 
 export interface CartProducts {
   id: string;
@@ -7,6 +7,7 @@ export interface CartProducts {
   image: string;
   price: number;
   category: string;
+  weight: number;
   discountPrice: number;
   stock: number;
   isOutOfStock: boolean;

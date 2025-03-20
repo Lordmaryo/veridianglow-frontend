@@ -18,6 +18,7 @@ const EditProduct = ({
     name: product?.name || "",
     description: product?.description || "",
     price: product?.price || 0.0,
+    weight: product?.weight || 0.0,
     discountPrice: product?.discountPrice || 0.0,
     stock: product?.stock || 0,
     isOutOfStock: product?.isOutOfStock || false,
@@ -198,6 +199,23 @@ const EditProduct = ({
               ))}
             </select>
           </div>
+        </div>
+        <div className="flex flex-col w-full">
+          <label htmlFor="weight">Weight in KG</label>
+          <input
+            id="weight"
+            type="number"
+            value={formData.weight}
+            required
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                weight: parseFloat(e.target.value),
+              })
+            }
+            placeholder="0.0"
+            className="bg-zinc-200 w-full outline-none py-2 px-4 rounded-md"
+          />
         </div>
         <div className="flex flex-col w-full">
           <label htmlFor="how-to-use">How to use</label>

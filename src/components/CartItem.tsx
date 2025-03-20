@@ -1,7 +1,7 @@
 import { Minus, Plus, X } from "lucide-react";
 import { formatCurrency, toSlug } from "../utils/utils";
-import { CartProducts } from "../types/types";
 import { Link } from "react-router-dom";
+import { CartProducts } from "../types/CartTypes";
 
 type CartItemProp = {
   item: CartProducts;
@@ -25,7 +25,7 @@ const CartItem = ({
           className="shrink-0"
         >
           <img
-           loading="lazy"
+            loading="lazy"
             className="sm:h-32 h-32 w-20 rounded object-cover"
             src={item.image}
           />

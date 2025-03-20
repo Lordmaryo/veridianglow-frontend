@@ -32,7 +32,7 @@ const LocationSelector = ({
 
   return (
     <div className="flex flex-col md:flex-row gap-4">
-      <div>
+      <div className="w-full">
         <select
           className="w-full p-2 border rounded-md mt-2"
           onChange={(e) => setSelectedState(e.target.value)}
@@ -45,16 +45,16 @@ const LocationSelector = ({
             </option>
           ))}
         </select>
-        <input
+        {/* <input
           type="text"
           value={searchState}
           onChange={(e) => setSearchState(e.target.value)}
           placeholder="Search state..."
           className="w-full p-2 border rounded-md mt-2"
-        />
+        /> */}
       </div>
 
-      <div>
+      <div className="w-full">
         <select
           className="w-full p-2 border rounded-md mt-2"
           onChange={(e) => setSelectedCity(e.target.value)}
@@ -68,14 +68,14 @@ const LocationSelector = ({
             </option>
           ))}
         </select>
-        <input
+        {/* <input
           type="text"
           value={searchCity}
           onChange={(e) => setSearchCity(e.target.value)}
           placeholder="Search city..."
           className="w-full p-2 border rounded-md mt-2"
           disabled={!selectedState}
-        />
+        /> */}
       </div>
     </div>
   );

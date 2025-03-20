@@ -13,11 +13,13 @@ const ProductList = () => {
   const { deleteProduct, toggleFeauturedProduct, toggleArchivedProduct } =
     useProductStore();
 
-  if (!products) return <div>Updating products...</div>;
+  if (!products) return <div>Fetching products...</div>;
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .slice(0, 10);
 
   const toggleActionMenu = (productId: string) => {
     setToggleAction((prev) => (prev === productId ? null : productId));
@@ -80,7 +82,7 @@ const ProductList = () => {
                 <div className="flex items-center">
                   <div className="flex-shrink-0 h-10 w-10">
                     <img
-                    loading="lazy"
+                      loading="lazy"
                       className="h-10 w-10 rounded-full object-cover"
                       src={product.image}
                       alt={product.name}

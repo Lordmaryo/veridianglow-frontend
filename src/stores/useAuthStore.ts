@@ -4,11 +4,10 @@ import { Roles } from "../types/types";
 import toast from "react-hot-toast";
 import { UserResponse } from "../types/userTypes";
 import { LogInProps, SignUpProps, useAuthStoreProps } from "../types/authType";
-import { useNavigate } from "react-router-dom";
 
 // ERRORS ARE HANDLED GLOBALLY USING AXIOS INTERCEPTORS IN LIB FOLDER
 
-export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
+export const useAuthStore = create<useAuthStoreProps>((set) => ({
   user: null,
   loading: false,
   checkingAuth: true,
@@ -119,9 +118,10 @@ export const useAuthStore = create<useAuthStoreProps>((set, get) => ({
 }));
 
 /**
- * TODO - edit refactor the email
- * TODO - add delivery company
- * TODO - let product be 10 by default in admin
+ * TODO - add weight to database
+ * TODO - add out of stock label in card
+ * TODO - make users who bought rate products
  * TODO - sort pending unshipped, undelivered orders
+ * TODO - add delivery company
  * TODO - dockerize backend
  */

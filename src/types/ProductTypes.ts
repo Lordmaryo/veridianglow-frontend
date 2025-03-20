@@ -60,6 +60,7 @@ export interface Product {
   discountPrice: number;
   stock: number;
   isOutOfStock: boolean;
+  weight: number;
   howToUse?: string;
   image: string;
   category: string;
