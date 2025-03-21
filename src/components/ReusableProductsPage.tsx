@@ -102,20 +102,19 @@ const ReusableProductsPage = ({
         </select>
       </div>
       <hr className="w-full border-black pt-10 px-4" />
-      <div className="flex flex-col gap-4 max-w-[1240px] mx-auto px-4 min-h-screen">
-        <div className="grid grid-cols-2 place-items-center sm:flex gap-4 flex-wrap">
-          {sortedProducts.length > 0 ? (
-            <div className="grid grid-cols-2 place-items-center sm:flex gap-4 flex-wrap">
-              {sortedProducts.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
-          ) : (
-            <div className="h-screen">
-              <p>No product based on this category yet</p>
-            </div>
-          )}
-        </div>
+      <div className="flex flex-col gap-4 max-w-[1240px] mx-auto px-4">
+        {sortedProducts.length > 0 ? (
+          <div className="grid grid-cols-2 place-items-center sm:flex gap-4 flex-wrap">
+            {sortedProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="h-screen">
+            <p>No product based on this category yet</p>
+          </div>
+        )}
+
         {hasMoreProducts && (
           <button
             onClick={handlePageLimit}

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { Product } from "../types/types";
 import { formatCurrency, toSlug } from "../utils/utils";
 import StarRating from "./StarRating";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import { Wishlists } from "../types/userTypes";
 import { truncate } from "lodash";
+import { Product } from "../types/ProductTypes";
 
 type ProductCardProps = {
   product: Product | Wishlists;
@@ -17,7 +17,15 @@ const ProductCard = ({
 }: ProductCardProps) => {
   if (!product) return <ProductCardSkeleton />;
   return (
-    <Link to={`/shop/${toSlug(product.name)}-${(product as Product)._id}`}>
+    <Link
+      to={`/shop/${toSlug(product.name)}-${(product as Product)._id}`}
+      className="relative"
+    >
+      {"isOutOfStock" in product && product.isOutOfStock && (
+        <div className="font-bold absolute text-white p-1 bg-red-400 text-xs">
+          Out of Stock
+        </div>
+      )}
       <div
         className={`rounded-sm border border-zinc-300 hover:border-[#ebc9de] hover:border-2 sm:w-56 ${containerWidth} sm:h-[21rem] h-80 p-2`}
       >

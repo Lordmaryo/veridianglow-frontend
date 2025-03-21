@@ -118,7 +118,6 @@ export const useAuthStore = create<useAuthStoreProps>((set) => ({
 }));
 
 /**
- * TODO - add weight to database
  * TODO - add out of stock label in card
  * TODO - make users who bought rate products
  * TODO - sort pending unshipped, undelivered orders
